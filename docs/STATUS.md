@@ -173,3 +173,7 @@ Home, Topics and Chats refresh when a downward pull starts at the top of the pag
 The four feed refresh indicators show a rotating ring during the pull and the refresh. After release, the ring remains visible for at least 550 milliseconds while new data is applied immediately. The reduced-motion setting uses a stationary ring with the same status text.
 
 Photo cards group Like, Comments and Save from left to right, with each count directly below its icon.
+
+## Full interaction regression
+
+The [November 18 full regression](full-regression-2026-11-18.md) recorded 22 distinct XCTest cases passing on their final runs on Roro UI Acceptance. The current app lacks report submission, voice and video call entry, microphone and camera permission requests, and live self-preview. Local blocking, file-based video preview and Xcode StoreKit checkout were exercised. The original library and purchase ledger were restored.

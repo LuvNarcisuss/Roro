@@ -17,9 +17,11 @@
 		9176D09ADE80C9FCD3C0D62D /* RoroNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE20AD608D4E1D645E9352 /* RoroNative.swift */; };
 		AEA2B44E44C642FF2EC12AD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7149865F23260C75368BFB9B /* LaunchScreen.storyboard */; };
 		B89569ABBCF39AC5CE37DB44 /* PurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B209FF1B391C42EC323F6737 /* PurchaseService.swift */; };
+		2E8579A0A510F9F4D0A9FEC0 /* XcodeReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296AF934F9CA6C96ED09875F /* XcodeReceipt.swift */; };
 		C58CA700CF7E8D4F4F36E809 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6F66F8A1B2FD8A9F50EFBF82 /* PrivacyInfo.xcprivacy */; };
 		D3214C4FC34F3B1688C1BAA0 /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885B875A7813F7B56FF35E0 /* MediaPicker.swift */; };
 		FA477BC6EF8DF264B7EFA8F2 /* libPods-Roro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5523F3DE35458FE23BB6ED17 /* libPods-Roro.a */; };
+		264F913CE1D6ED757AF0CF54 /* SwiftASN1 in Frameworks */ = {isa = PBXBuildFile; productRef = 0DAA083CCF0991896C1D709B /* SwiftASN1 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,10 +39,12 @@
 		8BDB9B8F389A490C034A990B /* Pods-Roro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roro.debug.xcconfig"; path = "Target Support Files/Pods-Roro/Pods-Roro.debug.xcconfig"; sourceTree = "<group>"; };
 		A35B5A790DCDAEBCD12D7B79 /* AppResources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppResources; path = Roro/AppResources; sourceTree = SOURCE_ROOT; };
 		B209FF1B391C42EC323F6737 /* PurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseService.swift; sourceTree = "<group>"; };
+		296AF934F9CA6C96ED09875F /* XcodeReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeReceipt.swift; sourceTree = "<group>"; };
 		C17CBF4FC1AA922DABF0E486 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E2E2CD51FA5CA3C297D717D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		EB90A56D1221D0F0592AC09E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F885B875A7813F7B56FF35E0 /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
+		2827190C133742B365BCC9F4 /* RoroCredits.storekit */ = {isa = PBXFileReference; path = RoroCredits.storekit; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +53,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA477BC6EF8DF264B7EFA8F2 /* libPods-Roro.a in Frameworks */,
+				264F913CE1D6ED757AF0CF54 /* SwiftASN1 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +87,7 @@
 		4AB044C1BC15E075240A3011 = {
 			isa = PBXGroup;
 			children = (
+				7D11E5EC1DA9D6410AC275E6 /* Configuration */,
 				0B924AEBE382F72D3B969E3B /* Roro */,
 				3470954B95BD5A9D36EB0429 /* Products */,
 				E24D9E335D4ED207312A2ADB /* Pods */,
@@ -114,10 +120,20 @@
 				849E5F26544D134579F70BDF /* PageArchive.swift */,
 				635108D50B5356C442B76495 /* PhotoLibrary.swift */,
 				B209FF1B391C42EC323F6737 /* PurchaseService.swift */,
+				296AF934F9CA6C96ED09875F /* XcodeReceipt.swift */,
 				71CE20AD608D4E1D645E9352 /* RoroNative.swift */,
 				2348BDC288B13AD9D506FC46 /* RoroNativeBridge.m */,
 			);
 			path = Native;
+			sourceTree = "<group>";
+		};
+		7D11E5EC1DA9D6410AC275E6 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				2827190C133742B365BCC9F4 /* RoroCredits.storekit */,
+			);
+			name = Configuration;
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -141,6 +157,9 @@
 			dependencies = (
 			);
 			name = Roro;
+			packageProductDependencies = (
+				0DAA083CCF0991896C1D709B /* SwiftASN1 */,
+			);
 			productName = Roro;
 			productReference = 73F066C6FB37EA5049959300 /* Roro.app */;
 			productType = "com.apple.product-type.application";
@@ -166,6 +185,9 @@
 			mainGroup = 4AB044C1BC15E075240A3011;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
+			packageReferences = (
+				578AB8C18334BAA60775F226 /* XCRemoteSwiftPackageReference "swift-asn1" */,
+			);
 			productRefGroup = 3470954B95BD5A9D36EB0429 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -296,6 +318,7 @@
 				68A627BC67EB0847E4F0DA85 /* PageArchive.swift in Sources */,
 				0D23E6594516200964401481 /* PhotoLibrary.swift in Sources */,
 				B89569ABBCF39AC5CE37DB44 /* PurchaseService.swift in Sources */,
+				2E8579A0A510F9F4D0A9FEC0 /* XcodeReceipt.swift in Sources */,
 				9176D09ADE80C9FCD3C0D62D /* RoroNative.swift in Sources */,
 				4C2C94DCCD1B9FDA74281C9B /* RoroNativeBridge.m in Sources */,
 				62422D8D0001490711F7AD08 /* SceneDelegate.swift in Sources */,
@@ -536,6 +559,24 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+/* Begin XCRemoteSwiftPackageReference section */
+		578AB8C18334BAA60775F226 /* XCRemoteSwiftPackageReference "swift-asn1" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-asn1.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.5.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0DAA083CCF0991896C1D709B /* SwiftASN1 */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 578AB8C18334BAA60775F226 /* XCRemoteSwiftPackageReference "swift-asn1" */;
+			productName = SwiftASN1;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1F4726151B16B6A33EF54286 /* Project object */;
 }

@@ -1,8 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { native } from "./bridge";
-import { topics } from "./catalog";
+import PullToRefresh from "./PullToRefresh";
+import { rotateItems, topics } from "./catalog";
 import { authorFor, engagement, visibleShorts } from "./community";
 import Comments from "./Comments";
+import PageHeader from "./PageHeader";
 import { ActionButton, ReactionButton, ToolbarSearch, type SearchState } from "./Controls";
 import type { ShortVideo } from "./types";
 import type { ShortActions } from "./Shorts";
@@ -174,6 +176,7 @@ function FeedVideo({
 }
 
 export default function ShortFeed({
+  reloadLibrary,
   initialTopic = "",
   selectedID,
   suspended,
@@ -186,6 +189,7 @@ export default function ShortFeed({
   back,
   ...actions
 }: ShortActions & {
+  reloadLibrary(): Promise<void>;
   initialTopic?: string;
   selectedID?: string;
   suspended: boolean;
@@ -199,13 +203,14 @@ export default function ShortFeed({
 }) {
   const all = visibleShorts(actions.state);
   const [filter, setFilter] = useState(initialTopic);
-  const items = all.filter(
+  const [turn, setTurn] = useState(0);
+  const items = rotateItems(all.filter(
     (clip) =>
       (!filter || clip.topic === filter) &&
       `${clip.caption} ${clip.topic} ${authorFor(clip.authorID, actions.state).name}`
         .toLowerCase()
         .includes(search.query.trim().toLowerCase()),
-  );
+  ), turn);
   const [currentID, setCurrentID] = useState(selectedID);
   const index = Math.max(
     0,
@@ -304,13 +309,6 @@ export default function ShortFeed({
     lastTap.current = 0;
     if (start.axis === "horizontal") return;
     if (end) {
-      if (dy > 45 && index === 0) {
-        settle(0);
-        void actions.act("snapshot").then((updated) => {
-          if (updated) actions.notify("Shorts updated.");
-        });
-        return;
-      }
       settle(
         Math.abs(dy) > 45 && items[index + (dy < 0 ? 1 : -1)]
           ? dy < 0
@@ -348,6 +346,11 @@ export default function ShortFeed({
   const notes = actions.state.notes.filter((item) => item.postID === clip?.id);
   return (
     <div ref={stage} className={`short-feed ${settling ? "is-settling" : ""}`}>
+      <PullToRefresh shorts refresh={async () => {
+        await reloadLibrary();
+        setCurrentID(undefined);
+        setTurn((value) => value + 1);
+      }} />
       <div
         className="feed-pages"
         style={{ transform: `translateY(${offset}px)` }}
@@ -383,6 +386,7 @@ export default function ShortFeed({
       {clip && (
         <button
           className="feed-surface"
+          data-first-video={index === 0 && !suspended && !panel ? "" : undefined}
           aria-label={paused ? "Play video" : "Pause video"}
           aria-describedby="feed-gesture-hint"
           onClick={tap}
@@ -434,16 +438,10 @@ export default function ShortFeed({
         </button>
       )}
       <span className="sr-only" id="feed-gesture-hint">
-        Swipe up for the next video and down for the previous video. Tap to
+        Swipe up for the next video and down for the previous video. Pull down on the first video to refresh. Tap to
         pause. Double tap to like.
       </span>
-      <header className={`feed-header ${search.open ? "search-expanded" : ""}`}>
-        {back && (
-          <button type="button" className="back" aria-label="Back" onClick={back}>
-            <Glyph name="back" />
-          </button>
-        )}
-        {!search.open && <h1>Shorts</h1>}
+      <PageHeader title="Shorts" back={back} showLogo={!back} overlay>
         <ToolbarSearch
           value={search}
           change={changeSearch}
@@ -453,7 +451,7 @@ export default function ShortFeed({
         <button aria-label="Add a short" onClick={() => compose(filter)}>
           <Glyph name="plus" />
         </button>
-      </header>
+      </PageHeader>
       {!clip && (
         <div className="feed-empty">
           <Glyph name="shorts" />

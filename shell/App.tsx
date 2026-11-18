@@ -129,7 +129,12 @@ export default function App() {
   if (error || !entry)
     return (
       <View style={styles.loading}>
-        <Text style={styles.brand}>roro.</Text>
+        <Image
+          source={require("../Assets/icons/roro-logo.png")}
+          accessibilityLabel="Roro"
+          accessible
+          style={styles.brand}
+        />
         {error ? (
           <>
             <Text style={styles.message}>{error}</Text>
@@ -204,13 +209,7 @@ const styles = StyleSheet.create({
     padding: 28,
     backgroundColor: "#FAF8F5",
   },
-  brand: {
-    fontFamily: "Nunito",
-    fontSize: 48,
-    fontWeight: "800",
-    color: "#B95138",
-    marginBottom: 24,
-  },
+  brand: { width: 64, height: 64, borderRadius: 14, marginBottom: 24 },
   message: {
     fontFamily: "Nunito",
     fontSize: 16,

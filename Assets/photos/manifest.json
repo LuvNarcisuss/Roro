@@ -8,7 +8,7 @@
     "license": "Unsplash License",
     "licenseURL": "https://unsplash.com/license",
     "author": null,
-    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "attribution": "Roro inspiration · Unsplash",
     "sha256": "098d5de3dd662b155fe22d4829872eb97ea93e533e44812505cade9efc5af97b"
   },
   {
@@ -20,7 +20,7 @@
     "license": "Unsplash License",
     "licenseURL": "https://unsplash.com/license",
     "author": null,
-    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "attribution": "Roro inspiration · Unsplash",
     "sha256": "a282e970924eb63c69e4e98ab8cc700598e59b310bc0bfa780fccea7eb00af3a"
   },
   {
@@ -32,7 +32,7 @@
     "license": "Unsplash License",
     "licenseURL": "https://unsplash.com/license",
     "author": null,
-    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "attribution": "Roro inspiration · Unsplash",
     "sha256": "45dace97747b53b39264d5b36bd6fe298cf0e5de8a30859a6d0c93ffb6b4b292"
   },
   {
@@ -44,19 +44,19 @@
     "license": "Unsplash License",
     "licenseURL": "https://unsplash.com/license",
     "author": null,
-    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "attribution": "Roro inspiration · Unsplash",
     "sha256": "a5bf7cce7a20f8be892b766e0c0d3f02598448c5f46c8ed894b10d1ab0b0aa57"
   },
   {
     "id": "sky",
     "file": "photos/sky.jpg",
     "title": "Take the slow way",
-    "topic": "Today\u2019s sky",
+    "topic": "Today’s sky",
     "source": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=85",
     "license": "Unsplash License",
     "licenseURL": "https://unsplash.com/license",
     "author": null,
-    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "attribution": "Roro inspiration · Unsplash",
     "sha256": "fd6daace463a2dab5069e0c5fe098b7cdb9db1a9ee7067ae6b50d5b65c7d93ce"
   },
   {
@@ -68,7 +68,103 @@
     "license": "Unsplash License",
     "licenseURL": "https://unsplash.com/license",
     "author": null,
-    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "attribution": "Roro inspiration · Unsplash",
     "sha256": "1c75fe4ad3e003ec7c5488793336b938099221e532cbf41d597c95145d4c0a31"
+  },
+  {
+    "id": "avatar-nora",
+    "file": "photos/topics/avatar-nora.jpg",
+    "title": "Portrait for Nora Vale",
+    "topic": "Profile",
+    "source": "https://www.pexels.com/photo/anonymous-young-woman-photographing-with-retro-film-camera-4413741/",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "author": "ArtHouse Studio",
+    "attribution": "Photo by ArtHouse Studio via Pexels",
+    "sha256": "610919bf0d1d28de06970b647690b0f8d9e0d74b24b79a4cb38cd1e33673552e"
+  },
+  {
+    "id": "avatar-kit",
+    "file": "photos/topics/avatar-kit.jpg",
+    "title": "Portrait for Kit Lane",
+    "topic": "Profile",
+    "source": "https://www.pexels.com/photo/a-photographer-taking-a-picture-11766802/",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "author": "Mason McCall",
+    "attribution": "Photo by Mason McCall via Pexels",
+    "sha256": "438ed4e39f67d120373877c6e8ee5149f91b950767655fa412ad99c032db388c"
+  },
+  {
+    "id": "avatar-ella",
+    "file": "photos/topics/avatar-ella.jpg",
+    "title": "Portrait for Ella Wren",
+    "topic": "Profile",
+    "source": "https://www.pexels.com/photo/back-view-photo-of-woman-in-floral-dress-and-sun-hat-standing-under-blue-sky-in-blue-flower-field-2611499/",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "author": "Ion Ceban @ionelceban",
+    "attribution": "Photo by Ion Ceban @ionelceban via Pexels",
+    "sha256": "47b64ceb503dcc9d99eab2d429baa1a329a5a095feadfb14a1cfc2279903f880"
+  },
+  {
+    "id": "tulip-table",
+    "file": "photos/topics/tulip-table.jpg",
+    "title": "Tulip Table",
+    "topic": "Little joys",
+    "source": "https://www.pexels.com/photo/a-yellow-tulips-in-the-vase-8393924/",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "author": "Alexey Chudin",
+    "attribution": "Photo by Alexey Chudin via Pexels",
+    "sha256": "1e977aba2b5d3cc2d2363fd560584cebcd536e83d699de06315a991b50939070"
+  },
+  {
+    "id": "parked-bicycle",
+    "file": "photos/topics/parked-bicycle.jpg",
+    "title": "Parked Bicycle",
+    "topic": "On my walk",
+    "source": "https://www.pexels.com/photo/vintage-bicycle-leaning-against-brick-wall-31420041/",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "author": "Yusuf Emir Han",
+    "attribution": "Photo by Yusuf Emir Han via Pexels",
+    "sha256": "0a89ece6ce67c34932e74750bc28400e83252a8ec57e857986a706718f9e9daa"
+  },
+  {
+    "id": "reading-break",
+    "file": "photos/topics/reading-break.jpg",
+    "title": "Reading Break",
+    "topic": "At home",
+    "source": "https://www.pexels.com/photo/cozy-tea-and-vintage-camera-still-life-29257227/",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "author": "Nasta Dragun",
+    "attribution": "Photo by Nasta Dragun via Pexels",
+    "sha256": "b7ecb8fccbb7f6d495a3641cde1f8b588886a8f312a531db1a3589298443a808"
+  },
+  {
+    "id": "rooftop-dusk",
+    "file": "photos/topics/rooftop-dusk.jpg",
+    "title": "Rooftop Dusk",
+    "topic": "Today's sky",
+    "source": "https://www.pexels.com/photo/clouds-on-sky-during-sunset-9781103/",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "author": "Lisa Fotios",
+    "attribution": "Photo by Lisa Fotios via Pexels",
+    "sha256": "38ce5c09a92ddbe70e6bbc72682b21429863bfbc410c506fb496706c4a458509"
+  },
+  {
+    "id": "croissant-tray",
+    "file": "photos/topics/croissant-tray.jpg",
+    "title": "Croissant Tray",
+    "topic": "Something delicious",
+    "source": "https://www.pexels.com/photo/freshly-baked-croissants-on-tray-30528624/",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "author": "Enisa Halidi",
+    "attribution": "Photo by Enisa Halidi via Pexels",
+    "sha256": "b34abf4bcc14925841a99ad13904a289402b91f24371bda3bb1a316484f51018"
   }
 ]

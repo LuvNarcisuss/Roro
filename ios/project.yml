@@ -1,8 +1,11 @@
 name: Roro
+fileGroups:
+  - Configuration/RoroCredits.storekit
 options:
   deploymentTarget:
     iOS: '16.0'
   createIntermediateGroups: true
+  schemePathPrefix: "../"
 settings:
   base:
     SWIFT_VERSION: '5.0'
@@ -19,10 +22,16 @@ settings:
     SWIFT_OBJC_BRIDGING_HEADER: Roro/Roro-Bridging-Header.h
     OTHER_LDFLAGS: $(inherited) -ObjC
     ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+packages:
+  SwiftASN1:
+    url: https://github.com/apple/swift-asn1.git
+    exactVersion: 1.5.1
 targets:
   Roro:
     type: application
     platform: iOS
+    dependencies:
+      - package: SwiftASN1
     sources:
       - path: Roro
         excludes:
@@ -60,5 +69,6 @@ schemes:
         Roro: all
     run:
       config: Debug
+      storeKitConfiguration: Configuration/RoroCredits.storekit
     archive:
       config: Release

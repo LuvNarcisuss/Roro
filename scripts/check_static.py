@@ -1,4 +1,5 @@
 """Inspect project artifacts without compiling, bundling or running the app."""
+import xml.etree.ElementTree as ET
 from decimal import Decimal
 from pathlib import Path
 import hashlib, json, plistlib, re
@@ -33,6 +34,20 @@ check([product['priceUSD'] for product in products] ==
       'Wallet tiers are in configured US price order')
 check(all(type(product['credits']) is int and 0 < product['credits'] <= 1_000_000
           for product in products), 'Wallet quantities are accepted by the native catalog')
+workspace = root / 'ios/Roro.xcworkspace'
+scheme = ET.parse(root / 'ios/Roro.xcodeproj/xcshareddata/xcschemes/Roro.xcscheme')
+reference = scheme.find('./LaunchAction/StoreKitConfigurationFileReference')
+check(reference is not None, 'Debug Run selects a StoreKit configuration')
+fixture = (workspace / reference.attrib['identifier']).resolve()
+check(fixture == root / 'ios/Configuration/RoroCredits.storekit' and fixture.is_file(),
+      'Workspace Run resolves the Roro fixture')
+generator = (root / 'ios/project.yml').read_text()
+check('schemePathPrefix: "../"' in generator and 'storeKitConfiguration: Configuration/RoroCredits.storekit' in generator,
+      'Generator preserves the workspace-relative Run configuration')
+offers = json.loads(fixture.read_text())['products']
+check([(p['productID'], p['displayPrice'], p['type'], p['localizations'][0]['displayName']) for p in offers] ==
+      [(p['id'], p['priceUSD'], 'Consumable', f"{p['credits']:,} Coins") for p in products],
+      'Local StoreKit offers match the nine Roro wallet packs')
 for index in (5, 7):
     rates = [Decimal(product['credits']) / Decimal(product['priceUSD'])
              for product in products[index - 1:index + 2]]
@@ -66,7 +81,14 @@ check('try library.finishPendingCleanup(pages: root)' in (root/'ios/Roro/Native/
 check('with-environment.sh' in (root/'ios/project.yml').read_text(), 'Build phases use configured Node environment')
 check((root/'ios/.xcode.env').is_file(), 'Node environment file is correctly named')
 check('FORCE_BUNDLING=1' in project, 'Offline shell bundling is configured')
-check('RCTBundleURLProvider' not in (root/'ios/Roro/SceneDelegate.swift').read_text(), 'Startup loads bundled shell')
+scene = (root/'ios/Roro/SceneDelegate.swift').read_text()
+check(re.search(r'override func bundleURL\(\) -> URL\?\s*{\s*'
+                r'Bundle\.main\.url\(forResource: "main", withExtension: "jsbundle"\)\s*}', scene),
+      'Startup loads bundled shell')
+before_factory = scene.split('reactNativeFactory = RCTReactNativeFactory', 1)[0]
+debug_startup_blocks = re.findall(r'#if DEBUG\b(.*?)#endif', before_factory, re.DOTALL)
+check(any('RCTBundleURLProviderAllowPackagerServerAccess(false)' in block for block in debug_startup_blocks),
+      'Debug disables Metro probing before React Native startup')
 app = (root/'web/src/App.tsx').read_text()
 nav = app[app.index('<nav className="tabbar"'):]
 check(re.findall(r'name: "(home|topics|shorts|chats|me)"', nav)[:5] == ['home', 'topics', 'shorts', 'chats', 'me'], 'Exact five-tab navigation order')

@@ -1,6 +1,7 @@
 # Roro project rules
 
 - Roro is a lightweight everyday photography app. Use exactly Home, Topics, Shorts, Chats and Me, with Shorts in the center.
+- Show the Roro logo during launch, on the welcome/login page and in the upper-left corner of the five root tabs. Omit it from child pages. Center header titles independently of trailing controls. All non-playback pages use the Home dawn paper artwork. The Shorts playback surface stays full-screen video.
 - Use React Native, TypeScript and a bundled local H5 ZIP. Native Swift modules own storage, photo/video import, video previews and StoreKit 1. The Shorts feed follows the owner-requested Vava-style inline WKWebView player; native code exports validated saved media and allowlisted bundled community clips.
 - Support portrait iPhone only, iOS 16+. Disable iPad, Catalyst, Mac compatibility and Vision compatibility.
 - All project artifacts and app-owned copy are English. Converse with the owner in Chinese.
@@ -29,3 +30,5 @@ Before editing search, page controls or profiles, read docs/superpowers/plans/20
 Run `node scripts/check_controls.cjs` for the static control audit before delivery. It checks icon references, rejects bare text action labels and detached search destinations, and checks label placement in option sheets and member profiles. This is source lint, not runtime acceptance.
 
 - Member profile works use a two-column thumbnail grid, approximately one quarter of the former full-width cover area. Keep odd final items half-width, retain photo/video detail entry and derive statistics from the unchanged records. Personal Shorts and saved-video collections use the same compact covers; existing smaller photo grids remain compact.
+
+- Each Settings action fills its row with one button or agreement link, including its label, icon and surrounding space.

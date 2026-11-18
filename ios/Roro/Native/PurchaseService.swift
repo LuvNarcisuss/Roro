@@ -35,13 +35,39 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
         SKPaymentQueue.default().add(self)
     }
 
-    private func ledger() throws -> [String: Any] {
-        guard FileManager.default.fileExists(atPath: ledgerURL.path) else {
-            return ["environment": "Production", "Production": ["balance": 0, "transactions": [String](), "activity": [[String: Any]]()], "Sandbox": ["balance": 0, "transactions": [String](), "activity": [[String: Any]]()]]
+    #if DEBUG && targetEnvironment(simulator)
+    private var localLedgerURL: URL { ledgerURL.deletingLastPathComponent().appendingPathComponent("xcode-purchases.json") }
+    private var cachedLocalReceipt: (data: Data, response: [String: Any]?)?
+
+    private func localResponse(_ data: Data) -> [String: Any]? {
+        if let cached = cachedLocalReceipt, cached.data == data { return cached.response }
+        let response = try? XcodeReceipt.verify(data)
+        cachedLocalReceipt = (data, response)
+        return response
+    }
+    #endif
+
+    private var displayedLedgerURL: URL {
+        #if DEBUG && targetEnvironment(simulator)
+        if let url = Bundle.main.appStoreReceiptURL, let data = try? Data(contentsOf: url), localResponse(data) != nil {
+            return localLedgerURL
         }
-        guard let value = try JSONSerialization.jsonObject(with: Data(contentsOf: ledgerURL)) as? [String: Any],
-              let environment = value["environment"] as? String, ["Production", "Sandbox"].contains(environment) else { throw roroError("Your purchase history could not be read. Please try again.") }
-        for environment in ["Production", "Sandbox"] {
+        #endif
+        return ledgerURL
+    }
+
+    private func ledger(at url: URL) throws -> [String: Any] {
+        let environments = url == ledgerURL ? ["Production", "Sandbox"] : ["Xcode"]
+        guard FileManager.default.fileExists(atPath: url.path) else {
+            var empty: [String: Any] = ["environment": environments[0]]
+            for environment in environments {
+                empty[environment] = ["balance": 0, "transactions": [String](), "activity": [[String: Any]]()] as [String: Any]
+            }
+            return empty
+        }
+        guard let value = try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any],
+              let environment = value["environment"] as? String, environments.contains(environment) else { throw roroError("Your purchase history could not be read. Please try again.") }
+        for environment in environments {
             guard let account = value[environment] as? [String: Any], account["balance"] is Int,
                   account["transactions"] is [String], account["activity"] is [[String: Any]] else { throw roroError("Your purchase history could not be read. Please try again.") }
         }
@@ -49,7 +75,7 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
     }
 
     func snapshot() throws -> [String: Any] {
-        let value = try ledger()
+        let value = try ledger(at: displayedLedgerURL)
         let account = value[value["environment"] as! String] as! [String: Any]
         let offers: [[String: Any]] = catalog.map { item in
             let price = products[item.id].flatMap { localizedPrice($0) }
@@ -147,7 +173,7 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
         guard SKPaymentQueue.canMakePayments() else { throw roroError("Purchases are not allowed on this iPhone.") }
         guard status == "ready" || status == "partial", let product = products[id] else { throw roroError("This offer is not available. Pull down to check prices.") }
         guard !checkoutBlocked else { throw roroError("A purchase is already being processed.") }
-        _ = try ledger()
+        _ = try ledger(at: displayedLedgerURL)
         pendingProducts.insert(id)
         transactionNotice = "Your purchase is being processed."
         SKPaymentQueue.default().add(SKPayment(product: product))
@@ -224,50 +250,59 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
             return
         }
         processing.insert(transactionID)
-        // Consumable receipt validation uses Apple's receipt endpoint without a shared secret.
+        #if DEBUG && targetEnvironment(simulator)
+        if let response = localResponse(receipt) {
+            deliver(.success(response), transaction: transaction, id: transactionID, ledgerURL: localLedgerURL)
+            return
+        }
+        #endif
         verifyReceipt(receipt, sandbox: false) { result in
             DispatchQueue.main.async {
-                defer { self.processing.remove(transactionID) }
-                do {
-                    let response = try result.get()
-                    guard let receipt = response["receipt"] as? [String: Any],
-                          receipt["bundle_id"] as? String == Bundle.main.bundleIdentifier,
-                          let rows = receipt["in_app"] as? [[String: Any]],
-                          let record = rows.first(where: { $0["transaction_id"] as? String == transactionID && $0["product_id"] as? String == transaction.payment.productIdentifier }),
-                          record["cancellation_date"] == nil,
-                          let quantityString = record["quantity"] as? String,
-                          let quantity = Int(quantityString), quantity == transaction.payment.quantity, quantity > 0,
-                          let credits = self.configured[transaction.payment.productIdentifier],
-                          let environment = response["environment"] as? String, ["Production", "Sandbox"].contains(environment) else {
-                        throw roroError("Your purchase is waiting for confirmation.")
-                    }
-                    var ledger = try self.ledger()
-                    var account = ledger[environment] as! [String: Any]
-                    var transactions = account["transactions"] as! [String]
-                    let alreadyCredited = transactions.contains(transactionID)
-                    if !alreadyCredited {
-                        let (amount, overflow) = credits.multipliedReportingOverflow(by: quantity)
-                        let (balance, balanceOverflow) = (account["balance"] as! Int).addingReportingOverflow(amount)
-                        guard !overflow, !balanceOverflow else { throw roroError("Your purchase needs assistance.") }
-                        transactions.append(transactionID)
-                        var activity = account["activity"] as! [[String: Any]]
-                        activity.insert(["id": transactionID, "credits": amount, "date": ISO8601DateFormatter().string(from: Date())], at: 0)
-                        account["transactions"] = transactions
-                        account["balance"] = balance
-                        account["activity"] = activity
-                        ledger[environment] = account
-                    }
-                    ledger["environment"] = environment
-                    try FileManager.default.createDirectory(at: self.ledgerURL.deletingLastPathComponent(), withIntermediateDirectories: true)
-                    try JSONSerialization.data(withJSONObject: ledger, options: [.sortedKeys]).write(to: self.ledgerURL, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
-                    self.pendingProducts.remove(transaction.payment.productIdentifier)
-                    self.transactionNotice = alreadyCredited ? "" : "Purchase confirmed. Your balance has been updated."
-                    SKPaymentQueue.default().finishTransaction(transaction)
-                } catch {
-                    self.transactionNotice = "Your purchase is waiting for confirmation. Please check again later."
-                    // Leave undelivered transactions in Apple's queue for a later retry.
-                }
+                self.deliver(result, transaction: transaction, id: transactionID, ledgerURL: self.ledgerURL)
             }
+        }
+    }
+
+    private func deliver(_ result: Result<[String: Any], Error>, transaction: SKPaymentTransaction, id transactionID: String, ledgerURL: URL) {
+        defer { processing.remove(transactionID) }
+        do {
+            let response = try result.get()
+            guard let receipt = response["receipt"] as? [String: Any],
+                  receipt["bundle_id"] as? String == Bundle.main.bundleIdentifier,
+                  let rows = receipt["in_app"] as? [[String: Any]],
+                  let record = rows.first(where: { $0["transaction_id"] as? String == transactionID && $0["product_id"] as? String == transaction.payment.productIdentifier }),
+                  record["cancellation_date"] == nil,
+                  let quantityString = record["quantity"] as? String,
+                  let quantity = Int(quantityString), quantity == transaction.payment.quantity, quantity > 0,
+                  let credits = self.configured[transaction.payment.productIdentifier],
+                  let environment = response["environment"] as? String, (ledgerURL == self.ledgerURL ? ["Production", "Sandbox"] : ["Xcode"]).contains(environment) else {
+                throw roroError("Your purchase is waiting for confirmation.")
+            }
+            var ledger = try self.ledger(at: ledgerURL)
+            var account = ledger[environment] as! [String: Any]
+            var transactions = account["transactions"] as! [String]
+            let alreadyCredited = transactions.contains(transactionID)
+            if !alreadyCredited {
+                let (amount, overflow) = credits.multipliedReportingOverflow(by: quantity)
+                let (balance, balanceOverflow) = (account["balance"] as! Int).addingReportingOverflow(amount)
+                guard !overflow, !balanceOverflow else { throw roroError("Your purchase needs assistance.") }
+                transactions.append(transactionID)
+                var activity = account["activity"] as! [[String: Any]]
+                activity.insert(["id": transactionID, "credits": amount, "date": ISO8601DateFormatter().string(from: Date())], at: 0)
+                account["transactions"] = transactions
+                account["balance"] = balance
+                account["activity"] = activity
+                ledger[environment] = account
+            }
+            ledger["environment"] = environment
+            try FileManager.default.createDirectory(at: ledgerURL.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try JSONSerialization.data(withJSONObject: ledger, options: [.sortedKeys]).write(to: ledgerURL, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+            self.pendingProducts.remove(transaction.payment.productIdentifier)
+            self.transactionNotice = alreadyCredited ? "" : "Purchase confirmed. Your balance has been updated."
+            SKPaymentQueue.default().finishTransaction(transaction)
+        } catch {
+            transactionNotice = "Your purchase is waiting for confirmation. Please check again later."
+            // Leave undelivered transactions in Apple's queue for a later retry.
         }
     }
 

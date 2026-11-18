@@ -1,0 +1,25 @@
+name: RoroAgreementTests
+options:
+  deploymentTarget:
+    iOS: '16.0'
+targets:
+  RoroAgreementTests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [AgreementCloseTests.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.roro.photography.agreementtests
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_VERSION: '5.0'
+        TARGETED_DEVICE_FAMILY: '1'
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
+schemes:
+  RoroAgreementTests:
+    build:
+      targets:
+        RoroAgreementTests: [test]
+    test:
+      targets: [RoroAgreementTests]

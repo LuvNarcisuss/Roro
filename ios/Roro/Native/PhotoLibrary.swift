@@ -49,11 +49,12 @@ final class PhotoLibrary {
          "following": [String](), "blocked": [String](), "hidden": [String](), "notes": [[String: Any]](), "comments": [[String: Any]]()]
     }
 
-    func snapshot() throws -> [String: Any] {
-        if let cached { return cached }
+    func snapshot(reload: Bool = false) throws -> [String: Any] {
+        if !reload, let cached { return cached }
         try fileManager.createDirectory(at: media, withIntermediateDirectories: true)
         let file = directory.appendingPathComponent("library.json")
         guard fileManager.fileExists(atPath: file.path) else {
+            guard cached == nil else { throw roroError("Your library could not be refreshed. Please try again.") }
             let initial = empty()
             try persist(initial)
             return initial
@@ -184,7 +185,8 @@ final class PhotoLibrary {
             }
             let old = moments.first { $0["id"] as? String == id }
             guard old != nil || moments.count < 300 else { throw roroError("Your library is full. Remove a moment before adding another.") }
-            let moment: [String: Any] = ["id": id, "images": images, "caption": caption.trimmingCharacters(in: .whitespacesAndNewlines), "topic": topic, "draft": draft,
+            let surface = (old?["surface"] as? String ?? payload["surface"] as? String) == "topics" ? "topics" : "home"
+            let moment: [String: Any] = ["surface": surface, "id": id, "images": images, "caption": caption.trimmingCharacters(in: .whitespacesAndNewlines), "topic": topic, "draft": draft,
                                          "createdAt": old?["createdAt"] ?? ISO8601DateFormatter().string(from: Date())]
             moments.removeAll { $0["id"] as? String == id }
             moments.insert(moment, at: 0)

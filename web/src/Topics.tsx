@@ -1,6 +1,5 @@
 import React from "react";
-import { topics } from "./catalog";
-import type { Photo, ShortVideo, Snapshot } from "./types";
+import type { Photo, ShortVideo, Snapshot, Topic } from "./types";
 import { totals } from "./community";
 const descriptions: Record<string, string> = {
   "Little joys": "The small things that made you smile.",
@@ -10,11 +9,13 @@ const descriptions: Record<string, string> = {
   "Something delicious": "Something good, before the first bite.",
 };
 export default function Topics({
+  orderedTopics,
   photos,
   shorts,
   open,
   state,
 }: {
+  orderedTopics: Topic[];
   state: Snapshot;
   photos: Photo[];
   shorts: ShortVideo[];
@@ -32,13 +33,12 @@ export default function Topics({
         <p>A few ideas to help you notice it.</p>
       </div>
       <div className="topic-list">
-        {topics.map((topic, index) => {
+        {orderedTopics.map((topic, index) => {
           const matching = photos.filter((photo) => photo.topic === topic);
           const clips = shorts.filter((short) => short.topic === topic);
           const counts = totals([...matching, ...clips], state);
           const cover =
             matching[0]?.images[0] ??
-            clips[0]?.poster ??
             "assets/icons/topics.png";
           return (
             <button
@@ -48,7 +48,7 @@ export default function Topics({
             >
               <img
                 className={
-                  !matching.length && !clips.length ? "empty-topic-cover" : ""
+                  !matching.length ? "empty-topic-cover" : ""
                 }
                 src={cover}
                 alt=""

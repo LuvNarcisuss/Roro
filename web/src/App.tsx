@@ -10,7 +10,10 @@ import {
 import agreements from "../../Configuration/agreements.json";
 import { native } from "./bridge";
 import Topics from "./Topics";
+import PullToRefresh from "./PullToRefresh";
+import PageHeader, { AppLogo } from "./PageHeader";
 import Comments from "./Comments";
+import photoManifest from "../../Assets/photos/manifest.json";
 import MemberProfile from "./MemberProfile";
 import WorkGrid from "./WorkGrid";
 import {
@@ -24,7 +27,7 @@ import {
   sourceCredits,
 } from "./community";
 import Shorts, { ShortList } from "./Shorts";
-import { catalog, topics } from "./catalog";
+import { catalog, rotateItems, topicPrompts, topics } from "./catalog";
 import type { Command, Moment, Photo, Snapshot, Wallet } from "./types";
 
 type Route = {
@@ -97,7 +100,18 @@ function Empty({
   );
 }
 
+function coinUnit(amount?: number) {
+  return amount === 1 ? "Coin" : "Coins";
+}
+
+const topicCredits = photoManifest.filter((item) => item.file.startsWith("photos/topics/"));
+
 export default function App() {
+  const [session, setSession] = useState(0);
+  return <LocalSession key={session} onLogOut={() => setSession((value) => value + 1)} />;
+}
+
+function LocalSession({ onLogOut }: { onLogOut(): void }) {
   const [state, setState] = useState<Snapshot>();
   const [error, setError] = useState("");
   const [notice, setNotice] = useState("");
@@ -107,6 +121,8 @@ export default function App() {
   const [routes, setRoutes] = useState<Route[]>([{ name: "home" }]);
   const [scope, setScope] = useState("Discover");
   const [collection, setCollection] = useState("Moments");
+  const [feedTurns, setFeedTurns] = useState({ home: 0, topics: 0 });
+  const [chatCheckedAt, setChatCheckedAt] = useState<Date>();
   const [homeSearch, setHomeSearch] = useState(emptySearch);
   const [fullImage, setFullImage] = useState<string>();
   const [wallet, setWallet] = useState<Wallet>();
@@ -117,6 +133,7 @@ export default function App() {
   const [caption, setCaption] = useState("");
   const [topic, setTopic] = useState("");
   const [images, setImages] = useState<string[]>([]);
+  const [surface, setSurface] = useState("home");
   const [draftID, setDraftID] = useState<string>();
   const [note, setNote] = useState("");
   const [name, setName] = useState("");
@@ -142,6 +159,9 @@ export default function App() {
     setState((previous) =>
       !previous || next.revision >= previous.revision ? next : previous,
     );
+  async function reloadLibrary() {
+    apply(await native<Snapshot>("snapshot", { reload: true }));
+  }
   async function load() {
     try {
       setError("");
@@ -215,6 +235,7 @@ export default function App() {
     setRoutes([{ name: next }]);
   }
   function compose(moment?: Moment) {
+    setSurface(moment?.surface ?? (route.name === "topic" ? "topics" : "home"));
     setImages(moment?.images ?? []);
     setCaption(moment?.caption ?? "");
     setTopic(moment?.topic ?? "");
@@ -238,6 +259,7 @@ export default function App() {
       return;
     }
     const success = await act("saveMoment", {
+      surface,
       id: draftID ?? crypto.randomUUID(),
       images,
       caption,
@@ -301,6 +323,8 @@ export default function App() {
       !state?.hidden.includes(p.id) &&
       (!state || !isBlocked(p.authorID, state)),
   );
+  const homePhotos = visible.filter((photo) => photo.surface !== "topics");
+  const topicPhotos = visible.filter((photo) => photo.surface === "topics");
   const selected = all.find(
     (p) => p.id === route.id && (!state || !isBlocked(p.authorID, state)),
   );
@@ -390,7 +414,6 @@ export default function App() {
             label="Open photo and comments"
             onClick={() => push({ name: "detail", id: photo.id })}
           />
-          <span className="spacer" />
           <ReactionButton
             className="icon-button"
             kind="save"
@@ -431,9 +454,7 @@ export default function App() {
   if (!state)
     return (
       <div className="startup">
-        <div className="wordmark">
-          roro<span>.</span>
-        </div>
+        <AppLogo />
         <p>{error || "Opening your little moments…"}</p>
         {error && (
           <ActionButton
@@ -450,6 +471,7 @@ export default function App() {
   if (!entered || !state.consent)
     return (
       <main className="welcome">
+        <AppLogo />
         <div className="welcome-photo">
           <img
             src="assets/photos/coffee.jpg"
@@ -511,11 +533,11 @@ export default function App() {
       </main>
     );
   const title: Record<string, string> = {
-    home: "",
+    home: "Home",
     topics: "Topics",
     shorts: "Shorts",
     chats: "Chats",
-    me: "",
+    me: "Me",
     message: "Message",
     blocked: "Blocked people",
     settings: "Settings",
@@ -532,59 +554,61 @@ export default function App() {
   const topLevel = ["home", "topics", "shorts", "chats", "me"].includes(
     route.name,
   );
+  const pullPage = route.name === "home" || route.name === "topics" || route.name === "chats"
+    ? route.name : undefined;
+  const refreshableFeed = !!pullPage || route.name === "shorts";
+  const query = homeSearch.query.trim().toLowerCase();
+  const matchingPhotos = homePhotos.filter((photo) =>
+    (scope === "Discover" || (photo.authorID && state.following.includes(photo.authorID)) ||
+      (photo.editorial && state.following.includes("roro"))) &&
+    `${photo.caption} ${photo.topic} ${photo.author}`.toLowerCase().includes(query)
+  );
+  const orderedPhotos = scope === "Discover" ? rotateItems(matchingPhotos, feedTurns.home) : matchingPhotos;
+  const followedClips = clips.filter((clip) =>
+    clip.authorID && state.following.includes(clip.authorID) &&
+    `${clip.caption} ${clip.topic} ${authorFor(clip.authorID, state).name}`.toLowerCase().includes(query)
+  );
+  const featuredTopic = topics[feedTurns.home % topics.length];
+  const isRootTab = topLevel && routes.length === 1;
   return (
     <div
       className={`app ${route.name === "shorts" ? "immersive-shorts" : ""}`}
-      data-page={route.name}
     >
       {route.name !== "shorts" && (
-        <header className="topbar">
-          {(!topLevel || routes.length > 1) && (
-            <button type="button" className="back" aria-label="Back" onClick={back}>
-              <Glyph name="back" />
-            </button>
-          )}
-          {route.name === "home" && homeSearch.open ? null : route.name ===
-              "home" || route.name === "me" ? (
-            <div className="wordmark small">
-              roro<span>.</span>
-            </div>
-          ) : (
-            <h1>{title[route.name]}</h1>
-          )}
-          <div
-            className={`toolbar ${route.name === "home" && homeSearch.open ? "search-expanded" : ""}`}
-          >
-            {route.name === "home" && (
-              <>
-                <ToolbarSearch
-                  value={homeSearch}
-                  change={setHomeSearch}
-                  label="Search photos or people"
-                />
-                <IconButton
-                  name="plus"
-                  label="Add a moment"
-                  onClick={() => compose()}
-                />
-              </>
-            )}
-            {route.name === "me" && (
-              <IconButton
-                name="settings"
-                label="Settings"
-                onClick={() => push({ name: "settings" })}
+        <PageHeader
+          title={title[route.name]}
+          showLogo={isRootTab}
+          back={isRootTab ? undefined : back}
+        >
+          {route.name === "home" && (
+            <>
+              <ToolbarSearch
+                value={homeSearch}
+                change={setHomeSearch}
+                label="Search photos or people"
               />
-            )}
-          </div>
-        </header>
+              <IconButton
+                name="plus"
+                label="Add a moment"
+                onClick={() => compose()}
+              />
+            </>
+          )}
+          {route.name === "me" && (
+            <IconButton
+              name="settings"
+              label="Settings"
+              onClick={() => push({ name: "settings" })}
+            />
+          )}
+        </PageHeader>
       )}
       <main
         ref={contentRef}
         className={`content ${topLevel ? "with-tabs" : ""}`}
         onTouchStart={(e) => {
           touchY.current =
-            route.name !== "shorts" && contentRef.current?.scrollTop === 0
+            !refreshableFeed && contentRef.current?.scrollTop === 0
               ? e.touches[0].clientY
               : undefined;
         }}
@@ -598,6 +622,16 @@ export default function App() {
           touchY.current = undefined;
         }}
       >
+        {pullPage && (
+          <PullToRefresh
+            key={route.name}
+            refresh={async () => {
+              await reloadLibrary();
+              if (pullPage === "chats") setChatCheckedAt(new Date());
+              else setFeedTurns((turns) => ({ ...turns, [pullPage]: turns[pullPage] + 1 }));
+            }}
+          />
+        )}
         {route.name === "home" && (
           <>
             <div className="segmented">
@@ -613,38 +647,19 @@ export default function App() {
             </div>
             <button
               className="topic-banner"
-              onClick={() => push({ name: "topic", id: "Little joys" })}
+              onClick={() => push({ name: "topic", id: featuredTopic })}
             >
               <span>
                 <small>A LITTLE INSPIRATION</small>
-                <strong>What made you smile today?</strong>
+                <strong>{topicPrompts[featuredTopic]}</strong>
               </span>
-              <span className="topic-pill">Little joys</span>
+              <span className="topic-pill">{featuredTopic}</span>
             </button>
-            {visible
-              .filter(
-                (p) =>
-                  (scope === "Discover" ||
-                    (p.authorID && state.following.includes(p.authorID)) ||
-                    (p.editorial && state.following.includes("roro"))) &&
-                  `${p.caption} ${p.topic} ${p.author}`
-                    .toLowerCase()
-                    .includes(homeSearch.query.trim().toLowerCase()),
-              )
-              .map((p) => (
-                <PhotoCard key={p.id} photo={p} />
-              ))}
+            {orderedPhotos.map((p) => <PhotoCard key={p.id} photo={p} />)}
             {scope === "Following" && (
               <div className="page">
                 <ShortList
-                  items={clips.filter(
-                    (clip) =>
-                      !!clip.authorID &&
-                      state.following.includes(clip.authorID) &&
-                      `${clip.caption} ${clip.topic} ${authorFor(clip.authorID, state).name}`
-                        .toLowerCase()
-                        .includes(homeSearch.query.trim().toLowerCase()),
-                  )}
+                  items={followedClips}
                   open={openShort}
                   profile={openMember}
                   state={state}
@@ -654,27 +669,8 @@ export default function App() {
                 />
               </div>
             )}
-            {homeSearch.query.trim() &&
-              !visible.some(
-                (p) =>
-                  (scope === "Discover" ||
-                    (p.authorID && state.following.includes(p.authorID)) ||
-                    (p.editorial && state.following.includes("roro"))) &&
-                  `${p.caption} ${p.topic} ${p.author}`
-                    .toLowerCase()
-                    .includes(homeSearch.query.trim().toLowerCase()),
-              ) &&
-              !(
-                scope === "Following" &&
-                clips.some(
-                  (p) =>
-                    p.authorID &&
-                    state.following.includes(p.authorID) &&
-                    `${p.caption} ${p.topic} ${authorFor(p.authorID, state).name}`
-                      .toLowerCase()
-                      .includes(homeSearch.query.trim().toLowerCase()),
-                )
-              ) && (
+            {homeSearch.query.trim() && !orderedPhotos.length &&
+              !(scope === "Following" && followedClips.length) && (
                 <Empty title="No matching moments">
                   <p>Try another name, topic or detail.</p>
                 </Empty>
@@ -699,7 +695,8 @@ export default function App() {
         )}
         {route.name === "topics" && (
           <Topics
-            photos={visible}
+            orderedTopics={rotateItems(topics, feedTurns.topics)}
+            photos={topicPhotos}
             shorts={clips}
             state={state}
             open={(id) => push({ name: "topic", id })}
@@ -707,12 +704,13 @@ export default function App() {
         )}
         {route.name === "shorts" && (
           <Shorts
+            reloadLibrary={reloadLibrary}
             key={`${route.id ?? "all"}-${route.videoID ?? "feed"}`}
             initialTopic={route.id}
             selectedID={route.videoID}
             profile={openMember}
             onLeave={rememberShort}
-            back={routes.length > 1 ? back : undefined}
+            back={isRootTab ? undefined : back}
             search={shortSearch}
             changeSearch={setShortSearch}
             openTopic={(id) => push({ name: "topic", id })}
@@ -730,7 +728,7 @@ export default function App() {
               <p className="topic-summary">
                 {(() => {
                   const count = totals(
-                    [...visible, ...clips].filter(
+                    [...topicPhotos, ...clips].filter(
                       (item) => item.topic === route.id,
                     ),
                     state,
@@ -757,23 +755,20 @@ export default function App() {
                 {clips.filter((short) => short.topic === route.id).length}
               </ActionButton>
             </div>
-            {visible
+            {topicPhotos
               .filter((p) => p.topic === route.id)
               .map((p) => (
                 <PhotoCard key={p.id} photo={p} />
               ))}
-            <div className="page">
-              <ShortList
-                items={clips.filter((clip) => clip.topic === route.id)}
-                open={openShort}
-                profile={openMember}
-                state={state}
-                busy={busy}
-                act={act}
-                notify={showNotice}
-              />
-            </div>
-            {!visible.some((p) => p.topic === route.id) &&
+            {clips.filter((clip) => clip.topic === route.id).map((clip) => (
+              <div className="setting-row page" key={clip.id}>
+                <span>{clip.caption || "Short video"}</span>
+                <ActionButton icon="shorts" onClick={() => openShort(clip.id)}>
+                  Play {clip.caption || "short video"}
+                </ActionButton>
+              </div>
+            ))}
+            {!topicPhotos.some((p) => p.topic === route.id) &&
               !clips.some((clip) => clip.topic === route.id) && (
                 <Empty title="Your moment belongs here">
                   <p>Save a photo with this topic to start your collection.</p>
@@ -908,7 +903,7 @@ export default function App() {
                 </details>
                 {selected.editorial && (
                   <p className="muted">
-                    Editorial inspiration from Unsplash.{" "}
+                    Photography from {selected.surface === "topics" ? "Pexels" : "Unsplash"}.{" "}
                     <ActionButton
                       icon="info"
                       className="text-button"
@@ -963,7 +958,7 @@ export default function App() {
                   : "Follow collection"}
               </ActionButton>
             </div>
-            <Grid photos={visible.filter((p) => p.editorial)} />
+            <Grid photos={homePhotos.filter((p) => p.editorial)} />
           </div>
         )}
         {route.name === "compose" && (
@@ -1048,15 +1043,19 @@ export default function App() {
               <img src="assets/photos/coast.jpg" alt="A peaceful coastline" />
             </div>
             <Empty title="A place to connect">
-              <p>
-                Your conversations will appear here when messaging is connected.
-              </p>
+              <p>Your conversations will appear here when messaging is connected.</p>
+              {chatCheckedAt && (
+                <p className="muted">
+                  Messaging unavailable · Checked at{" "}
+                  <time dateTime={chatCheckedAt.toISOString()}>
+                    {chatCheckedAt.toLocaleTimeString("en", { timeStyle: "medium" })}
+                  </time>
+                </p>
+              )}
               <ActionButton
                 icon="share"
                 className="secondary"
-                onClick={() =>
-                  void call("sharePhoto", { image: "assets/photos/coast.jpg" })
-                }
+                onClick={() => void call("sharePhoto", { image: "assets/photos/coast.jpg" })}
               >
                 Share a little inspiration
               </ActionButton>
@@ -1200,29 +1199,31 @@ export default function App() {
         )}
         {route.name === "settings" && (
           <div className="page settings">
-            <div className="setting-row">
+            <button
+              type="button"
+              className="setting-row"
+              onClick={() => {
+                setName(state.profile.name);
+                setBio(state.profile.bio);
+                push({ name: "editProfile" });
+              }}
+            >
               <span>Edit profile</span>
-              <ActionButton
-                icon="edit"
-                onClick={() => {
-                  setName(state.profile.name);
-                  setBio(state.profile.bio);
-                  push({ name: "editProfile" });
-                }}
-              >
-                Edit profile
-              </ActionButton>
-            </div>
-            <div className="setting-row">
+              <Glyph name="edit" />
+            </button>
+            <button
+              type="button"
+              className="setting-row"
+              onClick={() => push({ name: "wallet" })}
+            >
               <span>Wallet</span>
-              <ActionButton
-                icon="wallet"
-                onClick={() => push({ name: "wallet" })}
-              >
-                Open wallet
-              </ActionButton>
-            </div>
-            <div className="setting-row">
+              <Glyph name="wallet" />
+            </button>
+            <button
+              type="button"
+              className="setting-row"
+              onClick={() => push({ name: "hidden" })}
+            >
               <span>
                 Hidden works ·{" "}
                 {
@@ -1233,80 +1234,80 @@ export default function App() {
                   ).length
                 }
               </span>
-              <ActionButton icon="eye" onClick={() => push({ name: "hidden" })}>
-                Manage hidden works
-              </ActionButton>
-            </div>
-            <div className="setting-row">
+              <Glyph name="eye" />
+            </button>
+            <button
+              type="button"
+              className="setting-row"
+              onClick={() => push({ name: "blocked" })}
+            >
               <span>Blocked people · {state.blocked?.length ?? 0}</span>
-              <button
-                className="block-action"
-                aria-label="Manage blocked people"
-                onClick={() => push({ name: "blocked" })}
-              >
-                🚫
-              </button>
-            </div>
-            <div className="setting-row">
-              <a
-                href={agreements.terms}
-                onClick={(event) => {
-                  event.preventDefault();
-                  void call("openAgreement", { kind: "terms" });
-                }}
-              >
-                Terms of Service
-              </a>
-            </div>
-            <div className="setting-row">
-              <a
-                href={agreements.privacy}
-                onClick={(event) => {
-                  event.preventDefault();
-                  void call("openAgreement", { kind: "privacy" });
-                }}
-              >
-                Privacy Policy
-              </a>
-            </div>
-            <div className="setting-row">
+              <span className="blocked-glyph" aria-hidden="true">🚫</span>
+            </button>
+            <a
+              className="setting-row"
+              href={agreements.terms}
+              onClick={(event) => {
+                event.preventDefault();
+                void call("openAgreement", { kind: "terms" });
+              }}
+            >
+              Terms of Service
+            </a>
+            <a
+              className="setting-row"
+              href={agreements.privacy}
+              onClick={(event) => {
+                event.preventDefault();
+                void call("openAgreement", { kind: "privacy" });
+              }}
+            >
+              Privacy Policy
+            </a>
+            <button
+              type="button"
+              className="setting-row"
+              onClick={() => push({ name: "credits" })}
+            >
               <span>Artwork &amp; credits</span>
-              <ActionButton
-                icon="info"
-                onClick={() => push({ name: "credits" })}
-              >
-                Open artwork and credits
-              </ActionButton>
-            </div>
+              <Glyph name="info" />
+            </button>
             <p className="muted">
               Roro keeps your moments on this iPhone. Sharing opens your
               iPhone’s share sheet.
             </p>
-            <div className="setting-row">
-              <span>Delete local library</span>
-              <ActionButton
-                icon="trash"
-                className="danger"
-                disabled={busy}
-                onClick={async () => {
-                  if (
-                    confirm(
-                      "Delete your Roro photos, shorts, drafts, comments, notes, relationships and profile from this iPhone? Original photos, videos and purchase records are kept.",
-                    )
-                  ) {
-                    if (await act("clearLibrary")) {
-                      setEntered(false);
-                      setConsentChoice(undefined);
-                      setHomeSearch(emptySearch);
-                      setShortSearch(emptySearch);
-                      root("home");
-                    }
+            <button
+              type="button"
+              className="setting-row"
+              disabled={busy}
+              onClick={onLogOut}
+            >
+              <span>Log out</span>
+              <Glyph name="close" />
+            </button>
+            <button
+              type="button"
+              className="setting-row danger"
+              disabled={busy}
+              onClick={async () => {
+                if (
+                  confirm(
+                    "Delete your Roro photos, shorts, drafts, comments, notes, relationships and profile from this iPhone? Original photos, videos and purchase records are kept.",
+                  )
+                ) {
+                  if (await act("clearLibrary")) {
+                    setEntered(false);
+                    setConsentChoice(undefined);
+                    setHomeSearch(emptySearch);
+                    setShortSearch(emptySearch);
+                    root("home");
                   }
-                }}
-              >
-                Delete local library
-              </ActionButton>
-            </div>
+                }
+              }}
+            >
+              <span>Delete local account</span>
+              <Glyph name="trash" />
+            </button>
             <p className="version">Roro 0.1.0</p>
           </div>
         )}
@@ -1448,14 +1449,17 @@ export default function App() {
           <div className="page wallet-page">
             <div className="wallet-balance">
               <span>Your balance</span>
-              <strong>{wallet?.balance.toLocaleString("en") ?? "—"}</strong>
-              <span>Credits</span>
+              <div className="wallet-balance-amount">
+                <img src="assets/icons/credit-coin.png" width={36} height={36} alt="" />
+                <strong>{wallet?.balance.toLocaleString("en") ?? "—"}</strong>
+              </div>
+              <span>{coinUnit(wallet?.balance)}</span>
             </div>
             <section aria-labelledby="wallet-offers">
-              <h2 id="wallet-offers">Buy credits</h2>
+              <h2 id="wallet-offers">Buy coins</h2>
               <div className="offers" aria-busy={loadingPrices}>
                 {wallet?.products.map((offer) => {
-                  const credits = offer.credits.toLocaleString("en");
+                  const amount = offer.credits.toLocaleString("en");
                   const price = pricesUnavailable ? null : offer.price;
                   const selected = !!price && selectedOfferID === offer.id;
                   const priceLabel = loadingPrices ? "—" : price ?? "Unavailable";
@@ -1465,12 +1469,13 @@ export default function App() {
                       className="offer"
                       disabled={!price || busy || wallet.checkoutBlocked}
                       aria-pressed={selected}
-                      aria-label={`${credits} credits, ${loadingPrices ? "loading price" : priceLabel}`}
+                      aria-label={`${amount} ${coinUnit(offer.credits).toLowerCase()}, ${loadingPrices ? "loading price" : priceLabel}`}
                       onClick={() => setSelectedOfferID(offer.id)}
                     >
                       <span className="offer-credits">
-                        <strong>{credits}</strong>
-                        <span>Credits</span>
+                        <img src="assets/icons/credit-coin.png" width={32} height={32} alt="" />
+                        <strong>{amount}</strong>
+                        <span>{coinUnit(offer.credits)}</span>
                       </span>
                       <span className="offer-price">{priceLabel}</span>
                       {selected && <Glyph name="check" />}
@@ -1491,7 +1496,7 @@ export default function App() {
                     disabled={busy || wallet?.checkoutBlocked}
                     onClick={() => void buy(selectedOffer.id)}
                   >
-                    Buy {selectedOffer.credits.toLocaleString("en")} credits for {selectedOffer.price}
+                    Buy {selectedOffer.credits.toLocaleString("en")} {coinUnit(selectedOffer.credits).toLowerCase()} for {selectedOffer.price}
                   </ActionButton>
                 </div>
               )}
@@ -1515,7 +1520,7 @@ export default function App() {
               wallet.activity.map((a) => (
                 <div className="history" key={a.id}>
                   <span>{new Date(a.date).toLocaleDateString("en")}</span>
-                  <strong>+{a.credits.toLocaleString("en")}</strong>
+                  <strong>+{a.credits.toLocaleString("en")} {coinUnit(a.credits).toLowerCase()}</strong>
                 </div>
               ))
             ) : wallet ? (
@@ -1527,7 +1532,7 @@ export default function App() {
           <div className="page credits">
             <h2>Everyday inspiration</h2>
             <p>
-              The inspiration collection uses licensed Unsplash photography.
+              Home features Unsplash photography. Topic photographs and portraits are licensed from Pexels.
               These images are editorial material. Photo subjects are not
               presented as Roro members.
             </p>
@@ -1535,6 +1540,10 @@ export default function App() {
               Source URLs, file hashes and license information are included in
               the app’s asset manifest.
             </p>
+            <h2>Topics photography</h2>
+            {topicCredits.map((item) => (
+              <p key={item.id}>{item.title} · {item.author}</p>
+            ))}
             <h2>Shorts sources</h2>
             <p>
               Videos are licensed from Pexels. Community profiles and

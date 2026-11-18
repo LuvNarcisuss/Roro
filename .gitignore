@@ -8,3 +8,5 @@ ios/build/
 !ios/.xcode.env
 
 ios/.xcode.env.local
+
+!ios/Roro.xcodeproj/xcshareddata/xcschemes/Roro.xcscheme

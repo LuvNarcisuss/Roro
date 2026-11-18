@@ -45,7 +45,7 @@ final class RoroNative: NSObject {
                 }
             }
             switch command {
-            case "snapshot": resolve(try library.snapshot())
+            case "snapshot": resolve(try library.snapshot(reload: payload["reload"] as? Bool == true))
             case "pickPhotos":
                 guard picker == nil, videoPicker == nil, let controller = presenter() else { throw roroError("Please finish the current photo selection.") }
                 _ = try library.snapshot()
@@ -121,7 +121,8 @@ final class RoroNative: NSObject {
                         guard let id = record["id"] as? String else { return nil }
                         return try CommunityCatalog.video(id)
                     }
-                    let allowed = Set(["coffee", "cat", "sunlight", "coast", "sky", "breakfast"].map { "assets/photos/\($0).jpg" }).union(bundledVideos)
+                    let photos = try CommunityCatalog.records("photos").flatMap { $0["images"] as? [String] ?? [] }
+                    let allowed = Set(photos).union(bundledVideos)
                     guard allowed.contains(image) else { throw roroError("This media file could not be shared.") }
                     url = pages.appendingPathComponent(image)
                 }

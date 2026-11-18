@@ -12,12 +12,12 @@
 - Five licensed Pexels shorts, six existing licensed photo works, six fictional member profiles and 43 seeded comments. Source authors are separately credited. Shared selectors derive work reactions, author totals, topic totals and comment counts.
 - Me collections, settings, local deletion and native share sheet.
 - Chats service-dependent empty state, with no fabricated message transport.
-- Nine-tier credit wallet with selection, localized prices, native StoreKit 1 checkout, queue recovery, receipt refresh, receipt-matched atomic crediting and transaction deduplication.
+- Nine-tier coin wallet with selection, localized prices, native StoreKit 1 checkout, queue recovery, receipt refresh, receipt-matched atomic crediting and transaction deduplication.
 - Owner-requested themed raster icons, licensed photography and Nunito in local root Assets.
 
 ## Decisions
 
-The owner confirmed Roro as name and directory, React Native, StoreKit 1, no Supabase, local assets, exact Google Docs links and local functionality first. The owner-confirmed Bundle ID is com.roro.photography (November 18, 2026). The credit wallet uses the nine consumables in Configuration/products.json. Credit spending awaits an entitlement mapping. The later owner request explicitly authorizes fictional community records and licensed Pexels fallback. Community reactions, follows and new comments are device-local; private notes remain separate. The app uses Save moment to describe device-local storage.
+The owner confirmed Roro as name and directory, React Native, StoreKit 1, no Supabase, local assets, exact Google Docs links and local functionality first. The owner-confirmed Bundle ID is com.roro.photography (November 18, 2026). The coin wallet uses the nine consumables in Configuration/products.json. Coin spending awaits an entitlement mapping. The later owner request explicitly authorizes fictional community records and licensed Pexels fallback. Community reactions, follows and new comments are device-local; private notes remain separate. The app uses Save moment to describe device-local storage.
 
 ## Verification scope
 
@@ -35,7 +35,7 @@ An independent static review of the Shorts extension found that empty topic cove
 
 The owner supplied seven consumables and delegated the identifiers and credit quantities of two additional tiers. The ordered catalog adds 17,000 credits at $29.99 and 42,500 credits at $69.99, with both unit credit rates between their adjacent tiers. The wallet uses a three-by-three selection grid, keeps unavailable tiers disabled and reads localized prices from StoreKit. Checkout stays disabled while the payment queue contains unresolved transactions. Purchased transactions with missing receipts can refresh the receipt before retrying delivery. The existing ledger format and atomic crediting remain in use.
 
-TypeScript checking, 158 static checks and the Debug build for Roro UI Acceptance passed. The compiled app's product catalog matches the source byte for byte, the H5 manifest verifies 99 inputs and strict ad-hoc signature verification passed. The shared scheme uses no local StoreKit fixture. App launch, wallet UI acceptance and purchase execution in local StoreKit Test, Apple sandbox and production remain open.
+TypeScript checking, 158 static checks and the Debug build for Roro UI Acceptance passed. The compiled app's product catalog matches the source byte for byte, the H5 manifest verifies 99 inputs and strict ad-hoc signature verification passed. At that revision the shared scheme used no local StoreKit fixture. App launch, wallet UI acceptance and purchase execution in local StoreKit Test, Apple sandbox and production remain open.
 
 ## Remaining inputs and acceptance
 
@@ -44,7 +44,7 @@ TypeScript checking, 158 static checks and the Debug build for Roro UI Acceptanc
 - Backend selection and credentials only if the owner later requests real social services.
 - Public Google Docs access and agreement content confirmation.
 - Explicit authorization for installation, launch and runtime acceptance on the dedicated iPhone simulator.
-- Apple sandbox and production validation. Local StoreKit Test needs a separate isolated verification adapter because its receipts cannot be validated by Apple's receipt endpoint.
+- Apple sandbox and production validation. Local StoreKit Test delivery is covered in the wallet recovery entry below.
 
 Client-side receipt validation uses Apple's receipt endpoint without a private key. Purchase accounting remains device-local.
 
@@ -117,3 +117,59 @@ The owner requested profile covers at approximately one quarter of their former 
 Personal Shorts and saved-video collections reuse the compact grid. Existing smaller three-column personal photo grids stay unchanged. No data, reaction, block or payment logic changed.
 
 Verification: TypeScript passed; 123 JSX controls audited; 168 project static checks and 271 community checks passed. The Debug build for Roro UI Acceptance (iPhone 17 Pro, iOS 26.0, 911635AB-2201-41C3-A80A-DA902AED9C3A) succeeded. The compiled artifact verifier confirmed com.roro.photography, iPhone-only support and 140 matching source/resource inputs. No installation, launch or runtime visual/interaction verification was performed.
+
+## November 18 runtime acceptance
+
+The owner authorized the full runtime regression on November 18, 2026. Debug and Release were freshly built for Roro UI Acceptance. Six hosted XCTest cases and five focused touch cases passed across the recorded runs. Simulator coverage includes first entry, all five tabs, local photos and Shorts, search, local community and settings flows, and the isolated StoreKit catalog, cancellation and deferral. The [runtime acceptance report](runtime-acceptance-2026-11-18.md) records the Debug welcome overlay, native browser dismissal coverage and the Apple payment scenarios still open.
+
+### Debug startup and browser dismissal follow-up
+
+Debug now skips Metro discovery when starting the embedded bundle. On Roro UI Acceptance, a center tap on Log in worked without Metro, including after cold relaunch. Both agreements returned to Welcome and Settings when their native close control was clicked directly in the simulator. Four additional Debug touch cases and six Release hosted cases passed. The original library matched its pre-test hashes after restoration, and the latest Debug build was left running. See the [follow-up details](runtime-acceptance-2026-11-18.md#debug-startup-and-agreement-follow-up).
+
+The subsequent [agreement close UI test run](runtime-acceptance-2026-11-18.md#agreement-close-ui-tests) passed all four independent Welcome and Settings round trips on the designated simulator. XCTest confirmed dismissal and return for both documents.
+
+## Independent Home and Topics photography
+
+Home retains its original collection. Topics uses five Pexels photographs and three separately sourced portraits for fictional contributors. Each photograph and portrait is credited in the local photo manifest. Topic cards and details count the same visible topic photos and linked shorts. Related shorts open by caption without repeating Home artwork. New personal moments retain the surface where they were composed, including after draft editing. Older personal moments default to Home. The community check compares media hashes across both surfaces.
+
+## Shared page header and background
+
+All five roots use the Roro camera logo and a centered page title. The existing trailing actions remain on their original pages. Inline search expands inside the same header. Non-playback pages use the Home dawn paper, including Welcome and the video composer. Shorts playback keeps its transparent video overlay. TypeScript, control and project audits and the designated Debug build passed. The compiled archive contains the logo and the stylesheet references one paper artwork. The new layout awaits runtime visual acceptance.
+
+## Roro camera wordmark
+
+The launcher, launch storyboard, React Native loading view, welcome page and page headers share the new Roro wordmark with a deep teal camera and sunset landscape lens. The launcher uses an opaque 1024-pixel RGB export. In-app views use its 128-pixel derivative. The original artwork, prompt and digests are recorded in the artwork manifest. Visual inspection covered 36- and 60-pixel samples. TypeScript, static checks, the designated Debug simulator build and packaged resource verification passed. The app was not launched for this change.
+
+## In-app logo placement
+
+The logo appears during launch and loading, at the upper left of the welcome/login page, and at the upper left of Home, Topics, Shorts, Chats and Me when opened as root tabs. Pushed routes, including Shorts and Me opened through another page, use the back control. Child pages and the composer omit the logo. TypeScript, the root-route source inspection, the control and project audits, the designated Debug build and compiled resource verification passed. Runtime visual acceptance was not performed for this change.
+
+## Settings account actions
+
+Log out returns to the local welcome screen and discards the current navigation history. A subsequent Log in opens Home with the existing library and wallet. Delete local account is a separate action that requests confirmation before clearing the local library.
+
+## November 18 wallet catalog repair
+
+The regular Run scheme previously had no local StoreKit configuration. The separate acceptance session loaded nine products using its own fixture. The Roro workspace now selects Configuration/RoroCredits.storekit during Debug Run. Its nine product IDs, US prices, consumable types and localized names match the wallet catalog and the previously exercised isolated fixture. The shared scheme resolves the file relative to Roro.xcworkspace and is reproducible from ios/project.yml.
+
+The designated Debug build, signature, 151 bundled source inputs, TypeScript check, 129-control audit and 192 static checks passed. The StoreKit configuration is external to the app bundle. The owner subsequently authorized a selection-only check. Xcode built and ran the workspace on Roro UI Acceptance. A UI test tapped all nine packs and verified each displayed USD price and the matching checkout selection. One test passed with zero failures. No order was placed. Screenshot: .build/acceptance/2026-11-18/wallet-selection/wallet-nine-prices.png. Apple catalog availability and local receipt delivery remain unverified. The current verifier uses Apple's endpoint and cannot credit an Xcode fixture purchase.
+
+## Wallet coin artwork
+
+All nine wallet packs display a gold coin with a camera aperture above the credit amount. The localized price and selection indicator retain their existing positions. TypeScript, the control and static audits, the designated iPhone simulator build and bundle verification passed. The packaged icon matches the source PNG. Runtime visual acceptance was not performed for this change.
+
+The wallet now labels its currency Coin or Coins across the balance, packs, checkout, and purchase history. The balance displays the same aperture coin beside the amount. All nine local StoreKit product names and descriptions use the new terminology.
+
+## Local StoreKit 1 wallet recovery
+
+The Debug simulator Run scheme uses the Xcode StoreKit catalog. Its receipts now pass through an isolated verifier that checks Xcode's pinned test certificate, the signed payload, the bundle and the queued purchase fields. Verified local orders share the atomic delivery and deduplication logic with Apple orders and use a separate ledger. The queue finishes the transaction after the ledger write succeeds.
+
+On Roro UI Acceptance (iPhone 17 Pro, iOS 26.0), the updated app recovered the existing unfinished 400-coin transaction (ID 0). The wallet showed 400 coins and one history entry. A second purchase of the same $0.99 pack from the wallet produced transaction ID 1. After dismissing the Xcode success alert, the final UI check passed: 800 coins, two history entries and checkout enabled. A separate ledger inspection found exactly 400 coins on each ID and no Apple ledger file. The initial UI harness needed adjustments for WebKit's split history labels and the native success dialog. No third purchase was made. Evidence is under .build/acceptance/2026-11-18/wallet-recovery. This run covered the local Xcode environment only.
+
+## Feed pull-to-refresh
+
+Home, Topics and Chats refresh when a downward pull starts at the top of the page and is released past the threshold. Shorts uses the same feedback and reload on the first clip or the empty feed. Downward swipes on later clips return to the previous video. Refresh rereads the validated on-device library through the native snapshot command and preserves the active search and topic filters. On successful refresh, Discover cycles the first recommended photo and photography prompt, Topics features the next topic, and Shorts presents the next matching clip first. Following retains its relationship-based order. Chats retains its content and displays the current local messaging availability and the last successful status check time.
+
+The four feed refresh indicators show a rotating ring during the pull and the refresh. After release, the ring remains visible for at least 550 milliseconds while new data is applied immediately. The reduced-motion setting uses a stationary ring with the same status text.
+
+Photo cards group Like, Comments and Save from left to right, with each count directly below its icon.

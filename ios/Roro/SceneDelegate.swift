@@ -16,6 +16,11 @@ class SceneDelegate: RCTDefaultReactNativeFactoryDelegate, UIWindowSceneDelegate
       return
     }
 
+    #if DEBUG
+    // Debug also uses the embedded bundle, so startup does not need to probe Metro.
+    RCTBundleURLProviderAllowPackagerServerAccess(false)
+    #endif
+
     dependencyProvider = RCTAppDependencyProvider()
     reactNativeFactory = RCTReactNativeFactory(delegate: self)
     window = UIWindow(windowScene: windowScene)

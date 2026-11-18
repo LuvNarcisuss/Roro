@@ -5,6 +5,7 @@ export type Topic =
   | "Today's sky"
   | "Something delicious";
 export interface Moment {
+  surface?: string;
   id: string;
   images: string[];
   caption: string;
@@ -48,6 +49,7 @@ export interface Snapshot {
   comments?: Note[];
 }
 export interface Photo {
+  surface?: string;
   authorID?: string;
   id: string;
   images: string[];

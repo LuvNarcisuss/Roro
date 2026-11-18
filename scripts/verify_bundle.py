@@ -34,6 +34,9 @@ with zipfile.ZipFile(archive) as bundle:
         for key in ['video', 'poster']:
             relative = clip[key]
             assert bundle.read(relative) == (root / 'Assets' / relative.removeprefix('assets/')).read_bytes()
+    for item in json.loads((root / 'Assets/photos/manifest.json').read_text()):
+        relative = item['file']
+        assert hashlib.sha256(bundle.read('assets/' + relative)).hexdigest() == item['sha256'], relative
     for author in community['authors']:
         assert author['avatar'] in bundle.namelist()
     assert sum(item.file_size for item in bundle.infolist()) <= 150_000_000

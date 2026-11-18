@@ -19,6 +19,22 @@ def local(path):
     result = root / "Assets" / path.removeprefix("assets/")
     assert result.is_file(), path
     return result
+# Compare the media that can appear on each surface, including followed clips.
+topic_photos = [p for p in data["photos"] if p.get("surface") == "topics"]
+home_works = [p for p in data["photos"] if p.get("surface") != "topics"] + data["shorts"]
+assert {p["topic"] for p in topic_photos} == topics
+
+def surface_hashes(records):
+    paths = set()
+    for record in records:
+        paths.update(record.get("images", []))
+        if "poster" in record:
+            paths.add(record["poster"])
+        paths.add(authors[record["authorID"]]["avatar"])
+        paths.update(authors[c["authorID"]]["avatar"] for c in record["comments"])
+    return {hashlib.sha256(local(path).read_bytes()).digest() for path in paths}
+
+assert surface_hashes(topic_photos).isdisjoint(surface_hashes(home_works)), "Home and Topics must use distinct photos, posters and portraits."
 for author in authors.values():
     local(author["avatar"])
     assert not {"likes", "saves", "comments", "workCount"}.intersection(author), "Totals must be derived."
@@ -62,7 +78,7 @@ for author_id, author in authors.items():
     if videos: assert owned == videos, "Video authors' totals must equal their video works."
     checks += 2
 for topic in topics:
-    owned = [work for work in works if work["topic"] == topic]
+    owned = [work for work in topic_photos + data["shorts"] if work["topic"] == topic]
     assert owned
     summary[topic] = {"works": len(owned), "likes": sum(w["likes"] for w in owned), "saves": sum(w["saves"] for w in owned), "comments": sum(len(w["comments"]) for w in owned)}
     checks += 1

@@ -43,6 +43,27 @@
       "handle": "iris.at.home",
       "bio": "Quiet corners and familiar faces.",
       "avatar": "assets/photos/cat.jpg"
+    },
+    {
+      "id": "nora",
+      "name": "Nora Vale",
+      "handle": "nora.light",
+      "bio": "Afternoon light and tiny details.",
+      "avatar": "assets/photos/topics/avatar-nora.jpg"
+    },
+    {
+      "id": "kit",
+      "name": "Kit Lane",
+      "handle": "kit.walks",
+      "bio": "I take the slow route back.",
+      "avatar": "assets/photos/topics/avatar-kit.jpg"
+    },
+    {
+      "id": "ella",
+      "name": "Ella Wren",
+      "handle": "ella.weekends",
+      "bio": "Kitchen mornings and quiet skies.",
+      "avatar": "assets/photos/topics/avatar-ella.jpg"
     }
   ],
   "photos": [
@@ -265,6 +286,121 @@
           "authorID": "rowan",
           "text": "A cheerful start to the day.",
           "createdAt": "2026-11-11T13:20:00Z"
+        }
+      ]
+    },
+    {
+      "id": "tulip-table",
+      "surface": "topics",
+      "images": [
+        "assets/photos/topics/tulip-table.jpg"
+      ],
+      "caption": "A few stems brought the whole table to life.",
+      "topic": "Little joys",
+      "authorID": "nora",
+      "author": "Nora Vale",
+      "editorial": true,
+      "createdAt": "2026-11-17T08:00:00Z",
+      "likes": 74,
+      "saves": 16,
+      "comments": [
+        {
+          "id": "tulip-table-comment-1",
+          "authorID": "kit",
+          "text": "The yellow against that green is so good.",
+          "createdAt": "2026-11-17T10:30:00Z"
+        }
+      ]
+    },
+    {
+      "id": "parked-bicycle",
+      "surface": "topics",
+      "images": [
+        "assets/photos/topics/parked-bicycle.jpg"
+      ],
+      "caption": "A bicycle waiting outside a brick doorway.",
+      "topic": "On my walk",
+      "authorID": "kit",
+      "author": "Kit Lane",
+      "editorial": true,
+      "createdAt": "2026-11-17T08:00:00Z",
+      "likes": 91,
+      "saves": 21,
+      "comments": [
+        {
+          "id": "parked-bicycle-comment-1",
+          "authorID": "nora",
+          "text": "I love how the wheel echoes the arch.",
+          "createdAt": "2026-11-17T10:30:00Z"
+        }
+      ]
+    },
+    {
+      "id": "reading-break",
+      "surface": "topics",
+      "images": [
+        "assets/photos/topics/reading-break.jpg"
+      ],
+      "caption": "Tea, a book and an afternoon with no plans.",
+      "topic": "At home",
+      "authorID": "nora",
+      "author": "Nora Vale",
+      "editorial": true,
+      "createdAt": "2026-11-17T08:00:00Z",
+      "likes": 53,
+      "saves": 12,
+      "comments": [
+        {
+          "id": "reading-break-comment-1",
+          "authorID": "kit",
+          "text": "That looks like a good place to spend an hour.",
+          "createdAt": "2026-11-17T10:30:00Z"
+        }
+      ]
+    },
+    {
+      "id": "rooftop-dusk",
+      "surface": "topics",
+      "images": [
+        "assets/photos/topics/rooftop-dusk.jpg"
+      ],
+      "caption": "Caught the last pink light above the roofs.",
+      "topic": "Today's sky",
+      "authorID": "kit",
+      "author": "Kit Lane",
+      "editorial": true,
+      "createdAt": "2026-11-17T08:00:00Z",
+      "likes": 107,
+      "saves": 36,
+      "comments": [
+        {
+          "id": "rooftop-dusk-comment-1",
+          "authorID": "nora",
+          "text": "That strip of orange only lasts a minute.",
+          "createdAt": "2026-11-17T10:30:00Z"
+        }
+      ]
+    },
+    {
+      "id": "croissant-tray",
+      "surface": "topics",
+      "images": [
+        "assets/photos/topics/croissant-tray.jpg"
+      ],
+      "caption": "The first tray just came out of the oven.",
+      "topic": "Something delicious",
+      "authorID": "ella",
+      "author": "Ella Wren",
+      "editorial": true,
+      "createdAt": "2026-11-17T08:00:00Z",
+      "likes": 68,
+      "saves": 17,
+      "comments": [
+        {
+          "id": "croissant-tray-comment-1",
+          "authorID": "nora",
+          "text": "The edges look so crisp.",
+          "createdAt": "2026-11-17T10:30:00Z"
         }
       ]
     }

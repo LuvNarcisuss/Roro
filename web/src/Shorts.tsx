@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ShortFeed from "./ShortFeed";
+import PageHeader from "./PageHeader";
 import { ActionButton, ReactionButton, type SearchState } from "./Controls";
 import { native } from "./bridge";
 import { topics } from "./catalog";
@@ -205,8 +206,7 @@ function ShortComposer({
       }}
       aria-labelledby="short-composer-title"
     >
-      <header className="short-compose-header">
-        <h2 id="short-composer-title">A little motion</h2>
+      <PageHeader title="A little motion" titleId="short-composer-title">
         <ActionButton
           icon="close"
           disabled={pending}
@@ -214,7 +214,7 @@ function ShortComposer({
         >
           Close
         </ActionButton>
-      </header>
+      </PageHeader>
       <div className="short-compose-body">
         <p className="muted">
           Keep a little piece of your day. Up to 60 seconds.
@@ -304,6 +304,7 @@ function ShortComposer({
 }
 
 export default function Shorts({
+  reloadLibrary,
   initialTopic = "",
   selectedID,
   profile,
@@ -314,6 +315,7 @@ export default function Shorts({
   back,
   ...actions
 }: ShortActions & {
+  reloadLibrary(): Promise<void>;
   initialTopic?: string;
   selectedID?: string;
   profile(id?: string): void;
@@ -329,6 +331,7 @@ export default function Shorts({
   return (
     <>
       <ShortFeed
+        reloadLibrary={reloadLibrary}
         {...actions}
         initialTopic={initialTopic}
         selectedID={savedID}

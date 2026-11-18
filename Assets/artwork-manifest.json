@@ -122,11 +122,18 @@
   },
   {
     "name": "AppIcon",
-    "prompt": "Create one polished iOS app icon for Roro, a warm everyday snapshot and personal photo album app. Opaque square canvas, full bleed warm ivory #FAF8F5. A single bold friendly terracotta #B95138 compact camera silhouette with rounded corners and a large ivory lens circle, with a tiny warm apricot sun highlight integrated in the top right of the camera. Flat, beautifully proportioned, elegant and memorable at small size. No text, no letters, no border, no drop shadow, no external rounded-square mask, no extra objects.",
+    "prompt": "Design ONE final production iOS app icon for an everyday analogue photography journal called Roro. Opaque full-bleed SQUARE 1:1 canvas, straight edges all the way out. Imagine a collectible 1970s pocket photo-lab label, printed on warm butter-cream paper. Make the icon a single confident graphic lockup: on top, a compact deep-teal rangefinder camera cut from colored paper, with a big bold round terracotta and peach SUNSET inside its lens, formed from one sun and two simple horizon shapes. A single ivory viewfinder cutout. Directly underneath, the unmistakable correctly spelled English word 'Roro' in very large, chunky, friendly deep-plum hand-lettered type. EXACT visible text: Roro, one capital R then lowercase o r o. High x-height, ample counters, distinctive playful chunky serifs or soft corners, excellent readability even at 36px. Wordmark spans roughly 78 percent of width and occupies at least one quarter of canvas height. Motif and name visually balance as a cohesive maker's mark. Warm everyday snapshots and summer light, premium quiet printmaking. Bold simple silhouette, controlled flat inks, tiny paper grain only at large size. Small comfortable safe margins, nothing clipped. This is the full icon artwork itself, not a mockup, no device, no slogans, no subtitles, no other text, no extra objects, no external rounded-square border, no floating shadow. Highly legible, striking and art directed.",
     "file": "AppIcon.png",
-    "sha256": "40d7fe0c08ac3efa9ce7998a144166edf364fc52746392f11e1812ff39492646",
+    "sha256": "44d9d844794148ae920c71d449690bf15587d2c4f2bc2b26f1094845fb9c4473",
     "tool": "Built-in image_gen",
-    "original": "originals/AppIcon.png"
+    "original": "originals/film/roro-sunset-wordmark.png",
+    "originalSha256": "42753d768225d98b2ed1eeefaf840431ac0b4f535726078dd2db43808a5731cf",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/AppIcon.png",
+      "prompt": "Create one polished iOS app icon for Roro, a warm everyday snapshot and personal photo album app. Opaque square canvas, full bleed warm ivory #FAF8F5. A single bold friendly terracotta #B95138 compact camera silhouette with rounded corners and a large ivory lens circle, with a tiny warm apricot sun highlight integrated in the top right of the camera. Flat, beautifully proportioned, elegant and memorable at small size. No text, no letters, no border, no drop shadow, no external rounded-square mask, no extra objects.",
+      "sha256": "40d7fe0c08ac3efa9ce7998a144166edf364fc52746392f11e1812ff39492646"
+    }
   },
   {
     "name": "topics",
@@ -428,5 +435,25 @@
       "originalSha256": "3d0a80d474ce9b6ec2739e9e9a60efaca277acaedc1c56ddf9b8ef98369beffa",
       "generatedAt": "2026-11-18"
     }
+  },
+  {
+    "name": "roro-logo",
+    "file": "icons/roro-logo.png",
+    "sha256": "84a2a13eb1a556faf852d26884ad8f8f28bed4c48bbedc20e4d05e974cb206c5",
+    "original": "AppIcon.png",
+    "originalSha256": "44d9d844794148ae920c71d449690bf15587d2c4f2bc2b26f1094845fb9c4473",
+    "tool": "Proportional resize of the Roro app icon",
+    "prompt": "Design ONE final production iOS app icon for an everyday analogue photography journal called Roro. Opaque full-bleed SQUARE 1:1 canvas, straight edges all the way out. Imagine a collectible 1970s pocket photo-lab label, printed on warm butter-cream paper. Make the icon a single confident graphic lockup: on top, a compact deep-teal rangefinder camera cut from colored paper, with a big bold round terracotta and peach SUNSET inside its lens, formed from one sun and two simple horizon shapes. A single ivory viewfinder cutout. Directly underneath, the unmistakable correctly spelled English word 'Roro' in very large, chunky, friendly deep-plum hand-lettered type. EXACT visible text: Roro, one capital R then lowercase o r o. High x-height, ample counters, distinctive playful chunky serifs or soft corners, excellent readability even at 36px. Wordmark spans roughly 78 percent of width and occupies at least one quarter of canvas height. Motif and name visually balance as a cohesive maker's mark. Warm everyday snapshots and summer light, premium quiet printmaking. Bold simple silhouette, controlled flat inks, tiny paper grain only at large size. Small comfortable safe margins, nothing clipped. This is the full icon artwork itself, not a mockup, no device, no slogans, no subtitles, no other text, no extra objects, no external rounded-square border, no floating shadow. Highly legible, striking and art directed.",
+    "generatedAt": "2026-11-18"
+  },
+  {
+    "name": "credit-coin",
+    "prompt": "Single original raster UI asset for Roro, a warm everyday analogue photography journal. ONE attractive collectible GOLD COIN, face almost directly facing viewer, just a small thickness visible at the bottom. Perfectly round, bold honey-gold disk, burnished ochre outer edge, warm golden highlights, subtle handmade gouache and screenprinted grain inside the metal. In the center, one large unmistakable stamped five-blade camera aperture forming a small central opening in relief, darker amber stamp on the gold face, not a real hole through the coin. The stamped aperture must read immediately at 28 pixels. Simple refined silhouette and wide polished rim. Gentle cream upper-left highlight. One coin only, optically centered on a SQUARE true transparent canvas with 8% transparent margin. No coins behind, no stacks, no falling glitter, no loose marks, no external shadow or glow, no app icon tile, no background, NO letters, no numbers or currency symbols. The only visible object is the isolated coin with a photographic aperture emblem.",
+    "file": "icons/credit-coin.png",
+    "sha256": "a75106eb953786b8f3d28990eaa81a4a2c119e17b13373ead162f778a3daf0f2",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/credit-coin.png",
+    "originalSha256": "3edf224fc65a8df6043e207180ddab0aab1ec154a4af10dc66b6270ed078c724",
+    "generatedAt": "2026-11-18"
   }
 ]

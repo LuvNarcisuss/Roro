@@ -1,0 +1,432 @@
+[
+  {
+    "name": "home",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One open pocket photo album, compact broad silhouette, left ivory paper page and one printed dusky-horizon landscape on right, dark plum #402d3b perimeter, copper #bb6441 spine and warm honey #f9c878 sunlight.",
+    "file": "icons/home.png",
+    "sha256": "3922c4961ed0e6ba344d4e8b077871792a71e2aaddce0253bbc0d794bebd5114",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/home.png",
+    "originalSha256": "5b929f0c4c97ff772dbbe2b8c64cd519927e075de7067864f072d36964aff98e",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/home.png",
+      "prompt": "One single original raster UI icon for Roro, a casual everyday photography and warm personal photo album iPhone app: an open little photo album with one tiny terracotta sun on a cream photo page. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Keep silhouette bold and highly legible at 26 pixels, subtle handmade texture only, upright centered composition occupying 80% of square canvas. True transparent alpha background. One glyph only. No text, no letters, no tile background, no cast shadow, no border, no grid, no extra decorations. Match a warm minimal photo journal."
+    }
+  },
+  {
+    "name": "chat",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One bold rounded speech balloon with a lower left tail and exactly two large ochre dots, smoky dark plum #413147 outline, tender lavender #b695c3 mauve front and light parchment rim edging. Keep compact and readable.",
+    "file": "icons/chat.png",
+    "sha256": "fcd2a34823cd70410f43982981d474a5c89a2afc1c093de6a75981db43718f5e",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/chat.png",
+    "originalSha256": "33acb9a6d7301bd49f0230a758a105e740fd87348eaa216c9b0fddd2d85de543",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/chat.png",
+      "prompt": "One single original raster UI icon for Roro, a casual everyday photography and warm personal photo album iPhone app: one rounded speech bubble with a subtle folded photograph corner and two small dots. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Keep silhouette bold and highly legible at 26 pixels, subtle handmade texture only, upright centered composition occupying 80% of square canvas. True transparent alpha background. One glyph only. No text, no letters, no tile background, no cast shadow, no border, no grid, no extra decorations. Match a warm minimal photo journal."
+    }
+  },
+  {
+    "name": "profile",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One bold rounded head-and-shoulders portrait silhouette within a small upright instant-photograph print, palette apricot #efad77, rich walnut #633c33, ivory paper margin and dusty rose #c66f68, graphic identity of a personal photo album. No face detail.",
+    "file": "icons/profile.png",
+    "sha256": "846f372a2a8c48261303996cb2bbec8de9e242fd539a3375d704d52ba499a64e",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/profile.png",
+    "originalSha256": "3a1793a634a90b6c131c391ed83738109b1d0443e3d1e895adb491cf91e1527e",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/profile.png",
+      "prompt": "One single original raster UI icon for Roro, a casual everyday photography and warm personal photo album iPhone app: a polaroid photo frame holding a simple friendly head and shoulders portrait silhouette. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Keep silhouette bold and highly legible at 26 pixels, subtle handmade texture only, upright centered composition occupying 80% of square canvas. True transparent alpha background. One glyph only. No text, no letters, no tile background, no cast shadow, no border, no grid, no extra decorations. Match a warm minimal photo journal."
+    }
+  },
+  {
+    "name": "search",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One upright readable magnifier tilted to bottom right, circular empty aperture, indigo/slate lens rim and copper handle.",
+    "file": "icons/search.png",
+    "sha256": "35ad3b237845699ea4d10ce589691c7be70b3a347fa034dd48f46b892a7a1f2a",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/search.png",
+    "originalSha256": "0f308b87aa0209c7da5ef49a32849224a841dbabf367c3efba9112c86ee65f3c",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/search.png",
+      "prompt": "One single original raster UI icon for Roro, a casual everyday photography and warm personal photo album iPhone app: a magnifying glass with an apricot wooden handle and a warm dark terracotta ring. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Keep silhouette bold and highly legible at 26 pixels, subtle handmade texture only, upright centered composition occupying 80% of square canvas. True transparent alpha background. One glyph only. No text, no letters, no tile background, no cast shadow, no border, no grid, no extra decorations. Match a warm minimal photo journal."
+    }
+  },
+  {
+    "name": "plus",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One clear heavy rounded plus sign, paprika red with a warm pink internal brush highlight and a deep brick outline.",
+    "file": "icons/plus.png",
+    "sha256": "94c0d4c1e85a8f26dd9d0557d44c1cda743c1d313d2f44da7c325fddfe7c421a",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/plus.png",
+    "originalSha256": "b1f2d4cf7e534bf6e49f317d076655a859f1332e13ac2f442f36fc9e1c47653d",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/plus.png",
+      "prompt": "One single original raster UI icon for Roro, a casual everyday photography and warm personal photo album iPhone app: a clear plus sign with rounded hand-painted terracotta strokes and a subtle apricot offset edge. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Keep silhouette bold and highly legible at 26 pixels, subtle handmade texture only, upright centered composition occupying 80% of square canvas. True transparent alpha background. One glyph only. No text, no letters, no tile background, no cast shadow, no border, no grid, no extra decorations. Match a warm minimal photo journal."
+    }
+  },
+  {
+    "name": "heart",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One plump recognizable upright heart, raspberry and coral gouache, plum fine edge and peach highlight.",
+    "file": "icons/heart.png",
+    "sha256": "4fee973f7314022284fd87543f81fda18bac9afc33a54cd5268711fa4cd37a5a",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/heart.png",
+    "originalSha256": "48dcfc51b2b42dd2a25e74d5f06418a9b27e08f361bd28eed249e369ed60687a",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/heart.png",
+      "prompt": "One single original raster UI icon for Roro, a casual everyday photography and warm personal photo album iPhone app: a single plump hand-painted terracotta heart with one subtle warm apricot highlight. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Keep silhouette bold and highly legible at 26 pixels, subtle handmade texture only, upright centered composition occupying 80% of square canvas. True transparent alpha background. One glyph only. No text, no letters, no tile background, no cast shadow, no border, no grid, no extra decorations. Match a warm minimal photo journal."
+    }
+  },
+  {
+    "name": "bookmark",
+    "prompt": "Redesign this saved bookmark icon, keeping its Roro honey-gold solid fill and dark walnut ink outline, but make the entire ribbon much wider and bolder so it reads at 27px. Square transparent canvas. Front-on one perfectly upright centered broad bookmark, straight flat top, two straight vertical sides, two bottom tips with a pronounced central V notch. The outer silhouette should occupy 62% of the canvas width and 84% of the canvas height: more like a wide fabric bookmark than a skinny strip. Symmetrical. A substantial dark warm-brown border, solid rich golden ochre inside, subtle matte hand-printed paper grain. Fully opaque interior. Flat compact silhouette, no shadow, no surrounding tile, no lettering, no extra detail. True transparent alpha outside. One single icon.",
+    "file": "icons/bookmark.png",
+    "sha256": "f86e8d967c419461fc1ad2f4193fb1dc948826f8959273495ac68960b0b2d379",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/bookmark-wide.png",
+    "originalSha256": "5fdc1a2d60c72b6713431b933be357beeda264b3ffe139327cdd539b188130f4",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One upright single bookmark ribbon with bold V notch at the bottom, honey ochre center and walnut dark edge.",
+      "sha256": "a3a27a4f4a101d32a93e88d30d30fb429d9b15618ae0b8ce109afb6d239235e3",
+      "tool": "Built-in image_gen",
+      "original": "originals/film/bookmark.png",
+      "originalSha256": "25da620826a926b4a703c7be3ea606267dffd4e029fac3a6f3fc84dda52e750a",
+      "generatedAt": "2026-11-18",
+      "replacedArtwork": {
+        "original": "originals/bookmark.png",
+        "prompt": "One single original raster UI icon for Roro, a casual everyday photography and warm personal photo album iPhone app: a terracotta photo-album bookmark ribbon with a neat V notch and one tiny cream sun. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Keep silhouette bold and highly legible at 26 pixels, subtle handmade texture only, upright centered composition occupying 80% of square canvas. True transparent alpha background. One glyph only. No text, no letters, no tile background, no cast shadow, no border, no grid, no extra decorations. Match a warm minimal photo journal."
+      }
+    },
+    "reference": "originals/film/bookmark-narrow-reference.png"
+  },
+  {
+    "name": "settings",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One rounded six-tooth gear, central ivory circular camera lens, slate teal exterior and dark deep teal edge.",
+    "file": "icons/settings.png",
+    "sha256": "a465131806c70a5957f52b32852f7b852482d7ccb69507621b735259286e4af8",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/settings.png",
+    "originalSha256": "9bdba7120ea5ec8d6039890e67da8125cfc4b097ad69f92f727cd3f1e9b6f753",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/settings.png",
+      "prompt": "Edit the supplied single Roro settings icon. Preserve the exact terracotta gear, cream and apricot circular camera-lens center, rounded contours and paper texture inside the icon. Remove the entire white background, haze, glow, colored fringe and every drop shadow outside the gear. Output true fully transparent alpha everywhere outside the clean gear silhouette, with crisp antialiased edges. Keep centered upright on square canvas with comfortable transparent margins. No additional objects or text. This is a 26-pixel toolbar icon and must be isolated cleanly."
+    }
+  },
+  {
+    "name": "AppIcon",
+    "prompt": "Create one polished iOS app icon for Roro, a warm everyday snapshot and personal photo album app. Opaque square canvas, full bleed warm ivory #FAF8F5. A single bold friendly terracotta #B95138 compact camera silhouette with rounded corners and a large ivory lens circle, with a tiny warm apricot sun highlight integrated in the top right of the camera. Flat, beautifully proportioned, elegant and memorable at small size. No text, no letters, no border, no drop shadow, no external rounded-square mask, no extra objects.",
+    "file": "AppIcon.png",
+    "sha256": "40d7fe0c08ac3efa9ce7998a144166edf364fc52746392f11e1812ff39492646",
+    "tool": "Built-in image_gen",
+    "original": "originals/AppIcon.png"
+  },
+  {
+    "name": "topics",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One icon of two overlapping portrait-format photographic prints, compact bold silhouette, front print shows a sage teal #527e77 mountain with honey sun. Warm cream #ffe7ca margins, near-black teal #263d3d edge, no surrounding tile.",
+    "file": "icons/topics.png",
+    "sha256": "4816d6a9201b8b289e2754032c69f26ef1786ded0dc8f5ffb4cf777b4fb41186",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/topics.png",
+    "originalSha256": "b10826f8cbd4b774a436fb0aa8b45afdaf0063a6ab917b11d8090c31572b27d9",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/topics.png",
+      "prompt": "One single original raster UI icon for Roro, a warm everyday photography journal iPhone app. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Bold highly legible at 26 pixels, subtle texture only inside glyph, centered upright occupying 80% of square canvas. True transparent alpha background, no glow or shadow. One glyph only, no text, letters, tile, border or extra decoration. Subject: two overlapping rounded photo cards with a small sun on the front card, conveying a collection of everyday photo topics."
+    }
+  },
+  {
+    "name": "shorts",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. Only one unmistakable right-pointing play triangle with gently rounded corners. Dark blackberry #552d4d continuous edge, punchy deep raspberry body with vermilion #e56858 and coral #ff9b70 flat layers INSIDE the triangle, warm cream slim internal highlight, artistically reminiscent of an exposure on film. No enclosing shape, no film strip or container under any circumstances. Triangle only.",
+    "file": "icons/shorts.png",
+    "sha256": "a921f40778db844f95874f605806fa6644ac142d5d493b28fdf9ee5c4046dff7",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/shorts.png",
+    "originalSha256": "0f2acd6bbeaff6bdea4bfce529e4df3e41d0893af330514281149bf45d5d9da5",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/shorts.png",
+      "prompt": "One single original raster UI icon for Roro, a warm everyday photography journal. A simple right-pointing play triangle, soft rounded corners, terracotta #B95138 body with subtle warm apricot #E8B68A paper-cut highlight inside the triangle. Charming minimal hand-painted paper texture. Very clear at 26 pixels. Centered on square transparent canvas, occupies 76% of canvas. True alpha transparency outside the triangle. Absolutely no square, no rectangular frame, no film strip, no perforations, no enclosing circle, no badge or tile, no shadow or glow, no text or letters. Just the standalone play triangle.",
+      "replacedArtwork": {
+        "original": "originals/shorts-framed-v1.png",
+        "prompt": "One single original raster UI icon for Roro, a warm everyday photography journal iPhone app. Charming clean hand-painted paper-cut style, rounded organic contours, limited palette terracotta #B95138, apricot #E8B68A, cream #FAF8F5, dark clay #754532. Bold highly legible at 26 pixels, subtle texture only inside glyph, centered upright occupying 80% of square canvas. True transparent alpha background, no glow or shadow. One glyph only, no text, letters, tile, border or extra decoration. Subject: one rounded terracotta film frame with three small cream perforations on each side and a bold ivory play triangle in the center, conveying short everyday videos.",
+        "reason": "Owner requested a standalone icon without the film frame."
+      }
+    }
+  },
+  {
+    "name": "share",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One single share arrow pointing UP and right, curving from bottom left, deep purple edge with a muted lavender highlight.",
+    "file": "icons/share.png",
+    "sha256": "c0149ad4a574e9567ad48e53c5e0f6fea5c3843917ea31847c682209bf47c551",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/share.png",
+    "originalSha256": "00bdedf0820867ba898b2ae9d0bea857c1ad3cbdf1ff344f4f0ab7f1be21276b",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/share.png",
+      "prompt": "One single original raster UI icon for Roro, a warm everyday photography journal. A simple curved upward-right sharing arrow in terracotta #B95138 with subtle warm apricot #E8B68A paper-cut edge. Rounded organic shape, clean hand-painted paper texture inside arrow only, unmistakable at 26 pixels. Centered square canvas true transparent alpha outside arrow, occupies 76% of canvas. One glyph only, no enclosing frame, no circle, no square, no tile, no shadow or glow, no text or letters."
+    }
+  },
+  {
+    "name": "close",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One bold X made of two thick muted plum brush strokes with small mauve highlights, compact readable silhouette.",
+    "file": "icons/close.png",
+    "sha256": "65a4377daf5098178d32c4c65015944c163833df099019f7aff61ae8a780f832",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/close.png",
+    "originalSha256": "f1deae55d9a2fa4a93255bec583616ac7cc99f3887e5b0b515c4e5c0fa15b6e2",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/close.png",
+      "prompt": "Create ONE single standalone close X glyph for Roro, a warm everyday photography iPhone app. Two equal rounded diagonal strokes forming a clear upright X, terracotta #B95138 with a restrained warm clay highlight matching soft dimensional raster UI icons. Optically centered, consistent thick visual weight, 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding circle, frame, badge, shadow outside the glyph, letters, text or extra symbols. Must read clearly as a close icon at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "more",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. Three bold horizontal raisin-colored dots with mauve inside, equal size and spacing, no enclosing shape.",
+    "file": "icons/more.png",
+    "sha256": "ef90208b75b3bf4d7460aff43801320218134bccf16372c8e1fcbf80628e54e4",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/more.png",
+    "originalSha256": "30fc1a5121d36d6264c8e40d8814dd478a9a9c76706b62b48e7d28d6d7f36b26",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/more.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: Three equally spaced rounded dots in one horizontal row; a More actions ellipsis. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "trash",
+    "prompt": "One single original Roro photography journal UI glyph, isolated transparent alpha PNG. Premium matte cut paper and gouache with simple bold continuous dark outline, smooth cut edges, flat layered color, upright centered in a square, no shadow or glow or backdrop outside the silhouette, no speckles. Read at 36 pixels. One closed terracotta wastebasket with simple dark plum outline, attached small handle above lid and two vertical darker grooves on the body. Solid opaque body, no white hole, no decorative markings.",
+    "file": "icons/trash.png",
+    "sha256": "a76ae384749e73b72f4c8cdccf395f760b87619f020236d1706c4a8b7aa2a3d3",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/trash.png",
+    "originalSha256": "46d57b838149fb52ce245d9d2069ff6b6aafc5f72fdc1781ca61bb2860cfb2ab",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/trash.png",
+      "prompt": "One standalone delete trash-can icon for Roro. Clean simple rounded terracotta #B95138 wastebasket, upright front view, lid and two vertical grooves, subtle warm clay shading ONLY INSIDE the solid shape. Square canvas with 25% empty margins. Completely transparent alpha everywhere outside the icon, including the entire top edge. NO smoke, dust, glow, backdrop, noise, cast shadow, halo, texture outside the silhouette, frame, badge or text. Crisp clear raster UI glyph readable at 30 pixels. One glyph only.",
+      "replacedArtwork": {
+        "original": "originals/trash-v1.png",
+        "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One small upright wastebasket with a lid and two short vertical grooves; delete action. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only.",
+        "reason": "Regenerated after full-size review found faint background residue."
+      }
+    }
+  },
+  {
+    "name": "edit",
+    "prompt": "One single original Roro photography journal UI glyph, isolated transparent alpha PNG. Premium matte cut paper and gouache with simple bold continuous dark outline, smooth cut edges, flat layered color, upright centered in a square, no shadow or glow or backdrop outside the silhouette, no speckles. Read at 36 pixels. One short honey-yellow drawing pencil tilted diagonally up and right, dark walnut tip and raspberry eraser.",
+    "file": "icons/edit.png",
+    "sha256": "2a600aa52d545ee71d4a3d3eb3fe00ad2e703d1a748bc7802b0d40c5c0f93dd6",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/edit.png",
+    "originalSha256": "3544973f73d1a7e6acd71872e68d9a496a28aa8e37d1e22b39f9441b59a8ab1b",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/edit.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One short pencil diagonally pointing down-left, recognizable pencil tip; edit action. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "check",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One clear bold check mark, deep pine green and dusty sage inside, no ring.",
+    "file": "icons/check.png",
+    "sha256": "8f2837671a15cdb789cccf16afd6435d9da10e703d8a61b27c3963a4c6273d13",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/check.png",
+    "originalSha256": "73361e4f6a81e28f7c24d4b39ba5b49aeed5ee01c341b092b9a8d3460cf08926",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/check.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One bold checkmark, short left arm and longer rising right arm; confirm and following state. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "send",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One bold paper plane pointing upper right, blue-green ink outline with contrasting sage and warm ivory folds. Paper plane only.",
+    "file": "icons/send.png",
+    "sha256": "9d3d5a7cb8e2814fb71f35daa1b0b22ba0cd711de0aa4721b96adbde4eadcee4",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/send.png",
+    "originalSha256": "ee5620b0bc5da02033162e413f7e6efac9cea09f91e76f94998efc1f4fa7b10a",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/send.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One simple paper airplane pointing upper-right; send comment action. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "sound",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One speaker facing right with two simple emanating sound waves, strong dark teal outlines and sage accents.",
+    "file": "icons/sound.png",
+    "sha256": "dcc6cfb8a209f60c36b8279c7a952208bee308c04fa33a22d7c8b49fa21f5c54",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/sound.png",
+    "originalSha256": "d828df025508961c43c3560e26b71a622cda4d7c982c3d010881a8a7f1fb71db",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/sound.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One speaker facing right with two sound waves; sound enabled. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "mute",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One speaker facing right and a clear X beside it, plum outlines and dusty pink accents. No sound waves.",
+    "file": "icons/mute.png",
+    "sha256": "e69e54260b74a0f41c191de00531e373a85b41adea08cde4fbed03678b0d123d",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/mute.png",
+    "originalSha256": "34baf6689d0ca730875ca72803fa8ed47c2c4333473a88667b2e22d9b09b7c23",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/mute.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One speaker facing right with one small diagonal slash; muted sound. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "eye",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One simple side-to-side almоnd-shaped eye with a bold teal border and ivory iris and dark teal pupil, looking forward.",
+    "file": "icons/eye.png",
+    "sha256": "3287971a4ca13ca0f4c79b1a0646f278df0b91edb6bec7483d52973cfb69299e",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/eye.png",
+    "originalSha256": "8335b2d3d63552ec1303560068b41ddce3f559382ac4b8ac7b95531027e99f98",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/eye.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One open eye with a central pupil; show hidden content. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "wallet",
+    "prompt": "Single high-end illustrated raster UI glyph for Roro, an everyday photography journal. Tactile cut-paper and opaque matte gouache, slightly hand carved edges with a strong solid contour, tiny grain confined inside the shape. Contemporary analog film editorial design. Center upright and optically balanced, main object 80 to 85 percent of square canvas, give an even real transparent margin. Icon should read immediately at 27 to 38 pixels and on light and dark backgrounds. No realistic cast shadow, external speckles, backdrop, extra loose props, tile, holder, text, letters, label, or border around the canvas. True transparent alpha outside the silhouette. One artwork icon of a saddle brown and honey leather wallet with a compact silhouette, one small ivory clasp, deep brown perimeter.",
+    "file": "icons/wallet.png",
+    "sha256": "4617759db8fdd44e8c5e15c2a2da6e02f117217b1779f9d1328bd892afda850f",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/wallet.png",
+    "originalSha256": "bf00962d60c8224ae7d3aa6605fbc9a1ea81959d1efe68889ccccd72d43cd26c",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/wallet.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One compact closed wallet with a small clasp; wallet and purchases. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "info",
+    "prompt": "One single original Roro photography journal UI glyph, isolated transparent alpha PNG. Premium matte cut paper and gouache with simple bold continuous dark outline, smooth cut edges, flat layered color, upright centered in a square, no shadow or glow or backdrop outside the silhouette, no speckles. Read at 36 pixels. Single slate-blue information circle with an ivory lowercase i centered inside.",
+    "file": "icons/info.png",
+    "sha256": "9ed535410a205540ad32d5e47c002be59d3d7444c240ea0e62d084acbda5e60b",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/info.png",
+    "originalSha256": "13fc49dbd7129694334d8b08f257734c35194e5c1437e56357c70859cf4b66fb",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/info.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One lowercase information i in a simple thin open-looking circular outline; information and credits. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "camera",
+    "prompt": "One single original Roro photography journal UI glyph, isolated transparent alpha PNG. Premium matte cut paper and gouache with simple bold continuous dark outline, smooth cut edges, flat layered color, upright centered in a square, no shadow or glow or backdrop outside the silhouette, no speckles. Read at 36 pixels. One simple compact analog camera in apricot, cream and dark plum, a bold circular lens. Single clean silhouette, crisp friendly gouache illustration, no distress outside camera.",
+    "file": "icons/camera.png",
+    "sha256": "075b5c4a2bf5eb599f5c9a8d629dd72954a99d93a579e5eb70d56011ad8c0736",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/camera.png",
+    "originalSha256": "e46ee23cac527ade4cbcceb2f818d85deb40fe4c2c4680805f533791d0368844",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "original": "originals/camera.png",
+      "prompt": "Create ONE standalone UI glyph for Roro, a warm everyday photography iPhone app. Subject: One compact everyday still-photo camera seen from front with one round lens and a small shutter bump; photo import. Soft dimensional raster style, terracotta #B95138 with restrained warm clay highlights, rounded edges, simple bold silhouette. Optically centered with 20 percent clear margins on a square canvas. True transparent alpha background. No surrounding button tile, enclosing frame, badge, ground shadow, labels or additional symbols. Readable at 28 points. One icon only."
+    }
+  },
+  {
+    "name": "home-dawn",
+    "prompt": "Create a PORTRAIT edge-to-edge quiet artwork for a mobile everyday photography journal's page background. Vertical portrait around 2:3. Premium analog photo paper, grain of fine cotton rag and softly diffused, faded, analog photographic light. Background lives behind small dark brown UI text, so keep it extremely pale, low-contrast and finely textured, the middle mostly blank warm off-white ivory. Composition is abstract and atmospheric, reaching the edges, strongest visual character near the top and corners. No hard lines, no text, no typography, no logos, no frames, no UI, no objects with distinct silhouettes, no white border. Quiet morning sun spilling through a window, as a very soft apricot and rose film light leak entering from the upper left, long and diffused warm honey tones along the edges. Mostly ivory throughout. Low contrast.",
+    "file": "backgrounds/home-dawn.webp",
+    "sha256": "2cd00159b2fe3df4749ed7ea226f1b62788caff5b38a317d64056ce60b541c57",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/home-dawn.png",
+    "originalSha256": "2fbaa15211e5f3d35ee0790edd669d1d89dd0c42c612e2b27062745202f43b36",
+    "generatedAt": "2026-11-18"
+  },
+  {
+    "name": "topics-garden",
+    "prompt": "Create a PORTRAIT edge-to-edge quiet artwork for a mobile everyday photography journal's page background. Vertical portrait around 2:3. Premium analog photo paper, grain of fine cotton rag and softly diffused, faded, analog photographic light. Background lives behind small dark brown UI text, so keep it extremely pale, low-contrast and finely textured, the middle mostly blank warm off-white ivory. Composition is abstract and atmospheric, reaching the edges, strongest visual character near the top and corners. No hard lines, no text, no typography, no logos, no frames, no UI, no objects with distinct silhouettes, no white border. A sage green and cyanotype blue light leak with a soft blot of faded marigold in the upper right, fine paper grain, a very faint airy suggestion of out-of-focus summer foliage shadows in corners. Warm ivory interior.",
+    "file": "backgrounds/topics-garden.webp",
+    "sha256": "bf3184d8793c3021b7ce4718e27f6f3f763f5dc213ac7a76348475f34914e7ba",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/topics-garden.png",
+    "originalSha256": "5c2477c074f3852b949b2b175aad2383e2e4d9ff7a448a2af4eed41a1436196f",
+    "generatedAt": "2026-11-18"
+  },
+  {
+    "name": "chats-dusk",
+    "prompt": "Create a PORTRAIT edge-to-edge quiet artwork for a mobile everyday photography journal's page background. Vertical portrait around 2:3. Premium analog photo paper, grain of fine cotton rag and softly diffused, faded, analog photographic light. Background lives behind small dark brown UI text, so keep it extremely pale, low-contrast and finely textured, the middle mostly blank warm off-white ivory. Composition is abstract and atmospheric, reaching the edges, strongest visual character near the top and corners. No hard lines, no text, no typography, no logos, no frames, no UI, no objects with distinct silhouettes, no white border. An atmospheric lavender and dusty rose dusk light leak in the upper left with a whisper of apricot on the horizon, blending to warm ivory in the middle. Finely grained with the subtle mood of an expired color negative.",
+    "file": "backgrounds/chats-dusk.webp",
+    "sha256": "21e2b783ed498a1e5951c973b0ece52537cd8810f3723f338793bb368b59f738",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/chats-dusk.png",
+    "originalSha256": "7bfad0ab738f05fc11b28b8cb128c6edce1f7a15978669e535c707591b75e8f4",
+    "generatedAt": "2026-11-18"
+  },
+  {
+    "name": "me-sunroom",
+    "prompt": "Create a PORTRAIT edge-to-edge quiet artwork for a mobile everyday photography journal's page background. Vertical portrait around 2:3. Premium analog photo paper, grain of fine cotton rag and softly diffused, faded, analog photographic light. Background lives behind small dark brown UI text, so keep it extremely pale, low-contrast and finely textured, the middle mostly blank warm off-white ivory. Composition is abstract and atmospheric, reaching the edges, strongest visual character near the top and corners. No hard lines, no text, no typography, no logos, no frames, no UI, no objects with distinct silhouettes, no white border. Very soft terracotta and pale blush film flare from the upper right, offset with a subtle honey glow at the lower left. Diffuse warm ivory center like a personal album page laid in an afternoon sunroom.",
+    "file": "backgrounds/me-sunroom.webp",
+    "sha256": "9c763cae7d66f9f94d8eac1f8cd4832fb69154cb5f7f91eea0f487745786cce1",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/me-sunroom.png",
+    "originalSha256": "6af38e30e5b282220c27a5f504af7d180a31be87cfcdefe7a022e660848c44b8",
+    "generatedAt": "2026-11-18"
+  },
+  {
+    "name": "back",
+    "prompt": "A single isolated handcrafted back-navigation CHEVRON for Roro, an analog photo journal. Draw exactly two straight broad strokes joined at ONE pointed LEFT vertex. Viewed like the less-than sign < constructed from two bars at +45 and -45 degrees so their join is a clean square 90-degree miter. The upper and lower pointed arms end on the RIGHT. NO horizontal stem. Two equal length straight bars, crisp flat cut ends. Bold graphic, dark plum-brown ink perimeter, solid copper terracotta body, a slim warm apricot internal top-edge highlight and very subtle matte printed-paper texture only inside the glyph. Unmistakable left-facing angular silhouette at small 32px toolbar size. One symbol only, optically centered with 12% padding on a square transparent alpha canvas. No background, no tile, no frame, no loose fragments, no shadow, no glow, no perspective, no gradients, no lettering.",
+    "file": "icons/back.png",
+    "sha256": "8ba49414836fe32da8f0d16414be7632c7da198cd7755226fd9d56e7ea27aa44",
+    "tool": "Built-in image_gen",
+    "original": "originals/film/back.png",
+    "originalSha256": "895070763d53d1cd7197693d708e4816b25008787ba8562524193103ef52d5d3",
+    "generatedAt": "2026-11-18"
+  },
+  {
+    "name": "heart-outline",
+    "prompt": "Draw the OFF / unselected outline version of this specific heart UI glyph on exactly the same square canvas and with the same outer contour, orientation, proportions, placement and optical size as the reference. Remove the ENTIRE interior fill to make a genuinely hollow open silhouette with fully transparent alpha in the large center, identical alpha to the transparent exterior. Leave a single clean, substantial continuous outline approx 3 pixels at 36px display size, warm dark raspberry ink around the plump heart with two lobes. Roro analog cut-paper aesthetic, slight warm pale edge highlight confined to the stroke for dark background legibility. Must read as an empty outline heart on both ivory and video. Do not fill the hole with any color or paper. Single symbol only. No glow, shadows, enclosing tile, background or text.",
+    "file": "icons/heart-outline.png",
+    "sha256": "b7e58fdaccaa6d93914e50f2d1c7f7382cd5270111953bcb8899252b8f179fae",
+    "tool": "Built-in image_gen",
+    "reference": "icons/heart.png",
+    "original": "originals/film/heart-outline.png",
+    "originalSha256": "29b4c31f21b9bb9a281959b0b47af0c76007ff17174f951eea25136e44059af6",
+    "generatedAt": "2026-11-18"
+  },
+  {
+    "name": "bookmark-outline",
+    "prompt": "Create the unsaved state of the attached wide bookmark icon. Keep the SAME exact proportions, square canvas, outer silhouette and placement including V-shaped notch. Replace ALL gold inside the ribbon with real transparent alpha so its interior is completely hollow and shows the page through it. Keep a single bold dark walnut outline around the fully transparent hole. Thicken the outline INWARD to about 8 percent of the shape's height, a sturdy 2–3px stroke when viewed as a tiny 32px toolbar icon. Retain the straight top and sides, angular tips and clean V. A very thin warm ochre paper edge highlight inside the outline only. No shadow, background, lettering, tiles or loose marks. Center and outside both transparent. No fill in the middle. One symbol only.",
+    "file": "icons/bookmark-outline.png",
+    "sha256": "d5392535cb7283d5848ea06c95cec03e4ea71581e426661dd0a2e78a09ebb342",
+    "tool": "Built-in image_gen",
+    "reference": "originals/film/bookmark-wide.png",
+    "original": "originals/film/bookmark-outline-wide.png",
+    "originalSha256": "230b1b11f6d380c72f9285d53f64bc06a0ea958c32ae026020e0051121dc2442",
+    "generatedAt": "2026-11-18",
+    "replacedArtwork": {
+      "prompt": "Draw the OFF / unselected outline version of this specific bookmark UI glyph on exactly the same square canvas and with the same outer contour, orientation, proportions, placement and optical size as the reference. Remove the ENTIRE interior fill to make a genuinely hollow open silhouette with fully transparent alpha in the large center, identical alpha to the transparent exterior. Leave a single clean, substantial continuous outline approx 3 pixels at 36px display size, warm dark walnut ink around the narrow upright ribbon with V-notch at bottom. Roro analog cut-paper aesthetic, slight warm pale edge highlight confined to the stroke for dark background legibility. Must read as an empty outline bookmark on both ivory and video. Do not fill the hole with any color or paper. Single symbol only. No glow, shadows, enclosing tile, background or text.",
+      "sha256": "740788b2c275e943fbd748fdc3ace81e617dae0b2c0ffa34fe45ebfca3f2a13c",
+      "tool": "Built-in image_gen",
+      "reference": "originals/film/bookmark-narrow-reference.png",
+      "original": "originals/film/bookmark-outline.png",
+      "originalSha256": "3d0a80d474ce9b6ec2739e9e9a60efaca277acaedc1c56ddf9b8ef98369beffa",
+      "generatedAt": "2026-11-18"
+    }
+  }
+]

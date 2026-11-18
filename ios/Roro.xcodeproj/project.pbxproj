@@ -1,0 +1,541 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0D23E6594516200964401481 /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635108D50B5356C442B76495 /* PhotoLibrary.swift */; };
+		4C2C94DCCD1B9FDA74281C9B /* RoroNativeBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2348BDC288B13AD9D506FC46 /* RoroNativeBridge.m */; };
+		62422D8D0001490711F7AD08 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17CBF4FC1AA922DABF0E486 /* SceneDelegate.swift */; };
+		68A627BC67EB0847E4F0DA85 /* PageArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E5F26544D134579F70BDF /* PageArchive.swift */; };
+		712850C4776350CA433A5C27 /* AppResources in Resources */ = {isa = PBXBuildFile; fileRef = A35B5A790DCDAEBCD12D7B79 /* AppResources */; };
+		783FF51992854031AF4E682A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1470F8557DE15DEB3F85A3AA /* Images.xcassets */; };
+		8E2B05F51AE8E0981F8B32AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB90A56D1221D0F0592AC09E /* AppDelegate.swift */; };
+		9176D09ADE80C9FCD3C0D62D /* RoroNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE20AD608D4E1D645E9352 /* RoroNative.swift */; };
+		AEA2B44E44C642FF2EC12AD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7149865F23260C75368BFB9B /* LaunchScreen.storyboard */; };
+		B89569ABBCF39AC5CE37DB44 /* PurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B209FF1B391C42EC323F6737 /* PurchaseService.swift */; };
+		C58CA700CF7E8D4F4F36E809 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6F66F8A1B2FD8A9F50EFBF82 /* PrivacyInfo.xcprivacy */; };
+		D3214C4FC34F3B1688C1BAA0 /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885B875A7813F7B56FF35E0 /* MediaPicker.swift */; };
+		FA477BC6EF8DF264B7EFA8F2 /* libPods-Roro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5523F3DE35458FE23BB6ED17 /* libPods-Roro.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1470F8557DE15DEB3F85A3AA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2348BDC288B13AD9D506FC46 /* RoroNativeBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoroNativeBridge.m; sourceTree = "<group>"; };
+		343AF83ADC651CA1179C6280 /* Roro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Roro-Bridging-Header.h"; sourceTree = "<group>"; };
+		5523F3DE35458FE23BB6ED17 /* libPods-Roro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Roro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		635108D50B5356C442B76495 /* PhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrary.swift; sourceTree = "<group>"; };
+		6F66F8A1B2FD8A9F50EFBF82 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7149865F23260C75368BFB9B /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		71CE20AD608D4E1D645E9352 /* RoroNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoroNative.swift; sourceTree = "<group>"; };
+		72308F7D43C5121004A51737 /* Pods-Roro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roro.release.xcconfig"; path = "Target Support Files/Pods-Roro/Pods-Roro.release.xcconfig"; sourceTree = "<group>"; };
+		73F066C6FB37EA5049959300 /* Roro.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Roro.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		849E5F26544D134579F70BDF /* PageArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageArchive.swift; sourceTree = "<group>"; };
+		8BDB9B8F389A490C034A990B /* Pods-Roro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roro.debug.xcconfig"; path = "Target Support Files/Pods-Roro/Pods-Roro.debug.xcconfig"; sourceTree = "<group>"; };
+		A35B5A790DCDAEBCD12D7B79 /* AppResources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppResources; path = Roro/AppResources; sourceTree = SOURCE_ROOT; };
+		B209FF1B391C42EC323F6737 /* PurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseService.swift; sourceTree = "<group>"; };
+		C17CBF4FC1AA922DABF0E486 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		E2E2CD51FA5CA3C297D717D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		EB90A56D1221D0F0592AC09E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F885B875A7813F7B56FF35E0 /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5DB4F1C4EB64E44D982692B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA477BC6EF8DF264B7EFA8F2 /* libPods-Roro.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0B924AEBE382F72D3B969E3B /* Roro */ = {
+			isa = PBXGroup;
+			children = (
+				EB90A56D1221D0F0592AC09E /* AppDelegate.swift */,
+				A35B5A790DCDAEBCD12D7B79 /* AppResources */,
+				1470F8557DE15DEB3F85A3AA /* Images.xcassets */,
+				E2E2CD51FA5CA3C297D717D9 /* Info.plist */,
+				7149865F23260C75368BFB9B /* LaunchScreen.storyboard */,
+				6F66F8A1B2FD8A9F50EFBF82 /* PrivacyInfo.xcprivacy */,
+				343AF83ADC651CA1179C6280 /* Roro-Bridging-Header.h */,
+				C17CBF4FC1AA922DABF0E486 /* SceneDelegate.swift */,
+				E25EFA87F5882487819842CB /* Native */,
+			);
+			path = Roro;
+			sourceTree = "<group>";
+		};
+		3470954B95BD5A9D36EB0429 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				73F066C6FB37EA5049959300 /* Roro.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4AB044C1BC15E075240A3011 = {
+			isa = PBXGroup;
+			children = (
+				0B924AEBE382F72D3B969E3B /* Roro */,
+				3470954B95BD5A9D36EB0429 /* Products */,
+				E24D9E335D4ED207312A2ADB /* Pods */,
+				CACA7A84DA6AFDAED60E33B3 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		CACA7A84DA6AFDAED60E33B3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5523F3DE35458FE23BB6ED17 /* libPods-Roro.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E24D9E335D4ED207312A2ADB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8BDB9B8F389A490C034A990B /* Pods-Roro.debug.xcconfig */,
+				72308F7D43C5121004A51737 /* Pods-Roro.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E25EFA87F5882487819842CB /* Native */ = {
+			isa = PBXGroup;
+			children = (
+				F885B875A7813F7B56FF35E0 /* MediaPicker.swift */,
+				849E5F26544D134579F70BDF /* PageArchive.swift */,
+				635108D50B5356C442B76495 /* PhotoLibrary.swift */,
+				B209FF1B391C42EC323F6737 /* PurchaseService.swift */,
+				71CE20AD608D4E1D645E9352 /* RoroNative.swift */,
+				2348BDC288B13AD9D506FC46 /* RoroNativeBridge.m */,
+			);
+			path = Native;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		90A06662E21834DAC07C6DB7 /* Roro */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A755E847800E3B9AF43EDD7C /* Build configuration list for PBXNativeTarget "Roro" */;
+			buildPhases = (
+				C3F5B56166492AAFADAA91BB /* [CP] Check Pods Manifest.lock */,
+				A1C6110851B5878EA00C31E3 /* Package local photo pages */,
+				4BE67636FFBF2F53B560A675 /* Sources */,
+				E73925992B64DB62825FAC2A /* Bundle React Native shell */,
+				288AA2AED7B3AA5252436CD3 /* Resources */,
+				5DB4F1C4EB64E44D982692B4 /* Frameworks */,
+				F258FB0642E3D8417EB59AB1 /* [CP] Embed Pods Frameworks */,
+				236D7812C9D38A4C63E53EFD /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Roro;
+			productName = Roro;
+			productReference = 73F066C6FB37EA5049959300 /* Roro.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1F4726151B16B6A33EF54286 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 194C563121CE8E20AEF44D6D /* Build configuration list for PBXProject "Roro" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 4AB044C1BC15E075240A3011;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3470954B95BD5A9D36EB0429 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				90A06662E21834DAC07C6DB7 /* Roro */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		288AA2AED7B3AA5252436CD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				712850C4776350CA433A5C27 /* AppResources in Resources */,
+				783FF51992854031AF4E682A /* Images.xcassets in Resources */,
+				AEA2B44E44C642FF2EC12AD4 /* LaunchScreen.storyboard in Resources */,
+				C58CA700CF7E8D4F4F36E809 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		236D7812C9D38A4C63E53EFD /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1C6110851B5878EA00C31E3 /* Package local photo pages */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Package local photo pages";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n/bin/sh \"$SRCROOT/../node_modules/react-native/scripts/xcode/with-environment.sh\" \"$SRCROOT/../scripts/package-web.sh\"\n";
+		};
+		C3F5B56166492AAFADAA91BB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Roro-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E73925992B64DB62825FAC2A /* Bundle React Native shell */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native shell";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\nexport FORCE_BUNDLING=1\nWITH_ENVIRONMENT=\"$SRCROOT/../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$SRCROOT/../node_modules/react-native/scripts/react-native-xcode.sh\"\n/bin/sh -c \"\\\"$WITH_ENVIRONMENT\\\" \\\"$REACT_NATIVE_XCODE\\\"\"\n";
+		};
+		F258FB0642E3D8417EB59AB1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4BE67636FFBF2F53B560A675 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E2B05F51AE8E0981F8B32AF /* AppDelegate.swift in Sources */,
+				D3214C4FC34F3B1688C1BAA0 /* MediaPicker.swift in Sources */,
+				68A627BC67EB0847E4F0DA85 /* PageArchive.swift in Sources */,
+				0D23E6594516200964401481 /* PhotoLibrary.swift in Sources */,
+				B89569ABBCF39AC5CE37DB44 /* PurchaseService.swift in Sources */,
+				9176D09ADE80C9FCD3C0D62D /* RoroNative.swift in Sources */,
+				4C2C94DCCD1B9FDA74281C9B /* RoroNativeBridge.m in Sources */,
+				62422D8D0001490711F7AD08 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		9D43C1037D48CEF63B16B5D3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BDB9B8F389A490C034A990B /* Pods-Roro.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Roro/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		AE01583AC25D60939FCF38BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72308F7D43C5121004A51737 /* Pods-Roro.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Roro/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		BCBA451EC18C3F87647428C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PODFILE_DIR = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.roro.photography;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_BRIDGING_HEADER = "Roro/Roro-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				USE_HERMES = true;
+			};
+			name = Release;
+		};
+		D8240C1979E9DF5B683B4A9D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(inherited)",
+					"-DRCT_REMOVE_LEGACY_ARCH=1",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
+				PODFILE_DIR = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.roro.photography;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_OBJC_BRIDGING_HEADER = "Roro/Roro-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				USE_HERMES = true;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		194C563121CE8E20AEF44D6D /* Build configuration list for PBXProject "Roro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D8240C1979E9DF5B683B4A9D /* Debug */,
+				BCBA451EC18C3F87647428C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A755E847800E3B9AF43EDD7C /* Build configuration list for PBXNativeTarget "Roro" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D43C1037D48CEF63B16B5D3 /* Debug */,
+				AE01583AC25D60939FCF38BE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1F4726151B16B6A33EF54286 /* Project object */;
+}

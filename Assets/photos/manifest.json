@@ -1,0 +1,74 @@
+[
+  {
+    "id": "sunlight",
+    "file": "photos/sunlight.jpg",
+    "title": "Forest light",
+    "topic": "Nature",
+    "source": "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=85",
+    "license": "Unsplash License",
+    "licenseURL": "https://unsplash.com/license",
+    "author": null,
+    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "sha256": "098d5de3dd662b155fe22d4829872eb97ea93e533e44812505cade9efc5af97b"
+  },
+  {
+    "id": "coffee",
+    "file": "photos/coffee.jpg",
+    "title": "A quiet coffee",
+    "topic": "Little joys",
+    "source": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1200&q=85",
+    "license": "Unsplash License",
+    "licenseURL": "https://unsplash.com/license",
+    "author": null,
+    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "sha256": "a282e970924eb63c69e4e98ab8cc700598e59b310bc0bfa780fccea7eb00af3a"
+  },
+  {
+    "id": "cat",
+    "file": "photos/cat.jpg",
+    "title": "A little company",
+    "topic": "At home",
+    "source": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=85",
+    "license": "Unsplash License",
+    "licenseURL": "https://unsplash.com/license",
+    "author": null,
+    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "sha256": "45dace97747b53b39264d5b36bd6fe298cf0e5de8a30859a6d0c93ffb6b4b292"
+  },
+  {
+    "id": "coast",
+    "file": "photos/coast.jpg",
+    "title": "An afternoon by the sea",
+    "topic": "On my walk",
+    "source": "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=85",
+    "license": "Unsplash License",
+    "licenseURL": "https://unsplash.com/license",
+    "author": null,
+    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "sha256": "a5bf7cce7a20f8be892b766e0c0d3f02598448c5f46c8ed894b10d1ab0b0aa57"
+  },
+  {
+    "id": "sky",
+    "file": "photos/sky.jpg",
+    "title": "Take the slow way",
+    "topic": "Today\u2019s sky",
+    "source": "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=1200&q=85",
+    "license": "Unsplash License",
+    "licenseURL": "https://unsplash.com/license",
+    "author": null,
+    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "sha256": "fd6daace463a2dab5069e0c5fe098b7cdb9db1a9ee7067ae6b50d5b65c7d93ce"
+  },
+  {
+    "id": "breakfast",
+    "file": "photos/breakfast.jpg",
+    "title": "Something fresh",
+    "topic": "Something delicious",
+    "source": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1200&q=85",
+    "license": "Unsplash License",
+    "licenseURL": "https://unsplash.com/license",
+    "author": null,
+    "attribution": "Roro inspiration \u00b7 Unsplash",
+    "sha256": "1c75fe4ad3e003ec7c5488793336b938099221e532cbf41d597c95145d4c0a31"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "short-camera-day",
+    "sourceURL": "https://www.pexels.com/video/a-photographer-holding-his-camera-and-taking-pictures-7656533/",
+    "sourceAuthor": "Pavel Danilyuk",
+    "downloadURL": "https://videos.pexels.com/video-files/7656533/7656533-hd_720_1280_25fps.mp4",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "retrievedAt": "2026-11-17",
+    "video": "assets/videos/camera-day.mp4",
+    "poster": "assets/videos/camera-day.jpg",
+    "videoSHA256": "b2e593f6cecfbed9a4d627b1d7190cd9c0d61a835b5ca4a7d6aceba0ad767898",
+    "posterSHA256": "986c380d0b94956e61c0a6d46c32ca6353ae305a11a1817d67dada8f0bd806c9",
+    "bytes": 3844960,
+    "duration": 19.28,
+    "width": 720,
+    "height": 1280,
+    "processing": "Original downloaded HD MP4 retained; JPEG poster extracted at 35%; no speed changes.",
+    "review": "Three evenly spaced representative frames inspected; photography or everyday subject; no added text or watermark observed.",
+    "reviewTimes": [
+      3.213,
+      9.64,
+      16.067
+    ]
+  },
+  {
+    "id": "short-bridge-walk",
+    "sourceURL": "https://www.pexels.com/video/a-photographer-taking-photos-of-a-bridge-using-a-modern-camera-3772428/",
+    "sourceAuthor": "Taryn Elliott",
+    "downloadURL": "https://videos.pexels.com/video-files/3772428/3772428-hd_1280_720_25fps.mp4",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "retrievedAt": "2026-11-17",
+    "video": "assets/videos/bridge-walk.mp4",
+    "poster": "assets/videos/bridge-walk.jpg",
+    "videoSHA256": "1f2b4bb977b89ffc470acb3c930550ab1a605fe6395979cfa62ca560f38dc97f",
+    "posterSHA256": "5cb97ad090adcc93a88c4070fe1ef11f3dda686325bb0be186f507d5b7eb2fd5",
+    "bytes": 2365766,
+    "duration": 7.44,
+    "width": 1280,
+    "height": 720,
+    "processing": "Original downloaded HD MP4 retained; JPEG poster extracted at 35%; no speed changes.",
+    "review": "Three evenly spaced representative frames inspected; photography or everyday subject; no added text or watermark observed.",
+    "reviewTimes": [
+      1.24,
+      3.72,
+      6.2
+    ]
+  },
+  {
+    "id": "short-coffee-light",
+    "sourceURL": "https://www.pexels.com/video/a-cup-of-hot-drink-7241005/",
+    "sourceAuthor": "Eren Li",
+    "downloadURL": "https://videos.pexels.com/video-files/7241005/7241005-hd_720_1280_24fps.mp4",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "retrievedAt": "2026-11-17",
+    "video": "assets/videos/coffee-light.mp4",
+    "poster": "assets/videos/coffee-light.jpg",
+    "videoSHA256": "665478b6ff5e10aa052406ba58495dcdb6d6dde405a70b10df6b205821891f72",
+    "posterSHA256": "d28c44b98527f43bcc7dc4252066cb70d54d750787b8d662e41c13b6b6b99e41",
+    "bytes": 2939718,
+    "duration": 9.968292,
+    "width": 720,
+    "height": 1280,
+    "processing": "Original downloaded HD MP4 retained; JPEG poster extracted at 35%; no speed changes.",
+    "review": "Three evenly spaced representative frames inspected; photography or everyday subject; no added text or watermark observed.",
+    "reviewTimes": [
+      1.661,
+      4.984,
+      8.307
+    ]
+  },
+  {
+    "id": "short-cat-pause",
+    "sourceURL": "https://www.pexels.com/video/cat-lying-down-10606400/",
+    "sourceAuthor": "Shubham Jadhav",
+    "downloadURL": "https://videos.pexels.com/video-files/10606400/10606400-hd_720_1280_25fps.mp4",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "retrievedAt": "2026-11-17",
+    "video": "assets/videos/cat-pause.mp4",
+    "poster": "assets/videos/cat-pause.jpg",
+    "videoSHA256": "2485c65794dadc9913a41d137d420964938cf8e2a1620e16dc606325743b09e5",
+    "posterSHA256": "682f665eb4027772542ccb4f6af259dd47f12171accb59472b2e105006cb66c8",
+    "bytes": 3668049,
+    "duration": 13.76,
+    "width": 720,
+    "height": 1280,
+    "processing": "Original downloaded HD MP4 retained; JPEG poster extracted at 35%; no speed changes.",
+    "review": "Three evenly spaced representative frames inspected; photography or everyday subject; no added text or watermark observed.",
+    "reviewTimes": [
+      2.293,
+      6.88,
+      11.467
+    ]
+  },
+  {
+    "id": "short-evening-sky",
+    "sourceURL": "https://www.pexels.com/video/clouds-on-sky-at-sunset-14240520/",
+    "sourceAuthor": "Maciej Cisowski",
+    "downloadURL": "https://videos.pexels.com/video-files/14240520/14240520-hd_1280_720_25fps.mp4",
+    "license": "Pexels License",
+    "licenseURL": "https://www.pexels.com/license/",
+    "retrievedAt": "2026-11-17",
+    "video": "assets/videos/evening-sky.mp4",
+    "poster": "assets/videos/evening-sky.jpg",
+    "videoSHA256": "cfc604eeb7dc0c5d62806de99f60cb2e30cc6eb66913666f1320fcba6127c50c",
+    "posterSHA256": "8c53fafb083c5129fca6bf8de8b5652ba773c785bce5e1be4f816c3b72940f7b",
+    "bytes": 3187755,
+    "duration": 16.0,
+    "width": 1280,
+    "height": 720,
+    "processing": "Original downloaded HD MP4 retained; JPEG poster extracted at 35%; no speed changes.",
+    "review": "Three evenly spaced representative frames inspected; photography or everyday subject; no added text or watermark observed.",
+    "reviewTimes": [
+      2.667,
+      8.0,
+      13.333
+    ]
+  }
+]

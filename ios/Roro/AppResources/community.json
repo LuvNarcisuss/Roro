@@ -1,0 +1,491 @@
+{
+  "version": 1,
+  "provenance": "Fictional local community personas and authored engagement. Source creators are credited separately; they are not represented as Roro members. Theme avatars reuse licensed photography recorded in Assets/photos/manifest.json.",
+  "authors": [
+    {
+      "id": "milo",
+      "name": "Milo Brooks",
+      "handle": "milo.frames",
+      "bio": "A camera, a long walk, and whatever catches my eye.",
+      "avatar": "assets/photos/coast.jpg"
+    },
+    {
+      "id": "june",
+      "name": "June Park",
+      "handle": "june.daylight",
+      "bio": "Window light, coffee breaks, and little things at home.",
+      "avatar": "assets/photos/coffee.jpg"
+    },
+    {
+      "id": "rowan",
+      "name": "Rowan Ellis",
+      "handle": "rowan.looksup",
+      "bio": "Collecting skies and taking the slow route.",
+      "avatar": "assets/photos/sky.jpg"
+    },
+    {
+      "id": "ava",
+      "name": "Ava Reed",
+      "handle": "ava.smallthings",
+      "bio": "Everyday colors, one small moment at a time.",
+      "avatar": "assets/photos/breakfast.jpg"
+    },
+    {
+      "id": "leo",
+      "name": "Leo Morgan",
+      "handle": "leo.wanders",
+      "bio": "Walking without a plan. Keeping the good light.",
+      "avatar": "assets/photos/sunlight.jpg"
+    },
+    {
+      "id": "iris",
+      "name": "Iris Lane",
+      "handle": "iris.at.home",
+      "bio": "Quiet corners and familiar faces.",
+      "avatar": "assets/photos/cat.jpg"
+    }
+  ],
+  "photos": [
+    {
+      "id": "coffee",
+      "images": [
+        "assets/photos/coffee.jpg"
+      ],
+      "caption": "Coffee tastes better together.",
+      "topic": "Little joys",
+      "authorID": "ava",
+      "author": "Ava Reed",
+      "editorial": true,
+      "createdAt": "2026-11-16T08:00:00Z",
+      "likes": 124,
+      "saves": 32,
+      "comments": [
+        {
+          "id": "coffee-comment-1",
+          "authorID": "milo",
+          "text": "The warm tones make this feel so inviting.",
+          "createdAt": "2026-11-16T10:20:00Z"
+        },
+        {
+          "id": "coffee-comment-2",
+          "authorID": "june",
+          "text": "A little pause in a busy day.",
+          "createdAt": "2026-11-16T11:20:00Z"
+        },
+        {
+          "id": "coffee-comment-3",
+          "authorID": "rowan",
+          "text": "Love the simple framing.",
+          "createdAt": "2026-11-16T12:20:00Z"
+        }
+      ]
+    },
+    {
+      "id": "cat",
+      "images": [
+        "assets/photos/cat.jpg"
+      ],
+      "caption": "The best kind of company.",
+      "topic": "At home",
+      "authorID": "iris",
+      "author": "Iris Lane",
+      "editorial": true,
+      "createdAt": "2026-11-15T08:00:00Z",
+      "likes": 231,
+      "saves": 46,
+      "comments": [
+        {
+          "id": "cat-comment-1",
+          "authorID": "june",
+          "text": "Such a sweet expression.",
+          "createdAt": "2026-11-15T10:20:00Z"
+        },
+        {
+          "id": "cat-comment-2",
+          "authorID": "rowan",
+          "text": "My favorite kind of portrait.",
+          "createdAt": "2026-11-15T11:20:00Z"
+        },
+        {
+          "id": "cat-comment-3",
+          "authorID": "ava",
+          "text": "The quiet moments are the best.",
+          "createdAt": "2026-11-15T12:20:00Z"
+        },
+        {
+          "id": "cat-comment-4",
+          "authorID": "leo",
+          "text": "Perfect company for an afternoon.",
+          "createdAt": "2026-11-15T13:20:00Z"
+        }
+      ]
+    },
+    {
+      "id": "sunlight",
+      "images": [
+        "assets/photos/sunlight.jpg"
+      ],
+      "caption": "Taking the long way home.",
+      "topic": "On my walk",
+      "authorID": "leo",
+      "author": "Leo Morgan",
+      "editorial": true,
+      "createdAt": "2026-11-14T08:00:00Z",
+      "likes": 196,
+      "saves": 71,
+      "comments": [
+        {
+          "id": "sunlight-comment-1",
+          "authorID": "rowan",
+          "text": "The light through the trees is beautiful.",
+          "createdAt": "2026-11-14T10:20:00Z"
+        },
+        {
+          "id": "sunlight-comment-2",
+          "authorID": "ava",
+          "text": "I would stop for this too.",
+          "createdAt": "2026-11-14T11:20:00Z"
+        },
+        {
+          "id": "sunlight-comment-3",
+          "authorID": "leo",
+          "text": "Love the depth in this frame.",
+          "createdAt": "2026-11-14T12:20:00Z"
+        }
+      ]
+    },
+    {
+      "id": "coast",
+      "images": [
+        "assets/photos/coast.jpg"
+      ],
+      "caption": "Somewhere to slow down.",
+      "topic": "On my walk",
+      "authorID": "leo",
+      "author": "Leo Morgan",
+      "editorial": true,
+      "createdAt": "2026-11-13T08:00:00Z",
+      "likes": 318,
+      "saves": 83,
+      "comments": [
+        {
+          "id": "coast-comment-1",
+          "authorID": "ava",
+          "text": "The coast always helps me reset.",
+          "createdAt": "2026-11-13T10:20:00Z"
+        },
+        {
+          "id": "coast-comment-2",
+          "authorID": "leo",
+          "text": "That horizon feels so peaceful.",
+          "createdAt": "2026-11-13T11:20:00Z"
+        },
+        {
+          "id": "coast-comment-3",
+          "authorID": "iris",
+          "text": "Beautiful soft colors.",
+          "createdAt": "2026-11-13T12:20:00Z"
+        },
+        {
+          "id": "coast-comment-4",
+          "authorID": "milo",
+          "text": "A lovely place for a walk.",
+          "createdAt": "2026-11-13T13:20:00Z"
+        }
+      ]
+    },
+    {
+      "id": "sky",
+      "images": [
+        "assets/photos/sky.jpg"
+      ],
+      "caption": "A small reminder to look up.",
+      "topic": "Today's sky",
+      "authorID": "iris",
+      "author": "Iris Lane",
+      "editorial": true,
+      "createdAt": "2026-11-12T08:00:00Z",
+      "likes": 167,
+      "saves": 39,
+      "comments": [
+        {
+          "id": "sky-comment-1",
+          "authorID": "leo",
+          "text": "The colors are so gentle.",
+          "createdAt": "2026-11-12T10:20:00Z"
+        },
+        {
+          "id": "sky-comment-2",
+          "authorID": "iris",
+          "text": "A good reason to put the phone down and look up.",
+          "createdAt": "2026-11-12T11:20:00Z"
+        },
+        {
+          "id": "sky-comment-3",
+          "authorID": "milo",
+          "text": "Love this little patch of sky.",
+          "createdAt": "2026-11-12T12:20:00Z"
+        }
+      ]
+    },
+    {
+      "id": "breakfast",
+      "images": [
+        "assets/photos/breakfast.jpg"
+      ],
+      "caption": "A little color on the table.",
+      "topic": "Something delicious",
+      "authorID": "ava",
+      "author": "Ava Reed",
+      "editorial": true,
+      "createdAt": "2026-11-11T08:00:00Z",
+      "likes": 205,
+      "saves": 58,
+      "comments": [
+        {
+          "id": "breakfast-comment-1",
+          "authorID": "iris",
+          "text": "The colors work so well together.",
+          "createdAt": "2026-11-11T10:20:00Z"
+        },
+        {
+          "id": "breakfast-comment-2",
+          "authorID": "milo",
+          "text": "Almost too pretty to eat.",
+          "createdAt": "2026-11-11T11:20:00Z"
+        },
+        {
+          "id": "breakfast-comment-3",
+          "authorID": "june",
+          "text": "Window light makes everything better.",
+          "createdAt": "2026-11-11T12:20:00Z"
+        },
+        {
+          "id": "breakfast-comment-4",
+          "authorID": "rowan",
+          "text": "A cheerful start to the day.",
+          "createdAt": "2026-11-11T13:20:00Z"
+        }
+      ]
+    }
+  ],
+  "shorts": [
+    {
+      "id": "short-camera-day",
+      "authorID": "milo",
+      "video": "assets/videos/camera-day.mp4",
+      "poster": "assets/videos/camera-day.jpg",
+      "duration": 19.28,
+      "caption": "A little practice before heading out. Finding the frame is half the fun.",
+      "topic": "Little joys",
+      "createdAt": "2026-11-16T09:00:00Z",
+      "likes": 248,
+      "saves": 63,
+      "sourceAuthor": "Pavel Danilyuk",
+      "sourceURL": "https://www.pexels.com/video/a-photographer-holding-his-camera-and-taking-pictures-7656533/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "comments": [
+        {
+          "id": "camera-day-comment-1",
+          "authorID": "rowan",
+          "text": "The camera strap makes this feel so familiar.",
+          "createdAt": "2026-11-16T10:12:00Z"
+        },
+        {
+          "id": "camera-day-comment-2",
+          "authorID": "ava",
+          "text": "A good reminder to take the camera out more often.",
+          "createdAt": "2026-11-16T11:12:00Z"
+        },
+        {
+          "id": "camera-day-comment-3",
+          "authorID": "leo",
+          "text": "That soft light is lovely.",
+          "createdAt": "2026-11-16T12:12:00Z"
+        },
+        {
+          "id": "camera-day-comment-4",
+          "authorID": "iris",
+          "text": "Getting ready is part of the ritual.",
+          "createdAt": "2026-11-16T13:12:00Z"
+        }
+      ]
+    },
+    {
+      "id": "short-bridge-walk",
+      "authorID": "milo",
+      "video": "assets/videos/bridge-walk.mp4",
+      "poster": "assets/videos/bridge-walk.jpg",
+      "duration": 7.44,
+      "caption": "Look for the lines. An ordinary walk can turn into a whole photo story.",
+      "topic": "On my walk",
+      "createdAt": "2026-11-15T09:00:00Z",
+      "likes": 386,
+      "saves": 112,
+      "sourceAuthor": "Taryn Elliott",
+      "sourceURL": "https://www.pexels.com/video/a-photographer-taking-photos-of-a-bridge-using-a-modern-camera-3772428/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "comments": [
+        {
+          "id": "bridge-walk-comment-1",
+          "authorID": "ava",
+          "text": "The bridge lines lead your eye straight into the frame.",
+          "createdAt": "2026-11-15T10:12:00Z"
+        },
+        {
+          "id": "bridge-walk-comment-2",
+          "authorID": "leo",
+          "text": "I always forget to look behind me on a walk.",
+          "createdAt": "2026-11-15T11:12:00Z"
+        },
+        {
+          "id": "bridge-walk-comment-3",
+          "authorID": "iris",
+          "text": "Overcast light is underrated.",
+          "createdAt": "2026-11-15T12:12:00Z"
+        },
+        {
+          "id": "bridge-walk-comment-4",
+          "authorID": "milo",
+          "text": "Adding a bridge walk to my weekend list.",
+          "createdAt": "2026-11-15T13:12:00Z"
+        },
+        {
+          "id": "bridge-walk-comment-5",
+          "authorID": "june",
+          "text": "Love seeing the moment before the photo.",
+          "createdAt": "2026-11-15T14:12:00Z"
+        }
+      ]
+    },
+    {
+      "id": "short-coffee-light",
+      "authorID": "june",
+      "video": "assets/videos/coffee-light.mp4",
+      "poster": "assets/videos/coffee-light.jpg",
+      "duration": 9.968292,
+      "caption": "Window light, a warm cup, and a few quiet seconds before the first sip.",
+      "topic": "Something delicious",
+      "createdAt": "2026-11-14T09:00:00Z",
+      "likes": 172,
+      "saves": 54,
+      "sourceAuthor": "Eren Li",
+      "sourceURL": "https://www.pexels.com/video/a-cup-of-hot-drink-7241005/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "comments": [
+        {
+          "id": "coffee-light-comment-1",
+          "authorID": "leo",
+          "text": "The steam catches the light so nicely.",
+          "createdAt": "2026-11-14T10:12:00Z"
+        },
+        {
+          "id": "coffee-light-comment-2",
+          "authorID": "iris",
+          "text": "Such a peaceful way to start the day.",
+          "createdAt": "2026-11-14T11:12:00Z"
+        },
+        {
+          "id": "coffee-light-comment-3",
+          "authorID": "milo",
+          "text": "Keeping the cup off center really works.",
+          "createdAt": "2026-11-14T12:12:00Z"
+        }
+      ]
+    },
+    {
+      "id": "short-cat-pause",
+      "authorID": "june",
+      "video": "assets/videos/cat-pause.mp4",
+      "poster": "assets/videos/cat-pause.jpg",
+      "duration": 13.76,
+      "caption": "The most patient subject in the house. Until the next nap, anyway.",
+      "topic": "At home",
+      "createdAt": "2026-11-13T09:00:00Z",
+      "likes": 529,
+      "saves": 87,
+      "sourceAuthor": "Shubham Jadhav",
+      "sourceURL": "https://www.pexels.com/video/cat-lying-down-10606400/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "comments": [
+        {
+          "id": "cat-pause-comment-1",
+          "authorID": "iris",
+          "text": "Those tiny whiskers in the sunlight!",
+          "createdAt": "2026-11-13T10:12:00Z"
+        },
+        {
+          "id": "cat-pause-comment-2",
+          "authorID": "milo",
+          "text": "Getting down to eye level makes all the difference.",
+          "createdAt": "2026-11-13T11:12:00Z"
+        },
+        {
+          "id": "cat-pause-comment-3",
+          "authorID": "june",
+          "text": "My cat would walk away immediately.",
+          "createdAt": "2026-11-13T12:12:00Z"
+        },
+        {
+          "id": "cat-pause-comment-4",
+          "authorID": "rowan",
+          "text": "The warm tiles make such a good background.",
+          "createdAt": "2026-11-13T13:12:00Z"
+        },
+        {
+          "id": "cat-pause-comment-5",
+          "authorID": "ava",
+          "text": "A very relaxed model.",
+          "createdAt": "2026-11-13T14:12:00Z"
+        },
+        {
+          "id": "cat-pause-comment-6",
+          "authorID": "leo",
+          "text": "This made my afternoon.",
+          "createdAt": "2026-11-13T15:12:00Z"
+        }
+      ]
+    },
+    {
+      "id": "short-evening-sky",
+      "authorID": "rowan",
+      "video": "assets/videos/evening-sky.mp4",
+      "poster": "assets/videos/evening-sky.jpg",
+      "duration": 16.0,
+      "caption": "Stayed a little longer for the last light. Some colors are worth waiting for.",
+      "topic": "Today's sky",
+      "createdAt": "2026-11-12T09:00:00Z",
+      "likes": 314,
+      "saves": 96,
+      "sourceAuthor": "Maciej Cisowski",
+      "sourceURL": "https://www.pexels.com/video/clouds-on-sky-at-sunset-14240520/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "comments": [
+        {
+          "id": "evening-sky-comment-1",
+          "authorID": "milo",
+          "text": "The low horizon gives the sky so much room.",
+          "createdAt": "2026-11-12T10:12:00Z"
+        },
+        {
+          "id": "evening-sky-comment-2",
+          "authorID": "june",
+          "text": "That warm glow is beautiful.",
+          "createdAt": "2026-11-12T11:12:00Z"
+        },
+        {
+          "id": "evening-sky-comment-3",
+          "authorID": "rowan",
+          "text": "A good reminder to slow down before heading home.",
+          "createdAt": "2026-11-12T12:12:00Z"
+        },
+        {
+          "id": "evening-sky-comment-4",
+          "authorID": "ava",
+          "text": "The clouds are doing all the work here.",
+          "createdAt": "2026-11-12T13:12:00Z"
+        }
+      ]
+    }
+  ]
+}

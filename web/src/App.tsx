@@ -1184,7 +1184,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
         )}
         {route.name === "me" && (
           <>
-            <div className="profile-cover">
+            <div className="profile-cover personal-cover">
               <ProfilePortrait avatar={state.profile.avatar} name={state.profile.name} />
               <h1>{state.profile.name || "Your little moments"}</h1>
               <p>{state.profile.bio || "The everyday, through your eyes."}</p>
@@ -1206,6 +1206,15 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                   <strong>{state.following.length}</strong>Following
                 </span>
               </div>
+              <button
+                className="profile-wallet-card"
+                type="button"
+                onClick={() => push({ name: "wallet" })}
+              >
+                <Glyph name="wallet" />
+                <strong>Wallet</strong>
+                <span>{wallet?.balance.toLocaleString("en") ?? "—"} {coinUnit(wallet?.balance)}</span>
+              </button>
             </div>
             <div className="segmented me-collections" role="group" aria-label="Personal collections">
               {["Moments", "Shorts", "Liked", "Saved", "Drafts"].map((item) => (

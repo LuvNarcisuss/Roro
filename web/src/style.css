@@ -675,6 +675,49 @@ img {
   color: #292724;
   font-size: 1.375rem;
 }
+.personal-cover {
+  padding-block: 12px;
+}
+.personal-cover > .profile-initial {
+  margin-bottom: 8px;
+}
+.personal-cover h1 {
+  margin-bottom: 4px;
+}
+.personal-cover p {
+  margin-bottom: 0;
+}
+.personal-cover .stats {
+  margin-top: 8px;
+}
+.personal-cover .stats span {
+  gap: 1px;
+  line-height: 1.2;
+}
+.profile-wallet-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: min(100%, 328px);
+  min-height: 50px;
+  margin: 10px auto 0;
+  padding: 8px 16px;
+  color: var(--petrol);
+  background: #fff4de;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--petrol);
+  border-radius: 8px;
+}
+.profile-wallet-card .icon {
+  flex: none;
+  width: 32px;
+  height: 32px;
+}
+.profile-wallet-card span {
+  margin-inline-start: auto;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
 .draft-row {
   display: flex;
   gap: 12px;

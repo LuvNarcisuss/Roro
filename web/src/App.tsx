@@ -1304,14 +1304,6 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
             <button
               type="button"
               className="setting-row"
-              onClick={() => push({ name: "wallet" })}
-            >
-              <span>Wallet</span>
-              <Glyph name="wallet" />
-            </button>
-            <button
-              type="button"
-              className="setting-row"
               onClick={() => push({ name: "hidden" })}
             >
               <span>
@@ -1629,7 +1621,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
           <div className="page credits">
             <h2>Everyday inspiration</h2>
             <p>
-              Home features Unsplash photography. Topic photographs, editorial covers and member avatars are licensed from Pexels.
+              Home features photography from Unsplash and Pexels. Topic photographs, editorial covers and member avatars are licensed from Pexels.
               These images are editorial material. Photo subjects are not
               presented as Roro members.
             </p>

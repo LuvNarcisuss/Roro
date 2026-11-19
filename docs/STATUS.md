@@ -259,4 +259,8 @@ The topic category card groups the Add a photo and Explore shorts icons in one l
 
 Photo details end with the comment list and floating composer. The local-storage hint, private notebook entry and inline photography credit have been removed from this page. Existing notes stay in the library and source records remain in Artwork & credits.
 
-The Me page shows a centered Wallet card between the compact personal statistics and collection tabs. The entire card opens the existing wallet and displays its local coin balance.
+The Wallet entry moved from Settings to a centered card on Me between the compact personal statistics and collection tabs. The entire card opens the existing wallet and displays its local coin balance.
+
+## European and US street portraits
+
+Four Home photos, three Topics photos and three twelve-second Shorts show people in Paris, London, Padova and New York. Each source page and photography location is recorded in the corresponding media manifest. All ten works are free to view, with per-work reactions and individual comment records.

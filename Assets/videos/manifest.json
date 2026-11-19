@@ -118,5 +118,80 @@
       8.0,
       13.333
     ]
+  },
+  {
+    "id": "short-montmartre-portrait",
+    "video": "assets/videos/montmartre-portrait.mp4",
+    "poster": "assets/videos/montmartre-portrait.jpg",
+    "duration": 12.0,
+    "sourceAuthor": "Bethany Ferr",
+    "sourceURL": "https://www.pexels.com/video/romantic-couple-with-hands-on-shoulder-posing-for-camera-5173263/",
+    "licenseURL": "https://www.pexels.com/license/",
+    "downloadURL": "https://videos.pexels.com/video-files/5173263/5173263-hd_1280_720_50fps.mp4",
+    "license": "Pexels License",
+    "location": "Paris, France",
+    "retrievedAt": "2026-11-19",
+    "videoSHA256": "225e412cf96f001a2107452a4ce1f963eaa99bc999b2df966f3850acde3ae237",
+    "posterSHA256": "eeaf0c8954d4118cd82db80262de85613a875e03757ffa2d6280b1aa2ca4a51e",
+    "bytes": 1410588,
+    "width": 1280,
+    "height": 720,
+    "processing": "First twelve seconds at original speed. H.264 at 24 fps without audio; poster taken at four seconds.",
+    "review": "People visible across the reviewed frames; no added captions or creator watermark observed.",
+    "reviewTimes": [
+      2,
+      6,
+      10
+    ]
+  },
+  {
+    "id": "short-london-market",
+    "video": "assets/videos/london-market.mp4",
+    "poster": "assets/videos/london-market.jpg",
+    "duration": 12.0,
+    "sourceAuthor": "Stephen Girling",
+    "sourceURL": "https://www.pexels.com/video/bustling-street-scene-in-london-s-market-32037418/",
+    "licenseURL": "https://www.pexels.com/license/",
+    "downloadURL": "https://videos.pexels.com/video-files/32037418/13656348_1080_1920_30fps.mp4",
+    "license": "Pexels License",
+    "location": "London, United Kingdom",
+    "retrievedAt": "2026-11-19",
+    "videoSHA256": "644e6524ab32453dc5e30d6b4e3b6121c4659e72941bf1e32bf2090fd4f399e3",
+    "posterSHA256": "2c0359ec1cbf813b5e3b67215753d2794a206f2cf506039c2a262806f449c1b0",
+    "bytes": 8502330,
+    "width": 720,
+    "height": 1280,
+    "processing": "First twelve seconds at original speed. H.264 at 24 fps without audio; poster taken at four seconds.",
+    "review": "People visible across the reviewed frames; no added captions or creator watermark observed.",
+    "reviewTimes": [
+      2,
+      6,
+      10
+    ]
+  },
+  {
+    "id": "short-manhattan-crossing",
+    "video": "assets/videos/manhattan-crossing.mp4",
+    "poster": "assets/videos/manhattan-crossing.jpg",
+    "duration": 12.0,
+    "sourceAuthor": "Caleb Oquendo",
+    "sourceURL": "https://www.pexels.com/video/busy-new-york-city-street-with-crowds-34539087/",
+    "licenseURL": "https://www.pexels.com/license/",
+    "downloadURL": "https://videos.pexels.com/video-files/34539087/14634622_1920_1080_24fps.mp4",
+    "license": "Pexels License",
+    "location": "New York, United States",
+    "retrievedAt": "2026-11-19",
+    "videoSHA256": "494a2ffee51c59aa6b73af4dcd25af1b71799f43fba974e2a725bec86e34ae62",
+    "posterSHA256": "5fe0930a4d8726d16460b677bca3bdf4e89dbf749a78f85004985b6f788750d7",
+    "bytes": 4578301,
+    "width": 1280,
+    "height": 720,
+    "processing": "First twelve seconds at original speed. H.264 at 24 fps without audio; poster taken at four seconds.",
+    "review": "People visible across the reviewed frames; no added captions or creator watermark observed.",
+    "reviewTimes": [
+      2,
+      6,
+      10
+    ]
   }
 ]

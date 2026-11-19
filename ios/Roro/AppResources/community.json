@@ -19,7 +19,14 @@
     "collection": "assets/photos/editorial/fern-in-sunlight.jpg"
   },
   "provenance": "Fictional local community personas and authored engagement. Source creators are credited separately; they are not represented as Roro members. Avatars and covers use distinct licensed photography recorded in Assets/photos/manifest.json.",
-  "localRelationships": { "followers": ["milo"], "incomingRequests": ["june"] },
+  "localRelationships": {
+    "followers": [
+      "milo"
+    ],
+    "incomingRequests": [
+      "june"
+    ]
+  },
   "authors": [
     {
       "id": "milo",
@@ -86,6 +93,209 @@
     }
   ],
   "photos": [
+    {
+      "id": "padova-paper",
+      "authorID": "leo",
+      "caption": "One more paragraph before the next corner.",
+      "topic": "On my walk",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 87,
+      "saves": 15,
+      "comments": [
+        {
+          "id": "padova-paper-comment-1",
+          "authorID": "iris",
+          "text": "Even his stride seems to follow the lines.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "padova-paper-comment-2",
+          "authorID": "june",
+          "text": "The warm coat ties the whole frame together.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "surface": "home",
+      "images": [
+        "assets/photos/portraits/padova-paper.jpg"
+      ],
+      "author": "Leo Morgan",
+      "editorial": true
+    },
+    {
+      "id": "new-york-portrait",
+      "authorID": "nora",
+      "caption": "A glance back before the city comes into focus.",
+      "topic": "Little joys",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 103,
+      "saves": 26,
+      "comments": [
+        {
+          "id": "new-york-portrait-comment-1",
+          "authorID": "ella",
+          "text": "That soft background makes her gaze stand out.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "new-york-portrait-comment-2",
+          "authorID": "kit",
+          "text": "I like how the dark scarf frames her face.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "surface": "topics",
+      "images": [
+        "assets/photos/topics/new-york-portrait.jpg"
+      ],
+      "author": "Nora Vale",
+      "editorial": true
+    },
+    {
+      "id": "london-viewfinder",
+      "authorID": "iris",
+      "caption": "Two red phone boxes and one photographer looking right back.",
+      "topic": "On my walk",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 92,
+      "saves": 19,
+      "comments": [
+        {
+          "id": "london-viewfinder-comment-1",
+          "authorID": "ava",
+          "text": "The second phone box balances the frame.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "london-viewfinder-comment-2",
+          "authorID": "milo",
+          "text": "A picture of someone making a picture!",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "surface": "home",
+      "images": [
+        "assets/photos/portraits/london-viewfinder.jpg"
+      ],
+      "author": "Iris Lane",
+      "editorial": true
+    },
+    {
+      "id": "paris-window-seat",
+      "authorID": "ella",
+      "caption": "A quiet conversation, framed by the cafe window.",
+      "topic": "Something delicious",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 76,
+      "saves": 14,
+      "comments": [
+        {
+          "id": "paris-window-seat-comment-1",
+          "authorID": "nora",
+          "text": "The window makes a lovely frame within the frame.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "paris-window-seat-comment-2",
+          "authorID": "kit",
+          "text": "I almost missed the little plant by the door.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "surface": "topics",
+      "images": [
+        "assets/photos/topics/paris-window-seat.jpg"
+      ],
+      "author": "Ella Wren",
+      "editorial": true
+    },
+    {
+      "id": "headphones-in-paris",
+      "authorID": "ava",
+      "caption": "Headphones on for a sunny walk through Paris.",
+      "topic": "Little joys",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 65,
+      "saves": 12,
+      "comments": [
+        {
+          "id": "headphones-in-paris-comment-1",
+          "authorID": "iris",
+          "text": "The side light makes this feel so warm.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "headphones-in-paris-comment-2",
+          "authorID": "leo",
+          "text": "One of those afternoons worth taking the long way home.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "surface": "home",
+      "images": [
+        "assets/photos/portraits/headphones-in-paris.jpg"
+      ],
+      "author": "Ava Reed",
+      "editorial": true
+    },
+    {
+      "id": "new-york-camera-walk",
+      "authorID": "kit",
+      "caption": "A photographer pauses mid-block to check a shot.",
+      "topic": "On my walk",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 54,
+      "saves": 9,
+      "comments": [
+        {
+          "id": "new-york-camera-walk-comment-1",
+          "authorID": "ella",
+          "text": "Love that quiet pause in the traffic.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "new-york-camera-walk-comment-2",
+          "authorID": "nora",
+          "text": "The receding street gives this so much depth.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "surface": "topics",
+      "images": [
+        "assets/photos/topics/new-york-camera-walk.jpg"
+      ],
+      "author": "Kit Lane",
+      "editorial": true
+    },
+    {
+      "id": "paris-evening-camera",
+      "authorID": "leo",
+      "caption": "The cafe lights came on just as she raised her camera.",
+      "topic": "Little joys",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 94,
+      "saves": 21,
+      "comments": [
+        {
+          "id": "paris-evening-camera-comment-1",
+          "authorID": "ava",
+          "text": "That red awning catches my eye first.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "paris-evening-camera-comment-2",
+          "authorID": "rowan",
+          "text": "The soft foreground feels like looking over her shoulder.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "surface": "home",
+      "images": [
+        "assets/photos/portraits/paris-evening-camera.jpg"
+      ],
+      "author": "Leo Morgan",
+      "editorial": true
+    },
     {
       "id": "coffee",
       "images": [
@@ -429,6 +639,93 @@
     }
   ],
   "shorts": [
+    {
+      "id": "short-montmartre-portrait",
+      "authorID": "june",
+      "caption": "A portrait on the steps of Montmartre. The best moment came after they relaxed.",
+      "topic": "Little joys",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 161,
+      "saves": 37,
+      "comments": [
+        {
+          "id": "short-montmartre-portrait-comment-1",
+          "authorID": "ava",
+          "text": "That little lean toward each other makes the portrait.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "short-montmartre-portrait-comment-2",
+          "authorID": "rowan",
+          "text": "The pale dome is a lovely backdrop.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "video": "assets/videos/montmartre-portrait.mp4",
+      "poster": "assets/videos/montmartre-portrait.jpg",
+      "duration": 12.0,
+      "sourceAuthor": "Bethany Ferr",
+      "sourceURL": "https://www.pexels.com/video/romantic-couple-with-hands-on-shoulder-posing-for-camera-5173263/",
+      "licenseURL": "https://www.pexels.com/license/"
+    },
+    {
+      "id": "short-london-market",
+      "authorID": "milo",
+      "caption": "From above, every shopper takes a different path through the London market.",
+      "topic": "On my walk",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 115,
+      "saves": 23,
+      "comments": [
+        {
+          "id": "short-london-market-comment-1",
+          "authorID": "iris",
+          "text": "I kept following one person through the crowd.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "short-london-market-comment-2",
+          "authorID": "leo",
+          "text": "The angle makes the street look so different.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "video": "assets/videos/london-market.mp4",
+      "poster": "assets/videos/london-market.jpg",
+      "duration": 12.0,
+      "sourceAuthor": "Stephen Girling",
+      "sourceURL": "https://www.pexels.com/video/bustling-street-scene-in-london-s-market-32037418/",
+      "licenseURL": "https://www.pexels.com/license/"
+    },
+    {
+      "id": "short-manhattan-crossing",
+      "authorID": "rowan",
+      "caption": "A few seconds at walking pace in Manhattan. There is a new face in every frame.",
+      "topic": "On my walk",
+      "createdAt": "2026-11-19T07:00:00Z",
+      "likes": 148,
+      "saves": 32,
+      "comments": [
+        {
+          "id": "short-manhattan-crossing-comment-1",
+          "authorID": "milo",
+          "text": "The low camera angle puts me right in the crowd.",
+          "createdAt": "2026-11-19T07:01:00Z"
+        },
+        {
+          "id": "short-manhattan-crossing-comment-2",
+          "authorID": "june",
+          "text": "Love the flash of light between the buildings.",
+          "createdAt": "2026-11-19T07:02:00Z"
+        }
+      ],
+      "video": "assets/videos/manhattan-crossing.mp4",
+      "poster": "assets/videos/manhattan-crossing.jpg",
+      "duration": 12.0,
+      "sourceAuthor": "Caleb Oquendo",
+      "sourceURL": "https://www.pexels.com/video/busy-new-york-city-street-with-crowds-34539087/",
+      "licenseURL": "https://www.pexels.com/license/"
+    },
     {
       "id": "short-camera-day",
       "authorID": "milo",

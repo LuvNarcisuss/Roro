@@ -32,20 +32,27 @@ final class RoroNative: NSObject {
             if !["snapshot", "consent", "openAgreement"].contains(command), try library.snapshot()["consent"] as? Bool != true {
                 throw roroError("Please accept the agreements to continue.")
             }
-            if ["videoSource", "sharePhoto"].contains(command) {
-                let blocked = Set(try library.snapshot()["blocked"] as? [String] ?? [])
+            if ["videoSource", "sharePhoto", "openSource"].contains(command) {
+                let snapshot = try library.snapshot()
+                let blocked = Set(snapshot["blocked"] as? [String] ?? [])
                 let works = try CommunityCatalog.records("photos") + CommunityCatalog.records("shorts")
                 let match = works.first { record in
                     if let id = payload["id"] as? String { return record["id"] as? String == id }
                     guard let path = payload["image"] as? String else { return false }
                     return record["video"] as? String == path || (record["images"] as? [String] ?? []).contains(path)
                 }
+                if let id = match?["id"] as? String, (snapshot["reports"] as? [String] ?? []).contains(id) {
+                    throw roroError("This video is hidden.")
+                }
+                if let id = match?["id"] as? String, (snapshot["reportedPosts"] as? [String] ?? []).contains(id) {
+                    throw roroError("This post is hidden.")
+                }
                 if let author = match?["authorID"] as? String, blocked.contains(author) {
                     throw roroError("Unblock this person before opening their work.")
                 }
             }
             switch command {
-            case "snapshot": resolve(try library.snapshot(reload: payload["reload"] as? Bool == true))
+            case "snapshot": resolve(try library.visibleSnapshot(reload: payload["reload"] as? Bool == true))
             case "pickPhotos":
                 guard picker == nil, videoPicker == nil, let controller = presenter() else { throw roroError("Please finish the current photo selection.") }
                 _ = try library.snapshot()
@@ -147,7 +154,7 @@ final class RoroNative: NSObject {
                     // The committed state must reach the UI even if physical cleanup needs retry.
                     try? library.finishPendingCleanup(pages: pages)
                 }
-                resolve(try library.snapshot())
+                resolve(try library.visibleSnapshot())
             }
         } catch { reject("ACTION_FAILED", error.localizedDescription, error) }
     }

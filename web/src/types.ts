@@ -45,6 +45,9 @@ export interface Snapshot {
   following: string[];
   hidden: string[];
   blocked?: string[];
+  reports?: string[];
+  reportedPosts?: string[];
+  reportedComments?: string[];
   notes: Note[];
   comments?: Note[];
 }
@@ -79,6 +82,8 @@ export type Command =
   | "toggleLike"
   | "toggleSave"
   | "toggleFollow"
+  | "setReport"
+  | "setBlock"
   | "toggleBlock"
   | "hide"
   | "addComment"

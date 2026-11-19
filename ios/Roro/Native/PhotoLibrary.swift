@@ -18,6 +18,18 @@ enum CommunityCatalog {
     static func records(_ key: String) throws -> [[String: Any]] {
         try load()[key] as? [[String: Any]] ?? []
     }
+    static func comments() throws -> [[String: String]] {
+        let works = try records("photos") + records("shorts")
+        return works.flatMap { work -> [[String: String]] in
+            guard let postID = work["id"] as? String else { return [] }
+            return (work["comments"] as? [[String: String]] ?? []).map { comment in
+                var record = comment
+                record["postID"] = postID
+                return record
+            }
+        }
+    }
+
     static func workIDs() throws -> Set<String> {
         Set(try (records("photos") + records("shorts")).compactMap { $0["id"] as? String })
     }
@@ -76,6 +88,12 @@ final class PhotoLibrary {
         }
     }
 
+    func visibleSnapshot(reload: Bool = false) throws -> [String: Any] {
+        var result = try snapshot(reload: reload)
+        result.removeValue(forKey: "safetyHistory")
+        return result
+    }
+
     private func validate(_ value: [String: Any]) throws {
         let invalid = roroError("Your library could not be read. Its original files have been kept.")
         guard let revision = value["revision"] as? Int, revision >= 0,
@@ -112,6 +130,24 @@ final class PhotoLibrary {
         let blocked = value["blocked"] as? [String] ?? []
         guard Set(blocked).count == blocked.count, blocked.allSatisfy({ authors.contains($0) && $0 != "roro" }),
               Set(blocked).isDisjoint(with: follows) else { throw invalid }
+        if let raw = value["reports"] {
+            guard let reports = raw as? [String], Set(reports).count == reports.count,
+                  Set(reports).isSubset(of: Set(try CommunityCatalog.records("shorts").compactMap { $0["id"] as? String })) else { throw invalid }
+        }
+        if let raw = value["reportedPosts"] {
+            guard let reports = raw as? [String], Set(reports).count == reports.count,
+                  Set(reports).isSubset(of: Set(try CommunityCatalog.records("photos").compactMap { $0["id"] as? String })) else { throw invalid }
+        }
+        if let raw = value["reportedComments"] {
+            guard let reports = raw as? [String], Set(reports).count == reports.count,
+                  Set(reports).isSubset(of: Set(try CommunityCatalog.comments().compactMap { $0["id"] })) else { throw invalid }
+        }
+        if let raw = value["safetyHistory"] {
+            guard let history = raw as? [[String: String]], history.allSatisfy({
+                $0["targetID"] != nil && $0["label"] != nil && $0["date"] != nil &&
+                    ["block", "unblock", "report", "withdraw"].contains($0["action"] ?? "")
+            }) else { throw invalid }
+        }
         var noteIDs = Set<String>()
         for note in notes {
             guard let id = note["id"] as? String, UUID(uuidString: id) != nil, noteIDs.insert(id).inserted,
@@ -146,7 +182,11 @@ final class PhotoLibrary {
         }
         let blocked = Set(value["blocked"] as? [String] ?? [])
         let target = payload["postID"] as? String ?? id
-        if ["toggleLike", "toggleSave", "addComment"].contains(command),
+        if ["toggleLike", "toggleSave", "addComment", "addNote"].contains(command),
+           (value["reportedPosts"] as? [String] ?? []).contains(target) { throw roroError("This post is hidden.") }
+        if ["toggleLike", "toggleSave", "addComment", "addNote"].contains(command),
+           (value["reports"] as? [String] ?? []).contains(target) { throw roroError("This video is hidden.") }
+        if ["toggleLike", "toggleSave", "addComment", "addNote"].contains(command),
            let work = try (CommunityCatalog.records("photos") + CommunityCatalog.records("shorts")).first(where: { $0["id"] as? String == target }),
            let author = work["authorID"] as? String, blocked.contains(author) {
             throw roroError("Unblock this person before interacting with their work.")
@@ -156,15 +196,60 @@ final class PhotoLibrary {
             value["consent"] = true
             value["acceptedAt"] = ISO8601DateFormatter().string(from: Date())
             value["consentRevision"] = "2026-11-17"
-        case "toggleBlock":
-            guard id != "roro", try CommunityCatalog.authorIDs().contains(id) else { throw roroError("This profile is unavailable.") }
-            var entries = value["blocked"] as? [String] ?? []
-            if entries.contains(id) { entries.removeAll { $0 == id } }
-            else {
-                entries.append(id)
+        case "setBlock", "toggleBlock", "setReport":
+            let isReport = command == "setReport"
+            let key: String
+            let record: [String: Any]
+            let label: String
+            if isReport && payload["kind"] as? String == "comment" {
+                guard let comment = try CommunityCatalog.comments().first(where: { $0["id"] == id }),
+                      let text = comment["text"], let parent = comment["postID"],
+                      payload["postID"] == nil || payload["postID"] as? String == parent else {
+                    throw roroError("This comment is unavailable.")
+                }
+                key = "reportedComments"
+                record = comment
+                label = text
+            } else if isReport && payload["kind"] as? String == "post" {
+                guard let post = try CommunityCatalog.records("photos").first(where: { $0["id"] as? String == id }),
+                      let caption = post["caption"] as? String else { throw roroError("This post is unavailable.") }
+                key = "reportedPosts"
+                record = post
+                label = caption
+            } else {
+                let records = try CommunityCatalog.records(isReport ? "shorts" : "authors")
+                guard let target = records.first(where: { $0["id"] as? String == id }), id != "roro" else {
+                    throw roroError("This safety action is unavailable.")
+                }
+                key = isReport ? "reports" : "blocked"
+                record = target
+                label = target[isReport ? "caption" : "name"] as? String ?? (isReport ? "Community video" : "Community member")
+            }
+            var entries = value[key] as? [String] ?? []
+            guard let enabled = command == "toggleBlock" ? !entries.contains(id) : payload["enabled"] as? Bool else {
+                throw roroError("This safety action is unavailable.")
+            }
+            if entries.contains(id) == enabled { return value }
+            if enabled { entries.append(id) } else { entries.removeAll { $0 == id } }
+            value[key] = entries
+            if !isReport && enabled {
                 value["following"] = (value["following"] as! [String]).filter { $0 != id }
             }
-            value["blocked"] = entries
+            var event = ["targetID": id, "label": label, "date": ISO8601DateFormatter().string(from: Date()),
+                         "action": isReport ? (enabled ? "report" : "withdraw") : (enabled ? "block" : "unblock")]
+            event["authorID"] = isReport ? record["authorID"] as? String : id
+            if key == "reportedPosts" {
+                event["postID"] = id
+            } else if key == "reportedComments" {
+                event["postID"] = record["postID"] as? String
+                event["commentID"] = id
+            } else if let post = payload["postID"] as? String, known.contains(post) {
+                event["postID"] = post
+                event["commentID"] = payload["commentID"] as? String
+            }
+            var history = value["safetyHistory"] as? [[String: String]] ?? []
+            history.append(event)
+            value["safetyHistory"] = history
         case "toggleLike", "toggleSave", "toggleFollow", "hide":
             if command == "toggleFollow", blocked.contains(id) { throw roroError("Unblock this person before following.") }
             guard command == "toggleFollow" ? try CommunityCatalog.authorIDs().contains(id) : known.contains(id) else { throw roroError("This photo is unavailable.") }

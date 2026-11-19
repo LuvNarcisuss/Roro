@@ -315,7 +315,7 @@ export default function Shorts({
   back,
   ...actions
 }: ShortActions & {
-  reloadLibrary(): Promise<void>;
+  reloadLibrary(): Promise<Snapshot>;
   initialTopic?: string;
   selectedID?: string;
   profile(id?: string): void;

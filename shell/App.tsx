@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Pressable,
+  RefreshControl,
+  ScrollView,
   ActivityIndicator,
   Image,
 } from "react-native";
@@ -21,6 +22,8 @@ const commands = new Set([
   "toggleLike",
   "toggleSave",
   "toggleFollow",
+  "setReport",
+  "setBlock",
   "toggleBlock",
   "hide",
   "addComment",
@@ -53,12 +56,16 @@ export default function App() {
   const [generation, setGeneration] = useState(0);
   const processed = useRef(new Set<string>());
   const epoch = useRef(0);
+  const [preparing, setPreparing] = useState(false);
   const prepare = useCallback(async () => {
+    setPreparing(true);
     setError("");
     try {
       setEntry(await service.prepare());
     } catch (e) {
       setError((e as Error).message);
+    } finally {
+      setPreparing(false);
     }
   }, []);
   useEffect(() => {
@@ -128,35 +135,19 @@ export default function App() {
   }
   if (error || !entry)
     return (
-      <View style={styles.loading}>
-        <Image
-          source={require("../Assets/icons/roro-logo.png")}
-          accessibilityLabel="Roro"
-          accessible
-          style={styles.brand}
-        />
-        {error ? (
-          <>
-            <Text style={styles.message}>{error}</Text>
-            <Pressable
-              style={styles.button}
-              accessibilityLabel="Try opening Roro again"
-              onPress={() => {
-                setEntry(undefined);
-                setGeneration((v) => v + 1);
-                void prepare();
-              }}
-            >
-              <Image
-                source={require("../Assets/icons/home.png")}
-                style={{ width: 32, height: 32 }}
-              />
-            </Pressable>
-          </>
-        ) : (
-          <ActivityIndicator color="#B95138" />
-        )}
-      </View>
+      <ScrollView style={styles.root} contentContainerStyle={styles.loading}
+        alwaysBounceVertical
+        refreshControl={<RefreshControl refreshing={preparing} onRefresh={() => {
+          if (preparing) return;
+          setEntry(undefined);
+          setGeneration(v => v + 1);
+          void prepare();
+        }} />}>
+        <Image source={require("../Assets/icons/roro-logo.png")} accessibilityLabel="Roro"
+          accessible style={styles.brand} />
+        {error ? <Text style={styles.message}>{error} Pull down to try again.</Text> :
+          <ActivityIndicator color="#B95138" />}
+      </ScrollView>
     );
   return (
     <View style={styles.root}>
@@ -217,11 +208,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
   },
-  button: {
-    minWidth: 44,
-    minHeight: 44,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonText: { fontFamily: "Nunito", color: "white", fontWeight: "700" },
 });

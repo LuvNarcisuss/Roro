@@ -20,3 +20,12 @@ Read-only comparison: /Users/apple/Desktop/Vava/Vava/ReactNative/Shorts.tsx, Web
 ## November 18 search and controls
 
 Replace the search panel with top-toolbar expansion. Keep query/open state on each Shorts route and restore it after visiting a profile/topic; submit dismisses the keyboard. A newly imported or independently opened clip must not inherit a conflicting search. Provide < for pushed video routes. Keep action labels accessible while displaying themed glyphs and engagement numbers. Pause while the search keyboard is focused; resume according to the existing pause/lifecycle state after blur. Local blocks filter clips and comments and are enforced by native bundled-playback/share checks.
+
+
+## Local safety and continuous playback
+
+A downward pull refreshes any clip or the empty feed. The current search and topic remain active. Successful pulls move to a different eligible clip whenever possible and prefer unseen stable IDs for the round. Upward paging wraps from last to first. A single clip loops. Failed refreshes keep the current clip and order.
+
+The owner chose the existing local library as the safety authority. Reporting a community video hides it only on this iPhone. Blocking a member hides that member's content and comments. Settings supports confirmed withdrawal and unblocking by long press or an accessible button. The private action history and active records are written atomically. Reports, blocks, manual hides and saved selections are independent.
+
+Community comments on photos and Shorts can be reported individually. A comment report hides that one comment and updates visible counts. Its parent work and the author's other comments remain available unless another visibility rule applies. Settings lists reported comments by author and text and supports confirmed withdrawal. Both comment and video reports show a dismissible success alert after the local save. The alert states that the report is stored only on this iPhone.

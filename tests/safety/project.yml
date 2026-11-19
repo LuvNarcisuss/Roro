@@ -1,0 +1,25 @@
+name: RoroSafetyTests
+options:
+  deploymentTarget:
+    iOS: '16.0'
+targets:
+  RoroSafetyTests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources: [SafetyTests.swift]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.roro.photography.safetytests
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_VERSION: '5.0'
+        TARGETED_DEVICE_FAMILY: '1'
+        SUPPORTS_MACCATALYST: NO
+        SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD: NO
+        SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
+schemes:
+  RoroSafetyTests:
+    build:
+      targets:
+        RoroSafetyTests: [test]
+    test:
+      targets: [RoroSafetyTests]

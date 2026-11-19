@@ -2064,3 +2064,29 @@ button.icon-action:has(.action-count) {
   height: 24px;
   filter: drop-shadow(0 1px 3px #0009);
 }
+
+.safety-record {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.safety-menu .safety-block {
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 4px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.safety-block > span:first-child {
+  font-size: 26px;
+  line-height: 36px;
+}

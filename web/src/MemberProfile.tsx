@@ -76,7 +76,7 @@ export default function MemberProfile({
                   `Block ${author.name}? Their work and comments will be hidden on this iPhone.`,
                 )
               )
-                void actions.act("toggleBlock", { id });
+                void actions.act("setBlock", { id, enabled: !isBlocked(id, actions.state) });
             }}
           >
             🚫

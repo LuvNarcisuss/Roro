@@ -1,13 +1,17 @@
+import { reportContent } from "./reportContent";
 import { ActionButton } from "./Controls";
+import SafetyMenu from "./SafetyMenu";
 import React, { useState } from "react";
 import { authorFor, commentsFor } from "./community";
 import type { ShortActions } from "./Shorts";
 export default function Comments({
   postID,
   profile,
+  postDetail = false,
   ...actions
 }: ShortActions & {
   postID: string;
+  postDetail?: boolean;
   profile(id?: string): void;
 }) {
   const [text, setText] = useState("");
@@ -41,6 +45,24 @@ export default function Comments({
                     day: "numeric",
                   })}
                 </small>
+                {!comment.local && postDetail && (
+                  <SafetyMenu postID={postID} commentID={comment.id} authorID={comment.authorID}
+                    author={author.name} act={actions.act} busy={actions.busy} />
+                )}
+                {!comment.local && !postDetail && (<>
+                  <ActionButton icon="info" labelPosition="below" disabled={actions.busy}
+                    aria-label={`Report comment by ${author.name}`}
+                    onClick={() => void reportContent(actions.act, { kind: "comment", id: comment.id, postID })}>
+                    Report
+                  </ActionButton>
+                  <button className="block-action" disabled={actions.busy}
+                    aria-label={`Block ${author.name}`}
+                    onClick={() => {
+                      if (confirm(`Block ${author.name} on this iPhone?`)) {
+                        void actions.act("setBlock", { id: comment.authorID, enabled: true, postID, commentID: comment.id });
+                      }
+                    }}>🚫</button>
+                </>)}
                 {comment.local && (
                   <ActionButton
                     icon="trash"

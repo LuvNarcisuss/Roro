@@ -5,13 +5,14 @@ export const communityPhotos: Photo[] = data.photos;
 export const communityShorts: ShortVideo[] = data.shorts;
 export const sourceCredits = data.shorts;
 const works = [...data.photos, ...data.shorts];
+export const communityComments = works.flatMap(work => work.comments);
 export function authorFor(id: string | undefined, state: Snapshot) {
   return (
     authors.find((author) => author.id === id) ?? {
-      id: "you",
-      name: state.profile.name || "You",
+      id: id || "you",
+      name: id && id !== "you" ? "Community member" : state.profile.name || "You",
       handle: "",
-      bio: state.profile.bio,
+      bio: id && id !== "you" ? "" : state.profile.bio,
       avatar: "assets/icons/profile.png",
     }
   );
@@ -25,12 +26,12 @@ export function isBlocked(authorID: string | undefined, state: Snapshot) {
 export function visibleShorts(state: Snapshot): ShortVideo[] {
   return allShorts(state).filter(
     (clip) =>
-      !state.hidden.includes(clip.id) && !isBlocked(clip.authorID, state),
+      !state.hidden.includes(clip.id) && !state.reports?.includes(clip.id) && !isBlocked(clip.authorID, state),
   );
 }
 export function commentsFor(id: string, state: Snapshot) {
   const seeded = (works.find((work) => work.id === id)?.comments ?? []).filter(
-    (comment) => !isBlocked(comment.authorID, state),
+    (comment) => !isBlocked(comment.authorID, state) && !state.reportedComments?.includes(comment.id),
   );
   const local = (state.comments ?? [])
     .filter((item) => item.postID === id)

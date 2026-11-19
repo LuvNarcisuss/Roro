@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { native } from "./bridge";
 import PullToRefresh from "./PullToRefresh";
-import { rotateItems, topics } from "./catalog";
 import { authorFor, engagement, visibleShorts } from "./community";
 import Comments from "./Comments";
+import { reportContent } from "./reportContent";
 import PageHeader from "./PageHeader";
 import { ActionButton, ReactionButton, ToolbarSearch, type SearchState } from "./Controls";
-import type { ShortVideo } from "./types";
+import type { ShortVideo, Snapshot } from "./types";
 import type { ShortActions } from "./Shorts";
 
 function Glyph({ name }: { name: string }) {
@@ -189,7 +189,7 @@ export default function ShortFeed({
   back,
   ...actions
 }: ShortActions & {
-  reloadLibrary(): Promise<void>;
+  reloadLibrary(): Promise<Snapshot>;
   initialTopic?: string;
   selectedID?: string;
   suspended: boolean;
@@ -201,22 +201,55 @@ export default function ShortFeed({
   changeSearch(value: SearchState): void;
   back?(): void;
 }) {
-  const all = visibleShorts(actions.state);
   const [filter, setFilter] = useState(initialTopic);
-  const [turn, setTurn] = useState(0);
-  const items = rotateItems(all.filter(
-    (clip) =>
-      (!filter || clip.topic === filter) &&
-      `${clip.caption} ${clip.topic} ${authorFor(clip.authorID, actions.state).name}`
-        .toLowerCase()
-        .includes(search.query.trim().toLowerCase()),
-  ), turn);
+  const scope = JSON.stringify([filter, search.query.trim().toLowerCase()]);
+  const [order, setOrder] = useState<{ scope: string; ids: string[] }>();
+  function orderedClips(snapshot: Snapshot) {
+    const eligible = visibleShorts(snapshot).filter(item =>
+      (!filter || item.topic === filter) &&
+      `${item.caption} ${item.topic} ${authorFor(item.authorID, snapshot).name}`.toLowerCase().includes(search.query.trim().toLowerCase())
+    );
+    if (order?.scope !== scope) return eligible;
+    const remaining = new Map(eligible.map(item => [item.id, item]));
+    const ordered: ShortVideo[] = [];
+    for (const id of order.ids) {
+      const item = remaining.get(id);
+      if (item) { ordered.push(item); remaining.delete(id); }
+    }
+    return [...ordered, ...remaining.values()];
+  }
+  const items = orderedClips(actions.state);
   const [currentID, setCurrentID] = useState(selectedID);
   const index = Math.max(
     0,
     items.findIndex((clip) => clip.id === currentID),
   );
   const clip = items[index];
+  const round = useRef({ scope, seen: new Set<string>() });
+  const visibleContext = useRef({ scope, id: clip?.id });
+  visibleContext.current = { scope, id: clip?.id };
+  useEffect(() => {
+    if (round.current.scope !== scope) round.current = { scope, seen: new Set() };
+    if (clip) round.current.seen.add(clip.id);
+  }, [scope, clip?.id]);
+  async function refreshFeed() {
+    const context = visibleContext.current;
+    const snapshot = await reloadLibrary();
+    if (context.scope !== visibleContext.current.scope || context.id !== visibleContext.current.id) return;
+    const ids = orderedClips(snapshot).map(item => item.id);
+    if (!ids.length) return;
+    const next = ids.indexOf(context.id ?? "") + 1;
+    const rotated = [...ids.slice(next), ...ids.slice(0, next)];
+    const seen = round.current.seen;
+    if (ids.every(id => seen.has(id))) {
+      seen.clear();
+    }
+    const sequence = [...rotated.filter(id => !seen.has(id)), ...rotated.filter(id => seen.has(id))];
+    setOrder({ scope, ids: sequence });
+    setCurrentID(sequence[0]);
+    if (failure) { setFailure(""); setRetry(value => value + 1); }
+    setPaused(false);
+  }
   const [paused, setPaused] = useState(false);
   const [muted, setMuted] = useState(true);
   const [panel, setPanel] = useState<"comments" | "notes" | "more">();
@@ -244,6 +277,7 @@ export default function ShortFeed({
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   useEffect(() => {
     setPaused(false);
+    setPanel(undefined);
     setPosition({ time: 0, duration: clip?.duration ?? 0 });
     setFailure("");
     setNote("");
@@ -279,7 +313,7 @@ export default function ShortFeed({
   );
   function settle(direction: number) {
     if (settlingRef.current || panel || suspended) return;
-    const next = items[index + direction];
+    const next = items.length > 1 ? items[(index + direction + items.length) % items.length] : undefined;
     const height = stage.current?.clientHeight ?? 0;
     settlingRef.current = true;
     setSettling(true);
@@ -308,20 +342,12 @@ export default function ShortFeed({
     if (tapTimer.current) clearTimeout(tapTimer.current);
     lastTap.current = 0;
     if (start.axis === "horizontal") return;
+    if (dy > 0) return; // Downward pulls belong to the refresh control on every clip.
     if (end) {
-      settle(
-        Math.abs(dy) > 45 && items[index + (dy < 0 ? 1 : -1)]
-          ? dy < 0
-            ? 1
-            : -1
-          : 0,
-      );
+      settle(dy < -45 && items.length > 1 ? 1 : 0);
     } else {
       const height = stage.current?.clientHeight ?? 0;
-      setOffset(
-        Math.max(-height, Math.min(height, dy)) *
-          (items[index + (dy < 0 ? 1 : -1)] ? 1 : 0.18),
-      );
+      setOffset(Math.max(-height, dy) * (items.length > 1 ? 1 : 0.18));
     }
   }
   function tap() {
@@ -346,11 +372,7 @@ export default function ShortFeed({
   const notes = actions.state.notes.filter((item) => item.postID === clip?.id);
   return (
     <div ref={stage} className={`short-feed ${settling ? "is-settling" : ""}`}>
-      <PullToRefresh shorts refresh={async () => {
-        await reloadLibrary();
-        setCurrentID(undefined);
-        setTurn((value) => value + 1);
-      }} />
+      <PullToRefresh shorts refresh={refreshFeed} />
       <div
         className="feed-pages"
         style={{ transform: `translateY(${offset}px)` }}
@@ -374,10 +396,10 @@ export default function ShortFeed({
             blocked={() => setPaused(true)}
           />
         )}
-        {items[index + 1] && (
+        {items.length > 1 && (
           <img
             className="feed-neighbor next"
-            src={items[index + 1].poster}
+            src={items[(index + 1) % items.length].poster}
             alt=""
           />
         )}
@@ -386,7 +408,8 @@ export default function ShortFeed({
       {clip && (
         <button
           className="feed-surface"
-          data-first-video={index === 0 && !suspended && !panel ? "" : undefined}
+          data-clip-id={clip.id}
+          data-refreshable={!suspended && !panel ? "" : undefined}
           aria-label={paused ? "Play video" : "Pause video"}
           aria-describedby="feed-gesture-hint"
           onClick={tap}
@@ -438,7 +461,7 @@ export default function ShortFeed({
         </button>
       )}
       <span className="sr-only" id="feed-gesture-hint">
-        Swipe up for the next video and down for the previous video. Pull down on the first video to refresh. Tap to
+        Swipe up for the next video. Pull down to refresh. Tap to
         pause. Double tap to like.
       </span>
       <PageHeader title="Shorts" back={back} showLogo={!back} overlay>
@@ -607,7 +630,7 @@ export default function ShortFeed({
               Previous video
             </button>
             <button
-              disabled={index === items.length - 1}
+              disabled={items.length < 2}
               onClick={() => settle(1)}
             >
               Next video
@@ -618,16 +641,7 @@ export default function ShortFeed({
       {failure && (
         <div className="feed-error" role="alert">
           <p>{failure}</p>
-          <ActionButton
-            icon="shorts"
-            onClick={() => {
-              setFailure("");
-              setPaused(false);
-              setRetry((value) => value + 1);
-            }}
-          >
-            Try again
-          </ActionButton>
+          <p>Pull down to try again.</p>
         </div>
       )}
       {panel === "comments" && clip && (
@@ -720,6 +734,10 @@ export default function ShortFeed({
                 >
                   View original source
                 </ActionButton>
+                <ActionButton labelPosition="below" icon="info" disabled={actions.busy}
+                  onClick={async () => {
+                    if (await reportContent(actions.act, { kind: "video", id: clip.id })) setPanel(undefined);
+                  }}>Report video</ActionButton>
                 <ActionButton
                   labelPosition="below"
                   icon="eye"

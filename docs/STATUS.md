@@ -168,7 +168,7 @@ On Roro UI Acceptance (iPhone 17 Pro, iOS 26.0), the updated app recovered the e
 
 ## Feed pull-to-refresh
 
-Home, Topics and Chats refresh when a downward pull starts at the top of the page and is released past the threshold. Shorts uses the same feedback and reload on the first clip or the empty feed. Downward swipes on later clips return to the previous video. Refresh rereads the validated on-device library through the native snapshot command and preserves the active search and topic filters. On successful refresh, Discover cycles the first recommended photo and photography prompt, Topics features the next topic, and Shorts presents the next matching clip first. Following retains its relationship-based order. Chats retains its content and displays the current local messaging availability and the last successful status check time.
+Home, Topics and Chats refresh when a downward pull starts at the top of the page and is released past the threshold. The original Shorts implementation refreshed only on the first clip or in the empty feed. The local safety and feed update below supersedes that gesture behavior. Refresh rereads the validated on-device library through the native snapshot command and preserves the active search and topic filters. On successful refresh, Discover cycles the first recommended photo and photography prompt, Topics features the next topic, and Shorts presents the next matching clip first. Following retains its relationship-based order. Chats retains its content and displays the current local messaging availability and the last successful status check time.
 
 The four feed refresh indicators show a rotating ring during the pull and the refresh. After release, the ring remains visible for at least 550 milliseconds while new data is applied immediately. The reduced-motion setting uses a stationary ring with the same status text.
 
@@ -176,4 +176,34 @@ Photo cards group Like, Comments and Save from left to right, with each count di
 
 ## Full interaction regression
 
-The [November 18 full regression](full-regression-2026-11-18.md) recorded 22 distinct XCTest cases passing on their final runs on Roro UI Acceptance. The current app lacks report submission, voice and video call entry, microphone and camera permission requests, and live self-preview. Local blocking, file-based video preview and Xcode StoreKit checkout were exercised. The original library and purchase ledger were restored.
+The [November 18 full regression](full-regression-2026-11-18.md) recorded 22 distinct XCTest cases passing on their final runs on Roro UI Acceptance. At the time of that regression the app lacked report submission, voice and video call entry, microphone and camera permission requests, and live self-preview. Local blocking, file-based video preview and Xcode StoreKit checkout were exercised. The original library and purchase ledger were restored.
+
+## On-device video reports, member blocks and refresh
+
+The owner selected device-local storage for this change. Reporting a community video hides that video. Blocking a member from a profile or comment hides that member's work and comments and removes the follow relationship. Settings identifies each active record and offers a confirmed undo by long press or accessible button. The library commits the action and its private history together before updating the interface. Withdrawing a report and unblocking a member clear only their respective restrictions. Report confirmation and Settings explain that reports stay on this iPhone. The local library has no remote moderation queue or cross-account service.
+
+Shorts supports a downward pull on any clip and in the empty state. Successful pulls preserve the filter and select unseen eligible clips until the round is exhausted. Upward paging wraps from the final eligible clip to the first. A failed library read preserves the current clip and order. Scrollable app pages use pull-to-refresh, including price retrieval in the wallet.
+
+On Roro UI Acceptance (iPhone 17 Pro, iOS 26.0.1), the two touch tests and five hosted XCTest cases passed. The touch tests exercised physical swipes and a long press in Settings. The hosted cases exercised both undo orders, local write failure and retry, delayed refresh, saved and search visibility, single and empty results, and wallet price recovery using the nine local StoreKit products. The unfiltered feed showed all five distinct IDs before a repeat. Two laps after a report and an author block included only the three eligible IDs. Result bundles and clip-ID attachments are under `.build/acceptance/safety-refresh`.
+
+The final touch run terminated and relaunched Roro with an active report. The clip was still excluded, and the record could be withdrawn by long press and confirmation. Debug and Release simulator builds passed resource-manifest verification for all 155 inputs. After testing, the original library and wallet were restored and their file hashes matched the pre-run values. The normal Debug app was reinstalled and launched.
+
+## Comment reports and success alerts
+
+Photo and Shorts comment threads offer Report on each community comment. Reporting a comment updates that thread and its visible comment count. Settings lists the author and comment text under Reported comments, with the same confirmed withdrawal controls as Reported videos. Existing video reports remain compatible. Both kinds of report display a native success alert after the local library has saved the change and the page has updated. Cancelling the confirmation or failing to save skips the success alert.
+
+On November 19, three touch XCTest cases passed on Roro UI Acceptance (iPhone 17 Pro, iOS 26.0.1). They opened and dismissed the success alert for a photo comment, a Shorts comment and a video. The final screenshots show the photo comment count changing from three to two, the Shorts comment count from four to three, and the video feed advancing before the alert appears. The tests also checked cancellation, withdrawal in Settings and persistence across relaunch. Six isolated report-flow checks covered cancellation, failed saves and successful saves for both target types. Results and screenshots are under `.build/acceptance/comment-reports`. The original library and wallet were restored with matching hashes.
+
+## Topic post and comment safety menus
+
+A community topic post has a three-dot button in the upper-right corner of its detail page. Its untitled menu can report that post or block its publisher. The topic card also offers these actions alongside its existing share and hide controls. On a topic post, each community comment has a three-dot button in the former report position. Its menu targets the comment or its author. Personal comments retain their delete control. Topic categories have no publisher and remain available after a post report.
+
+Reported posts are tracked by their catalog IDs, separately from blocked members, manual hides, video reports and comment reports. The library persists the report and its history before the app hides the post and displays the local success alert. Settings lists the post by caption under Reported posts and supports confirmed withdrawal.
+
+Two end-to-end XCTest cases passed on Roro UI Acceptance (iPhone 17 Pro, iOS 26.0.1). They exercised the header and comment menus, both report success alerts, member blocking from each menu, Settings reversal and restarting with a reported post. The original simulator library and wallet were restored with matching hashes. Screenshots and the final result bundle are under `.build/acceptance/topic-safety`.
+
+### Community photo detail correction
+
+The upper-right post menu and the per-comment three-dot menus on “A little moment” now apply to community photo details reached from Home as well as Topics. The native library accepts reports for any bundled community photo ID. A post report hides that post, a comment report hides that comment, and Block acts on the member named in the menu.
+
+Three targeted UI tests passed on Roro UI Acceptance (iPhone 17 Pro, iOS 26.0.1) on Ava Reed’s “Coffee tastes better together.” They verified the post and Milo Brooks comment menus, the two independent block targets, both report alerts and Settings reversal. Screenshots of the closed page and both open menus are in `.build/acceptance/home-safety`.

@@ -15,7 +15,7 @@ export default function PullToRefresh({
   refresh,
   shorts = false,
 }: {
-  refresh(): Promise<void>;
+  refresh(): Promise<unknown>;
   shorts?: boolean;
 }) {
   const anchor = useRef<HTMLDivElement>(null);
@@ -43,7 +43,7 @@ export default function PullToRefresh({
       const target = event.target;
       if (refreshing || event.touches.length !== 1 || content!.scrollTop > 0 ||
           !(target instanceof Element) || target.closest("input, textarea, select, dialog")) return;
-      if (shorts && !target.closest(".feed-surface[data-first-video], .feed-empty")) return;
+      if (shorts && !target.closest(".feed-surface[data-refreshable], .feed-empty, .feed-error")) return;
       const touch = event.touches[0];
       start = { x: touch.clientX, y: touch.clientY, id: touch.identifier };
     }

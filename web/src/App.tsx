@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import {
   ActionButton,
   ReactionButton,
@@ -10,6 +11,8 @@ import {
 import agreements from "../../Configuration/agreements.json";
 import { native } from "./bridge";
 import Topics from "./Topics";
+import SafetyMenu from "./SafetyMenu";
+import SafetyRecord from "./SafetyRecord";
 import PullToRefresh from "./PullToRefresh";
 import PageHeader, { AppLogo } from "./PageHeader";
 import Comments from "./Comments";
@@ -25,6 +28,7 @@ import {
   engagement,
   totals,
   sourceCredits,
+  communityComments,
 } from "./community";
 import Shorts, { ShortList } from "./Shorts";
 import { catalog, rotateItems, topicPrompts, topics } from "./catalog";
@@ -48,6 +52,9 @@ type Route = {
     | "collection"
     | "member"
     | "message"
+    | "reportedPosts"
+    | "reportedComments"
+    | "reports"
     | "blocked";
   id?: string;
   videoID?: string;
@@ -90,7 +97,7 @@ function Empty({
   children,
 }: {
   title: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) {
   return (
     <div className="empty">
@@ -129,7 +136,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   const [walletLoading, setWalletLoading] = useState(false);
   const [walletError, setWalletError] = useState("");
   const [selectedOfferID, setSelectedOfferID] = useState<string>();
-  const walletLoadInFlight = useRef(false);
+  const walletRequest = useRef<Promise<void> | undefined>(undefined);
   const [caption, setCaption] = useState("");
   const [topic, setTopic] = useState("");
   const [images, setImages] = useState<string[]>([]);
@@ -140,7 +147,6 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   const [bio, setBio] = useState("");
   const [options, setOptions] = useState<Photo>();
   const contentRef = useRef<HTMLElement>(null);
-  const touchY = useRef<number | undefined>(undefined);
   const route = routes[routes.length - 1];
   const shortSearch = route.search ?? emptySearch;
   function setShortSearch(search: SearchState) {
@@ -155,12 +161,16 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
     const timer = setTimeout(() => setNotice(""), 4000);
     return () => clearTimeout(timer);
   }, [notice]);
-  const apply = (next: Snapshot) =>
-    setState((previous) =>
-      !previous || next.revision >= previous.revision ? next : previous,
-    );
+  const latest = useRef<Snapshot | undefined>(undefined);
+  function apply(next: Snapshot) {
+    if (!latest.current || next.revision >= latest.current.revision) {
+      latest.current = next;
+      setState(next);
+    }
+    return latest.current;
+  }
   async function reloadLibrary() {
-    apply(await native<Snapshot>("snapshot", { reload: true }));
+    return apply(await native<Snapshot>("snapshot", { reload: true }));
   }
   async function load() {
     try {
@@ -180,7 +190,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   useEffect(() => {
     if (route.name !== "wallet") return;
     setSelectedOfferID(undefined);
-    void loadWallet();
+    void loadWallet().catch(() => {});
     const refreshSnapshot = () => {
       void native<Wallet>("walletSnapshot")
         .then(setWallet)
@@ -195,7 +205,11 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
     setBusy(true);
     try {
       const next = await native<Snapshot>(command, payload);
-      apply(next);
+      if (command === "setReport" && payload.enabled === true) {
+        flushSync(() => { apply(next); });
+      } else {
+        apply(next);
+      }
       if (next.cleanupPending)
         showNotice(
           "Your library was cleared. Reopen Roro to finish removing its media files.",
@@ -274,22 +288,25 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
       showNotice(draft ? "Draft saved." : "Moment saved to your library.");
     }
   }
-  async function loadWallet() {
-    if (walletLoadInFlight.current) return;
-    walletLoadInFlight.current = true;
+  function loadWallet(): Promise<void> {
+    if (walletRequest.current) return walletRequest.current;
     setWalletLoading(true);
     setWalletError("");
-    try {
-      setWallet(await native<Wallet>("wallet"));
-    } catch (e) {
-      setWalletError((e as Error).message);
-    } finally {
-      walletLoadInFlight.current = false;
+    const request = native<Wallet>("wallet").then(result => {
+      setWallet(result);
+      if (result.status === "failed" || result.status === "unavailable") throw new Error(priceStatus[result.status]);
+    }).catch((e: Error) => {
+      setWalletError(e.message);
+      throw e;
+    }).finally(() => {
+      walletRequest.current = undefined;
       setWalletLoading(false);
-    }
+    });
+    walletRequest.current = request;
+    return request;
   }
   async function buy(id: string) {
-    if (busy || walletLoadInFlight.current || wallet?.checkoutBlocked) return;
+    if (busy || walletRequest.current || wallet?.checkoutBlocked) return;
     setBusy(true);
     try {
       await native("purchase", { id });
@@ -320,14 +337,17 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   const all = [...moments, ...catalog];
   const visible = all.filter(
     (p) =>
-      !state?.hidden.includes(p.id) &&
+      !state?.hidden.includes(p.id) && !state?.reportedPosts?.includes(p.id) &&
       (!state || !isBlocked(p.authorID, state)),
   );
   const homePhotos = visible.filter((photo) => photo.surface !== "topics");
   const topicPhotos = visible.filter((photo) => photo.surface === "topics");
-  const selected = all.find(
-    (p) => p.id === route.id && (!state || !isBlocked(p.authorID, state)),
-  );
+  const selected = visible.find(p => p.id === route.id);
+  useEffect(() => {
+    if (route.name !== "detail" || !state || selected) return;
+    const post = catalog.find(p => p.id === route.id);
+    if (post && (state.reportedPosts?.includes(post.id) || isBlocked(post.authorID, state))) back();
+  }, [route, state, selected]);
   const clips = state ? visibleShorts(state) : [];
   function openMember(id?: string) {
     if (!id || id === "you") push({ name: "me" });
@@ -368,14 +388,17 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               </small>
             </span>
           </button>
-          <ActionButton
+          {photo.surface === "topics" && photo.authorID ? (
+            <SafetyMenu postID={photo.id} authorID={photo.authorID} author={photo.author} act={act} busy={busy}
+              share={() => void call("sharePhoto", { image: photo.images[0] })} hide={() => void act("hide", { id: photo.id })} />
+          ) : <ActionButton
             icon="more"
             className="text-button"
             aria-label="Photo options"
             onClick={() => setOptions(photo)}
           >
             More
-          </ActionButton>
+          </ActionButton>}
         </div>
         <div className="photo-strip">
           {photo.images.map((src, index) => (
@@ -456,15 +479,10 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
       <div className="startup">
         <AppLogo />
         <p>{error || "Opening your little moments…"}</p>
-        {error && (
-          <ActionButton
-            icon="home"
-            className="primary"
-            onClick={() => void load()}
-          >
-            Try again
-          </ActionButton>
-        )}
+        {error && <>
+          <p>Pull down to try again.</p>
+          <PullToRefresh refresh={reloadLibrary} />
+        </>}
       </div>
     );
   const consentChecked = consentChoice ?? state.consent;
@@ -540,6 +558,9 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
     me: "Me",
     message: "Message",
     blocked: "Blocked people",
+    reports: "Reported videos",
+    reportedPosts: "Reported posts",
+    reportedComments: "Reported comments",
     settings: "Settings",
     editProfile: "Edit profile",
     compose: draftID ? "Your draft" : "A new moment",
@@ -556,7 +577,6 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   );
   const pullPage = route.name === "home" || route.name === "topics" || route.name === "chats"
     ? route.name : undefined;
-  const refreshableFeed = !!pullPage || route.name === "shorts";
   const query = homeSearch.query.trim().toLowerCase();
   const matchingPhotos = homePhotos.filter((photo) =>
     (scope === "Discover" || (photo.authorID && state.following.includes(photo.authorID)) ||
@@ -580,6 +600,9 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
           showLogo={isRootTab}
           back={isRootTab ? undefined : back}
         >
+          {route.name === "detail" && selected?.authorID && (
+            <SafetyMenu postID={selected.id} authorID={selected.authorID} author={selected.author} act={act} busy={busy} />
+          )}
           {route.name === "home" && (
             <>
               <ToolbarSearch
@@ -606,29 +629,19 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
       <main
         ref={contentRef}
         className={`content ${topLevel ? "with-tabs" : ""}`}
-        onTouchStart={(e) => {
-          touchY.current =
-            !refreshableFeed && contentRef.current?.scrollTop === 0
-              ? e.touches[0].clientY
-              : undefined;
-        }}
-        onTouchEnd={(e) => {
-          if (
-            touchY.current !== undefined &&
-            e.changedTouches[0].clientY - touchY.current > 100
-          ) {
-            void (route.name === "wallet" ? loadWallet() : load());
-          }
-          touchY.current = undefined;
-        }}
       >
-        {pullPage && (
+        {route.name !== "shorts" && (
           <PullToRefresh
             key={route.name}
             refresh={async () => {
+              if (route.name === "wallet") {
+                if (wallet?.canRetry) await native("retryPurchases");
+                await loadWallet();
+                return;
+              }
               await reloadLibrary();
               if (pullPage === "chats") setChatCheckedAt(new Date());
-              else setFeedTurns((turns) => ({ ...turns, [pullPage]: turns[pullPage] + 1 }));
+              else if (pullPage) setFeedTurns((turns) => ({ ...turns, [pullPage]: turns[pullPage] + 1 }));
             }}
           />
         )}
@@ -838,6 +851,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 <Comments
                   key={selected.id}
                   postID={selected.id}
+                  postDetail
                   profile={openMember}
                   state={state}
                   busy={busy}
@@ -1244,6 +1258,18 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               <span>Blocked people · {state.blocked?.length ?? 0}</span>
               <span className="blocked-glyph" aria-hidden="true">🚫</span>
             </button>
+            <button type="button" className="setting-row" onClick={() => push({ name: "reports" })}>
+              <span>Reported videos · {state.reports?.length ?? 0}</span>
+              <Glyph name="info" />
+            </button>
+            <button type="button" className="setting-row" onClick={() => push({ name: "reportedPosts" })}>
+              <span>Reported posts · {state.reportedPosts?.length ?? 0}</span>
+              <Glyph name="info" />
+            </button>
+            <button type="button" className="setting-row" onClick={() => push({ name: "reportedComments" })}>
+              <span>Reported comments · {state.reportedComments?.length ?? 0}</span>
+              <Glyph name="info" />
+            </button>
             <a
               className="setting-row"
               href={agreements.terms}
@@ -1311,35 +1337,48 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
             <p className="version">Roro 0.1.0</p>
           </div>
         )}
-        {route.name === "blocked" && (
+        {(route.name === "blocked" || route.name === "reports") && (
           <div className="page">
-            {authors
-              .filter((author) => isBlocked(author.id, state))
-              .map((author) => (
-                <div className="setting-row" key={author.id}>
-                  <button
-                    className="author"
-                    onClick={() => openMember(author.id)}
-                  >
-                    <img src={author.avatar} alt="" />
-                    <strong>{author.name}</strong>
-                  </button>
-                  <button
-                    className="block-action"
-                    disabled={busy}
-                    aria-label={`Unblock ${author.name}`}
-                    aria-pressed="true"
-                    onClick={() => void act("toggleBlock", { id: author.id })}
-                  >
-                    🚫
-                  </button>
-                </div>
-              ))}
-            {!state.blocked?.length && (
-              <Empty title="No blocked people">
-                <p>People you block can be managed here.</p>
-              </Empty>
-            )}
+            {route.name === "blocked" ? <>
+              {(state.blocked ?? []).map(id => {
+                const label = authors.find(author => author.id === id)?.name ?? "Community member";
+                return <SafetyRecord key={id} blocked openProfile={() => openMember(id)} label={label} action={`Unblock ${label}`} busy={busy}
+                  undo={() => void act("setBlock", { id, enabled: false })} />;
+              })}
+              {!state.blocked?.length && <Empty title="No blocked people" />}
+            </> : <>
+              <p className="muted">Reports are saved only on this iPhone.</p>
+              {(state.reports ?? []).map(id => {
+                const label = allShorts(state).find(item => item.id === id)?.caption || "Community video";
+                return <SafetyRecord key={id} label={label} action={`Withdraw report for ${label}`} busy={busy}
+                  undo={() => void act("setReport", { id, enabled: false })} />;
+              })}
+              {!state.reports?.length && <Empty title="No reported videos" />}
+            </>}
+          </div>
+        )}
+        {route.name === "reportedPosts" && (
+          <div className="page">
+            <p className="muted">Reports are saved only on this iPhone.</p>
+            {(state.reportedPosts ?? []).map(id => {
+              const label = catalog.find(post => post.id === id)?.caption ?? "Community post";
+              return <SafetyRecord key={id} label={label} action={`Withdraw report for ${label}`} busy={busy}
+                undo={() => void act("setReport", { kind: "post", id, enabled: false })} />;
+            })}
+            {!state.reportedPosts?.length && <Empty title="No reported posts" />}
+          </div>
+        )}
+        {route.name === "reportedComments" && (
+          <div className="page">
+            <p className="muted">Reports are saved only on this iPhone.</p>
+            {(state.reportedComments ?? []).map(id => {
+              const comment = communityComments.find(item => item.id === id);
+              if (!comment) return null;
+              const label = `${authorFor(comment.authorID, state).name} — ${comment.text}`;
+              return <SafetyRecord key={id} label={label} action={`Withdraw report for ${label}`} busy={busy}
+                undo={() => void act("setReport", { kind: "comment", id, enabled: false })} />;
+            })}
+            {!state.reportedComments?.length && <Empty title="No reported comments" />}
           </div>
         )}
         {route.name === "message" && route.id && (
@@ -1503,12 +1542,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               {wallet?.canRetry && (
                 <div className="setting-row">
                   <span>Pending purchase</span>
-                  <ActionButton
-                    icon="check"
-                    onClick={() => void call("retryPurchases")}
-                  >
-                    Check pending purchase
-                  </ActionButton>
+                  <span>Pull down to check again.</span>
                 </div>
               )}
               <div className="wallet-status muted" role="status">

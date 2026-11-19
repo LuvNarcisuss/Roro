@@ -10,14 +10,14 @@
 - Native selection of up to three photos, optional caption/topic, local moments and drafts.
 - Persistent likes, saves, author/collection follows, community comments, separate private notes, hidden photos/shorts and profile editing.
 - Five licensed Pexels shorts, six existing licensed photo works, six fictional member profiles and 43 seeded comments. Source authors are separately credited. Shared selectors derive work reactions, author totals, topic totals and comment counts.
-- Me collections, settings, local deletion and native share sheet.
+- Me collections, settings, local deletion and native share sheet. Personal collections appear in the order Moments, Shorts, Liked, Saved and Drafts. Liked displays visible photos, topic posts and shorts from the local like records. Liked and Saved share a two-column grid of equal 3:4 covers. The lower-right marker identifies shorts and photo posts using the Shorts and Topics artwork respectively. Covers open their photo detail or video player.
 - Chats service-dependent empty state, with no fabricated message transport.
 - Nine-tier coin wallet with selection, localized prices, native StoreKit 1 checkout, queue recovery, receipt refresh, receipt-matched atomic crediting and transaction deduplication.
 - Owner-requested themed raster icons, licensed photography and Nunito in local root Assets.
 
 ## Decisions
 
-The owner confirmed Roro as name and directory, React Native, StoreKit 1, no Supabase, local assets, exact Google Docs links and local functionality first. The owner-confirmed Bundle ID is com.roro.photography (November 18, 2026). The coin wallet uses the nine consumables in Configuration/products.json. Coin spending awaits an entitlement mapping. The later owner request explicitly authorizes fictional community records and licensed Pexels fallback. Community reactions, follows and new comments are device-local; private notes remain separate. The app uses Save moment to describe device-local storage.
+The owner confirmed Roro as name and directory, React Native, StoreKit 1, no Supabase, local assets, exact Google Docs links and local functionality first. The owner-confirmed Bundle ID is com.roro.photography (November 18, 2026). The coin wallet uses the nine consumables in Configuration/products.json. Coins can unlock an individual Topics work or its category. The later owner request explicitly authorizes fictional community records and licensed Pexels fallback. Community reactions, follows and new comments are device-local; private notes remain separate. The app uses Save moment to describe device-local storage.
 
 ## Verification scope
 
@@ -40,7 +40,7 @@ TypeScript checking, 158 static checks and the Debug build for Roro UI Acceptanc
 ## Remaining inputs and acceptance
 
 - Confirm Apple registration for com.roro.photography and the development team.
-- Confirm the matching consumable products, US price points and product availability in App Store Connect for Roro. Define intended credit spending and entitlements before adding spend actions.
+- Confirm the matching consumable products, US price points and product availability in App Store Connect for Roro.
 - Backend selection and credentials only if the owner later requests real social services.
 - Public Google Docs access and agreement content confirmation.
 - Explicit authorization for installation, launch and runtime acceptance on the dedicated iPhone simulator.
@@ -180,7 +180,7 @@ The [November 18 full regression](full-regression-2026-11-18.md) recorded 22 dis
 
 ## On-device video reports, member blocks and refresh
 
-The owner selected device-local storage for this change. Reporting a community video hides that video. Blocking a member from a profile or comment hides that member's work and comments and removes the follow relationship. Settings identifies each active record and offers a confirmed undo by long press or accessible button. The library commits the action and its private history together before updating the interface. Withdrawing a report and unblocking a member clear only their respective restrictions. Report confirmation and Settings explain that reports stay on this iPhone. The local library has no remote moderation queue or cross-account service.
+The owner selected device-local storage for this change. Reporting a community video hides that video. Blocking a member from a profile or comment hides that member's work and comments and removes the follow relationship. Settings identifies each active record and offers a confirmed undo by long press or accessible button. The library commits the action and its private history together before updating the interface. Withdrawing a report and unblocking a member clear only their respective restrictions. Report dialogs describe the action for the current account. Settings explains that reports stay on this iPhone. The local library has no remote moderation queue or cross-account service.
 
 Shorts supports a downward pull on any clip and in the empty state. Successful pulls preserve the filter and select unseen eligible clips until the round is exhausted. Upward paging wraps from the final eligible clip to the first. A failed library read preserves the current clip and order. Scrollable app pages use pull-to-refresh, including price retrieval in the wallet.
 
@@ -207,3 +207,54 @@ Two end-to-end XCTest cases passed on Roro UI Acceptance (iPhone 17 Pro, iOS 26.
 The upper-right post menu and the per-comment three-dot menus on “A little moment” now apply to community photo details reached from Home as well as Topics. The native library accepts reports for any bundled community photo ID. A post report hides that post, a comment report hides that comment, and Block acts on the member named in the menu.
 
 Three targeted UI tests passed on Roro UI Acceptance (iPhone 17 Pro, iOS 26.0.1) on Ava Reed’s “Coffee tastes better together.” They verified the post and Milo Brooks comment menus, the two independent block targets, both report alerts and Settings reversal. Screenshots of the closed page and both open menus are in `.build/acceptance/home-safety`.
+
+## Topic creation and paid access
+
+The Topics toolbar combines category and access filters with inline search. The add button to the right of Search opens the local topic composer. Authors choose free access or a whole-coin price below the category pass and retain access to their own work. Readers confirm either a single-work purchase or a category pass covering current and future paid works. Each spend and its permanent entitlement are written atomically to the active device wallet. Single-work purchases do not discount a later category purchase. Authored topics and unlocks are device-local. Creator payouts and cross-device entitlements require a backend.
+
+The Topics filter dialog presents category and access as two inline radio groups. Apply commits both choices together. Closing discards pending choices, and reopening starts from the applied filters.
+
+## Photography journal visual update
+
+The shared interface uses illustrated raster controls, a dark teal filmstrip tab bar, warm paper, photographic prints, and locally bundled Courgette and Kalam lettering. Shorts retains its full-screen video surface. Artwork sources and hashes are recorded in `Assets/artwork-manifest.json`.
+
+On November 19, one five-tab UI test passed on Roro UI Acceptance (iPhone 17 Pro, iOS 26.0.1). The final visual review checked the filmstrip contrast, active tab indicators and centered titles across Home, Topics, Shorts, Chats and Me. Screenshots are under `.build/acceptance/2026-11-19/journal`. The Debug app bundle passed verification against all 200 source manifest inputs.
+
+## Chats inbox and local conversations
+
+Recent conversations show the latest user-entered text and time. Friends and Archived have distinct lists and empty states. Find friends shows incoming and pending requests. Directory results appear only after a search. Profile and inbox entry points open the same conversation. Blocking removes a contact and excludes their history from the lists. Clearing the local library clears contacts and messages. The app creates no automatic replies or delivery indicators. The add-friend artwork is an original instant-photo portrait and plus sign.
+
+
+Friend approval and mutual following independently enable messages and call previews. The native library enforces the same rule as the composer. Blocking removes both relationships. Existing messages stay in place, and previous one-sided contacts become pending requests. The fictional catalog supplies a follower (Milo) and an incoming request (June). Only the recipient can accept an incoming request. New outgoing requests stay pending locally.
+
+Voice calls show the member portrait and a local microphone level. Video calls use a mirrored full-screen front camera preview. Both screens have three bottom controls: speaker, end call and microphone. Speakerphone and microphone are initially requested on. Off preferences use slashed artwork. The audio session switches between speakerphone and the default output route, and muting stops microphone capture independently of the camera. A video without a camera feed keeps a neutral dark surface. Both screens stay open until hang-up, release hardware in the background and resume on return. The app records no media and has no remote call transport.
+
+A left swipe on a conversation reveals text buttons for pinning, marking it read or unread, and deletion. More actions opens the same controls for keyboard and assistive access. The most recently pinned conversation comes first. Pinned rows display a journal pushpin in the upper-right corner. Remaining rows keep their activity order in Recent and Archived, or name order in Friends. Unread rows show a message glyph with a red 1 badge below the timestamp. Opening a thread clears its local unread marker. Confirming deletion removes that member's message history and inbox flags on this iPhone while preserving the friendship. New messages start a fresh conversation.
+
+## Independent community photography
+
+Nine bundled members have individual avatars. The eleven photo works, five short posters, five category covers and two editorial covers each have their own source image. A returning member or work keeps the same image across routes. Credits and source links for the thirteen new Pexels photographs are recorded in Assets/photos/manifest.json. The community audit checks file digests and source URLs across these assignments.
+
+Edit profile supports a single photo from the iOS photo picker. The editor previews the selection. Saving commits the app-owned portrait reference with the name and biography, and Me, personal posts and comments read it from the same profile. Existing profiles without a photo keep their fallback artwork or initial.
+
+Photo, topic and short comments render circular profile portraits. Personal comments resolve the current local profile on display, including its initial when no photo has been chosen.
+
+Shorts comments open in a 41% viewport-height sheet with a scrolling comment list. Both the sheet and photo or topic detail pages overlay a bottom composer using the chat input and send-button dimensions. The per-comment More button opens a modal report and block menu above the composer.
+
+Comments support device-local replies. Reply appears before More in the comment action row. Replies retain a stable parent ID, use the current author portrait, and start on separate rows at one shared indentation level. Deleting a local comment keeps its replies.
+
+A confirmed block publishes the saved library and returns to the originating tab root, including from member profiles and comment menus. Shorts opens a fresh player with eligible clips. Home, Topics and Chats rebuild their lists from the same snapshot. The refreshed root shows a dismissible “User blocked.” alert once for the committed block. Cancellation, failed writes and unblocking keep the current route.
+
+## Journal launch artwork
+
+Build 2 uses JournalLaunchScreen and the transparent JournalLaunchLogo asset for the native launch screen. The launch image source matches the Roro mark used by the embedded React Native shell and web pages. The compiled storyboard reference and shell artwork are checked by the bundle verifier.
+
+Build 3 bundles the original transparent camera PNG as a standalone resource for the system launch storyboard. On Roro UI Acceptance (iPhone 17 Pro), the recorded cold launch after an in-place upgrade showed the green camera on the native launch screen, the same artwork in the shell loader, and the welcome page. The transition to the shell briefly showed a plain background. All three pre-upgrade library, media and purchase file hashes matched afterward. The recording and native launch frame are in `.build/acceptance/journal-cold-launch/`.
+
+## Photo detail author and actions
+
+The photo detail page shows a circular portrait beside the author's name. Both share the same profile button. Like, Save and Share use a common icon row with separate counts below Like and Save. The artwork sizes account for the transparent margins in each original PNG. TypeScript, control and project audits, the simulator build and its resource manifest passed. Tap-through and on-device visual acceptance were not run for this change.
+
+The topic category card groups the Add a photo and Explore shorts icons in one left-aligned row with an eight-point gap. Categories without visible shorts show only Add a photo.
+
+Photo details end with the comment list and floating composer. The local-storage hint, private notebook entry and inline photography credit have been removed from this page. Existing notes stay in the library and source records remain in Artwork & credits.

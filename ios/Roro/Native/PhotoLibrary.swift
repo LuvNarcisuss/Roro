@@ -61,26 +61,49 @@ final class PhotoLibrary {
          "following": [String](), "blocked": [String](), "hidden": [String](), "notes": [[String: Any]](), "comments": [[String: Any]]()]
     }
 
+    private func initializeRelationships(_ state: [String: Any]) throws -> [String: Any] {
+        guard state["verifiedFriends"] == nil else { return state }
+        var result = state
+        guard let seed = try CommunityCatalog.load()["localRelationships"] as? [String: [String]],
+              let followers = seed["followers"], let incoming = seed["incomingRequests"] else {
+            throw roroError("Friend requests could not be loaded.")
+        }
+        let blocked = Set(state["blocked"] as? [String] ?? [])
+        result["followers"] = followers.filter { !blocked.contains($0) }
+        result["incomingRequests"] = incoming.filter { !blocked.contains($0) }
+        result["verifiedFriends"] = [String]()
+        return result
+    }
+
+    static func messagingPeers(_ state: [String: Any]) -> Set<String> {
+        let mutuals = Set(state["following"] as? [String] ?? []).intersection(state["followers"] as? [String] ?? [])
+        return mutuals.union(state["verifiedFriends"] as? [String] ?? [])
+            .subtracting(state["blocked"] as? [String] ?? []).subtracting(["roro"])
+    }
+
     func snapshot(reload: Bool = false) throws -> [String: Any] {
         if !reload, let cached { return cached }
         try fileManager.createDirectory(at: media, withIntermediateDirectories: true)
         let file = directory.appendingPathComponent("library.json")
         guard fileManager.fileExists(atPath: file.path) else {
             guard cached == nil else { throw roroError("Your library could not be refreshed. Please try again.") }
-            let initial = empty()
+            let initial = try initializeRelationships(empty())
             try persist(initial)
             return initial
         }
         do {
             let data = try Data(contentsOf: file)
-            guard let value = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+            guard var value = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                   value["revision"] is Int, value["consent"] is Bool,
                   value["profile"] is [String: String], value["moments"] is [[String: Any]],
                   value["notes"] is [[String: Any]],
                   ["likes", "saves", "following", "hidden"].allSatisfy({ value[$0] is [String] }) else {
                 throw roroError("Your library could not be read. Its original files have been kept.")
             }
+            let needsMigration = value["verifiedFriends"] == nil
+            value = try initializeRelationships(value)
             try validate(value)
+            if needsMigration { try persist(value) }
             cached = value
             return value
         } catch {
@@ -90,6 +113,7 @@ final class PhotoLibrary {
 
     func visibleSnapshot(reload: Bool = false) throws -> [String: Any] {
         var result = try snapshot(reload: reload)
+        result["messagingPeers"] = Self.messagingPeers(result).sorted()
         result.removeValue(forKey: "safetyHistory")
         return result
     }
@@ -99,6 +123,7 @@ final class PhotoLibrary {
         guard let revision = value["revision"] as? Int, revision >= 0,
               let profile = value["profile"] as? [String: String], profile["name"] != nil, profile["bio"] != nil,
               let moments = value["moments"] as? [[String: Any]], let notes = value["notes"] as? [[String: Any]] else { throw invalid }
+        if let avatar = profile["avatar"], !validMediaPath(avatar, extension: "jpg") { throw invalid }
         var ids = Set<String>()
         for moment in moments {
             guard let id = moment["id"] as? String, UUID(uuidString: id) != nil, ids.insert(id).inserted,
@@ -130,6 +155,22 @@ final class PhotoLibrary {
         let blocked = value["blocked"] as? [String] ?? []
         guard Set(blocked).count == blocked.count, blocked.allSatisfy({ authors.contains($0) && $0 != "roro" }),
               Set(blocked).isDisjoint(with: follows) else { throw invalid }
+        let peers = authors.subtracting(["roro"])
+        for key in ["contacts", "archivedChats", "pinnedChats", "unreadChats", "followers", "incomingRequests", "verifiedFriends"] {
+            if let raw = value[key] {
+                guard let ids = raw as? [String], Set(ids).count == ids.count, Set(ids).isSubset(of: peers) else { throw invalid }
+            }
+        }
+        if let raw = value["chatEntries"] {
+            guard let entries = raw as? [[String: String]], entries.count <= 5000 else { throw invalid }
+            var messageIDs = Set<String>()
+            for entry in entries {
+                guard let id = entry["id"], UUID(uuidString: id) != nil, messageIDs.insert(id).inserted,
+                      let peer = entry["peerID"], peers.contains(peer),
+                      let text = entry["text"], !text.isEmpty, text.count <= 2000,
+                      let date = entry["createdAt"], ISO8601DateFormatter().date(from: date) != nil else { throw invalid }
+            }
+        }
         if let raw = value["reports"] {
             guard let reports = raw as? [String], Set(reports).count == reports.count,
                   Set(reports).isSubset(of: Set(try CommunityCatalog.records("shorts").compactMap { $0["id"] as? String })) else { throw invalid }
@@ -161,6 +202,9 @@ final class PhotoLibrary {
                   let post = comment["postID"] as? String, known.contains(post),
                   let text = comment["text"] as? String, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, text.count <= 500,
                   let date = comment["createdAt"] as? String, ISO8601DateFormatter().date(from: date) != nil else { throw invalid }
+            if let parent = comment["parentID"] {
+                guard let parentID = parent as? String, !parentID.isEmpty, parentID != id else { throw invalid }
+            }
         }
         if let pending = value["cleanupPending"], !(pending is Bool) { throw invalid }
     }
@@ -192,6 +236,76 @@ final class PhotoLibrary {
             throw roroError("Unblock this person before interacting with their work.")
         }
         switch command {
+        case "setChatPinned", "setChatUnread", "deleteConversation":
+            guard let peer = payload["peerID"] as? String, !blocked.contains(peer),
+                  try CommunityCatalog.authorIDs().subtracting(["roro"]).contains(peer) else {
+                throw roroError("This conversation is unavailable.")
+            }
+            let entries = value["chatEntries"] as? [[String: String]] ?? []
+            guard let latest = entries.last(where: { $0["peerID"] == peer }) else {
+                if command == "deleteConversation" { return value }
+                throw roroError("This conversation is empty.")
+            }
+            if command == "deleteConversation" {
+                guard let expected = payload["lastEntryID"] as? String, expected == latest["id"] else {
+                    throw roroError("This conversation has changed. Reopen its actions and try again.")
+                }
+                value["chatEntries"] = entries.filter { $0["peerID"] != peer }
+                for key in ["archivedChats", "pinnedChats", "unreadChats"] {
+                    value[key] = (value[key] as? [String] ?? []).filter { $0 != peer }
+                }
+            } else {
+                guard let enabled = payload["enabled"] as? Bool else { throw roroError("Choose an action.") }
+                let key = command == "setChatPinned" ? "pinnedChats" : "unreadChats"
+                var peers = value[key] as? [String] ?? []
+                guard peers.contains(peer) != enabled else { return value }
+                if enabled { peers.append(peer) } else { peers.removeAll { $0 == peer } }
+                value[key] = peers
+            }
+        case "setContact", "respondFriendRequest", "removeFriend", "saveChatEntry", "setChatArchived":
+            guard let peer = payload["peerID"] as? String, peer != "roro",
+                  try CommunityCatalog.authorIDs().contains(peer), !blocked.contains(peer) else { throw roroError("This contact is unavailable.") }
+            var entries = value["chatEntries"] as? [[String: String]] ?? []
+            if command == "respondFriendRequest" {
+                guard let accept = payload["accept"] as? Bool,
+                      let incoming = value["incomingRequests"] as? [String], incoming.contains(peer) else {
+                    throw roroError("This request is no longer available.")
+                }
+                value["incomingRequests"] = incoming.filter { $0 != peer }
+                if accept {
+                    value["verifiedFriends"] = Array(Set(value["verifiedFriends"] as? [String] ?? []).union([peer])).sorted()
+                    value["contacts"] = (value["contacts"] as? [String] ?? []).filter { $0 != peer }
+                }
+            } else if command == "removeFriend" {
+                value["verifiedFriends"] = (value["verifiedFriends"] as? [String] ?? []).filter { $0 != peer }
+            } else if command == "saveChatEntry" {
+                guard Self.messagingPeers(value).contains(peer) else { throw roroError("Friend approval required.") }
+                guard UUID(uuidString: id) != nil, let body = payload["text"] as? String else { throw roroError("Check your message.") }
+                let text = body.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !text.isEmpty, text.count <= 2000 else { throw roroError("Write a message up to 2,000 characters.") }
+                if let existing = entries.first(where: { $0["id"] == id }) {
+                    guard existing["peerID"] == peer, existing["text"] == text else { throw roroError("This message could not be saved.") }
+                    return value
+                }
+                guard entries.count < 5000 else { throw roroError("Your message library is full.") }
+                entries.append(["id": id, "peerID": peer, "text": text, "createdAt": ISO8601DateFormatter().string(from: Date())])
+                value["chatEntries"] = entries
+                for key in ["archivedChats", "unreadChats"] {
+                    value[key] = (value[key] as? [String] ?? []).filter { $0 != peer }
+                }
+            } else {
+                guard let enabled = payload["enabled"] as? Bool else { throw roroError("Choose an action.") }
+                if command == "setContact", enabled,
+                   Self.messagingPeers(value).contains(peer) || (value["incomingRequests"] as? [String] ?? []).contains(peer) {
+                    throw roroError("Check your current friend requests.")
+                }
+                let key = command == "setContact" ? "contacts" : "archivedChats"
+                if key == "archivedChats", !entries.contains(where: { $0["peerID"] == peer }) { throw roroError("This conversation is empty.") }
+                var ids = value[key] as? [String] ?? []
+                if ids.contains(peer) == enabled { return value }
+                if enabled { ids.append(peer) } else { ids.removeAll { $0 == peer } }
+                value[key] = ids
+            }
         case "consent":
             value["consent"] = true
             value["acceptedAt"] = ISO8601DateFormatter().string(from: Date())
@@ -234,6 +348,9 @@ final class PhotoLibrary {
             value[key] = entries
             if !isReport && enabled {
                 value["following"] = (value["following"] as! [String]).filter { $0 != id }
+                for key in ["contacts", "verifiedFriends", "followers", "incomingRequests"] {
+                    value[key] = (value[key] as? [String] ?? []).filter { $0 != id }
+                }
             }
             var event = ["targetID": id, "label": label, "date": ISO8601DateFormatter().string(from: Date()),
                          "action": isReport ? (enabled ? "report" : "withdraw") : (enabled ? "block" : "unblock")]
@@ -271,7 +388,16 @@ final class PhotoLibrary {
             let old = moments.first { $0["id"] as? String == id }
             guard old != nil || moments.count < 300 else { throw roroError("Your library is full. Remove a moment before adding another.") }
             let surface = (old?["surface"] as? String ?? payload["surface"] as? String) == "topics" ? "topics" : "home"
-            let moment: [String: Any] = ["surface": surface, "id": id, "images": images, "caption": caption.trimmingCharacters(in: .whitespacesAndNewlines), "topic": topic, "draft": draft,
+            let price = payload["coinPrice"] as? Int ?? 0
+            guard (0...9999).contains(price), surface == "topics" || price == 0,
+                  surface != "topics" || draft || !topic.isEmpty else { throw roroError("Choose a topic and a valid coin price.") }
+            if price > 0 {
+                guard let prices = try CommunityCatalog.load()["categoryPrices"] as? [String: Int],
+                      let categoryPrice = prices[topic], price < categoryPrice else {
+                    throw roroError("Choose a work price below its category pass.")
+                }
+            }
+            let moment: [String: Any] = ["coinPrice": price, "surface": surface, "id": id, "images": images, "caption": caption.trimmingCharacters(in: .whitespacesAndNewlines), "topic": topic, "draft": draft,
                                          "createdAt": old?["createdAt"] ?? ISO8601DateFormatter().string(from: Date())]
             moments.removeAll { $0["id"] as? String == id }
             moments.insert(moment, at: 0)
@@ -313,13 +439,33 @@ final class PhotoLibrary {
                   let text = payload["text"] as? String, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
                   text.count <= 500, UUID(uuidString: id) != nil else { throw roroError("Please enter a short comment.") }
             var comments = value["comments"] as? [[String: Any]] ?? []
-            guard comments.count < 3000 else { throw roroError("Your comment library is full.") }
             if !comments.contains(where: { $0["id"] as? String == id }) {
-                comments.append(["id": id, "postID": post, "text": text.trimmingCharacters(in: .whitespacesAndNewlines), "createdAt": ISO8601DateFormatter().string(from: Date())])
+                guard comments.count < 3000 else { throw roroError("Your comment library is full.") }
+                var comment = ["id": id, "postID": post, "text": text.trimmingCharacters(in: .whitespacesAndNewlines), "createdAt": ISO8601DateFormatter().string(from: Date())]
+                if let parent = payload["parentID"] {
+                    guard let parentID = parent as? String, parentID != id else { throw roroError("Choose a comment to reply to.") }
+                    let localParent = comments.contains { $0["id"] as? String == parentID && $0["postID"] as? String == post }
+                    if !localParent {
+                        guard let target = try CommunityCatalog.comments().first(where: { $0["id"] == parentID && $0["postID"] == post }),
+                              !blocked.contains(target["authorID"] ?? ""),
+                              !(value["reportedComments"] as? [String] ?? []).contains(parentID) else {
+                            throw roroError("This comment is no longer available.")
+                        }
+                    }
+                    comment["parentID"] = parentID
+                }
+                comments.append(comment)
             }
             value["comments"] = comments
         case "deleteComment":
-            value["comments"] = (value["comments"] as? [[String: Any]] ?? []).filter { $0["id"] as? String != id }
+            var comments = value["comments"] as? [[String: Any]] ?? []
+            if let index = comments.firstIndex(where: { $0["id"] as? String == id }) {
+                let removed = comments.remove(at: index)
+                for child in comments.indices where comments[child]["parentID"] as? String == id {
+                    comments[child]["parentID"] = removed["parentID"]
+                }
+            }
+            value["comments"] = comments
         case "addNote":
             guard let post = payload["postID"] as? String, known.contains(post),
                   let text = payload["text"] as? String, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
@@ -333,11 +479,24 @@ final class PhotoLibrary {
         case "deleteNote":
             value["notes"] = (value["notes"] as! [[String: Any]]).filter { $0["id"] as? String != id }
         case "profile":
-            guard let name = payload["name"] as? String, let bio = payload["bio"] as? String,
-                  !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty, name.count <= 40, bio.count <= 160 else { throw roroError("Please check your profile details.") }
-            value["profile"] = ["name": name.trimmingCharacters(in: .whitespacesAndNewlines), "bio": bio]
+            var profile = value["profile"] as! [String: String]
+            guard let name = (payload["name"] as? String)?.trimmingCharacters(in: .whitespacesAndNewlines),
+                  let bio = payload["bio"] as? String, name.count <= 40, bio.count <= 160 else {
+                throw roroError("Please check your profile details.")
+            }
+            if let avatar = payload["avatar"] {
+                guard let path = avatar as? String, validMediaPath(path, extension: "jpg") else { throw roroError("Please choose a photo.") }
+                _ = try mediaURL(path)
+                profile["avatar"] = path
+            }
+            guard !name.isEmpty || (profile["name"] == "" && profile["avatar"] != nil) else {
+                throw roroError("Please enter your name.")
+            }
+            profile["name"] = name
+            profile["bio"] = bio
+            value["profile"] = profile
         case "clearLibrary":
-            value = empty(revision: value["revision"] as! Int)
+            value = try initializeRelationships(empty(revision: value["revision"] as! Int))
             value["cleanupPending"] = true
         default:
             throw roroError("This action is unavailable.")
@@ -376,6 +535,7 @@ final class PhotoLibrary {
 
     private func referencedMedia(_ state: [String: Any]) -> Set<String> {
         var used = Set((state["moments"] as! [[String: Any]]).flatMap { $0["images"] as? [String] ?? [] })
+        if let avatar = (state["profile"] as? [String: String])?["avatar"] { used.insert(avatar) }
         for short in state["shorts"] as? [[String: Any]] ?? [] {
             if let video = short["video"] as? String { used.insert(video) }
             if let poster = short["poster"] as? String { used.insert(poster) }

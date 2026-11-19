@@ -22,6 +22,15 @@ const commands = new Set([
   "toggleLike",
   "toggleSave",
   "toggleFollow",
+  "setContact",
+  "respondFriendRequest",
+  "removeFriend",
+  "openCallPreview",
+  "saveChatEntry",
+  "setChatArchived",
+  "setChatPinned",
+  "setChatUnread",
+  "deleteConversation",
   "setReport",
   "setBlock",
   "toggleBlock",
@@ -44,6 +53,7 @@ const commands = new Set([
   "openAgreement",
   "sharePhoto",
   "wallet",
+  "unlockTopicWork",
   "walletSnapshot",
   "purchase",
   "retryPurchases",
@@ -146,7 +156,7 @@ export default function App() {
         <Image source={require("../Assets/icons/roro-logo.png")} accessibilityLabel="Roro"
           accessible style={styles.brand} />
         {error ? <Text style={styles.message}>{error} Pull down to try again.</Text> :
-          <ActivityIndicator color="#B95138" />}
+          <ActivityIndicator color="#174C45" />}
       </ScrollView>
     );
   return (
@@ -192,17 +202,17 @@ export default function App() {
   );
 }
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#FAF8F5" },
+  root: { flex: 1, backgroundColor: "#FFF0DA" },
   loading: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 28,
-    backgroundColor: "#FAF8F5",
+    backgroundColor: "#FFF0DA",
   },
-  brand: { width: 64, height: 64, borderRadius: 14, marginBottom: 24 },
+  brand: { width: 96, height: 80, resizeMode: "contain", marginBottom: 24 },
   message: {
-    fontFamily: "Nunito",
+    fontFamily: "Kalam-Regular",
     fontSize: 16,
     color: "#292724",
     textAlign: "center",

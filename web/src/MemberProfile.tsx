@@ -1,3 +1,4 @@
+import { confirmBlock } from "./confirmBlock";
 import React from "react";
 import { ActionButton } from "./Controls";
 import { authorFor, isBlocked, totals } from "./community";
@@ -50,7 +51,7 @@ export default function MemberProfile({
             aria-pressed={actions.state.following.includes(id)}
             onClick={() => void actions.act("toggleFollow", { id })}
           >
-            {actions.state.following.includes(id) ? "Following" : "Follow"}
+            {actions.state.following.includes(id) ? "Following" : actions.state.followers?.includes(id) ? "Follow back" : "Follow"}
           </ActionButton>
           <ActionButton
             icon="chat"
@@ -72,9 +73,7 @@ export default function MemberProfile({
             onClick={() => {
               if (
                 isBlocked(id, actions.state) ||
-                confirm(
-                  `Block ${author.name}? Their work and comments will be hidden on this iPhone.`,
-                )
+                confirmBlock(author.name)
               )
                 void actions.act("setBlock", { id, enabled: !isBlocked(id, actions.state) });
             }}
@@ -83,7 +82,7 @@ export default function MemberProfile({
           </button>
         </div>
         {isBlocked(id, actions.state) && (
-          <p className="muted">Blocked on this iPhone.</p>
+          <p className="muted">You’ve blocked {author.name}.</p>
         )}
       </div>
       {!!clips.length && (

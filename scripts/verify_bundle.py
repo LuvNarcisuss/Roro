@@ -15,6 +15,13 @@ info = plistlib.loads((app / 'Info.plist').read_bytes())
 assert info['UIDeviceFamily'] == [1], 'The app must support iPhone only.'
 assert info['CFBundleIdentifier'] == 'com.roro.photography'
 assert (app / 'AppResources/products.json').read_bytes() == (root / 'Configuration/products.json').read_bytes(), 'Built wallet catalog must match source.'
+launch_name = info['UILaunchStoryboardName']
+assert launch_name == 'JournalLaunchScreen'
+launch_views = (app / (launch_name + '.storyboardc')).glob('*.nib')
+assert any(b'roro-logo.png' in view.read_bytes() for view in launch_views), 'Check the compiled launch image reference.'
+brand = (root / 'Assets/icons/roro-logo.png').read_bytes()
+assert (app / 'roro-logo.png').is_file(), 'The system launch screen needs its standalone PNG.'
+assert (app / 'assets/Assets/icons/roro-logo.png').read_bytes() == brand
 archive = app / 'AppResources/RoroWeb.zip'
 assert archive.read_bytes() == (root / 'ios/Roro/AppResources/RoroWeb.zip').read_bytes()
 assert hashlib.sha256(archive.read_bytes()).hexdigest() == (app / 'AppResources/RoroWeb.sha256').read_text().strip()

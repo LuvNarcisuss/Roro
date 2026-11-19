@@ -35,6 +35,7 @@ function Panel({
       className="feed-panel"
       aria-label={title}
       onCancel={(event) => {
+        if (event.target !== event.currentTarget) return;
         event.preventDefault();
         close();
       }}
@@ -513,9 +514,6 @@ export default function ShortFeed({
             style={{ transform: `translateY(${offset}px)` }}
           >
             <div className="feed-caption">
-              <small>
-                {index + 1} of {items.length}
-              </small>
               <button
                 className="feed-author"
                 onClick={() => visitProfile(clip.authorID)}
@@ -555,7 +553,7 @@ export default function ShortFeed({
                 aria-label={`Open ${counts.comments} comments`}
                 onClick={() => setPanel("comments")}
               >
-                <Glyph name="chat" />
+                <Glyph name="comment" />
                 <span>{counts.comments}</span>
               </button>
               <ReactionButton

@@ -9,14 +9,19 @@ final class MediaPicker: NSObject, PHPickerViewControllerDelegate {
     private var completion: ((Result<[String], Error>) -> Void)?
     private let library: PhotoLibrary
     private let pages: URL
+    private let forAvatar: Bool
 
-    init(library: PhotoLibrary, pages: URL) { self.library = library; self.pages = pages }
+    init(library: PhotoLibrary, pages: URL, forAvatar: Bool) {
+        self.library = library
+        self.pages = pages
+        self.forAvatar = forAvatar
+    }
 
     func present(from controller: UIViewController, completion: @escaping (Result<[String], Error>) -> Void) {
         self.completion = completion
         var configuration = PHPickerConfiguration(photoLibrary: .shared())
         configuration.filter = .images
-        configuration.selectionLimit = 3
+        configuration.selectionLimit = forAvatar ? 1 : 3
         configuration.preferredAssetRepresentationMode = .compatible
         let picker = PHPickerViewController(configuration: configuration)
         picker.delegate = self
@@ -37,7 +42,7 @@ final class MediaPicker: NSObject, PHPickerViewControllerDelegate {
                 do {
                     guard let url else { throw error ?? roroError("This photo could not be opened.") }
                     guard let source = CGImageSourceCreateWithURL(url as CFURL, nil),
-                          let image = CGImageSourceCreateThumbnailAtIndex(source, 0, [kCGImageSourceCreateThumbnailFromImageAlways: true, kCGImageSourceThumbnailMaxPixelSize: 1600, kCGImageSourceCreateThumbnailWithTransform: true] as CFDictionary),
+                          let image = CGImageSourceCreateThumbnailAtIndex(source, 0, [kCGImageSourceCreateThumbnailFromImageAlways: true, kCGImageSourceThumbnailMaxPixelSize: self.forAvatar ? 640 : 1600, kCGImageSourceCreateThumbnailWithTransform: true] as CFDictionary),
                           let data = UIImage(cgImage: image).jpegData(compressionQuality: 0.86) else { throw roroError("This photo format is unavailable.") }
                     let filename = UUID().uuidString + ".jpg"
                     try data.write(to: self.library.media.appendingPathComponent(filename), options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
@@ -190,20 +195,23 @@ final class ShortPlayerController: UIViewController {
         view.addSubview(playback.view)
         playback.view.translatesAutoresizingMaskIntoConstraints = false
         playback.didMove(toParent: self)
-        let close = UIButton(type: .system)
-        close.setTitle("<", for: .normal)
+        let close = UIButton(type: .custom)
+        if let path = Bundle.main.path(forResource: "journal-back", ofType: "png", inDirectory: "AppResources") {
+            close.setImage(UIImage(contentsOfFile: path), for: .normal)
+        }
         close.accessibilityLabel = "Close video"
-        close.setTitleColor(.white, for: .normal)
-        close.titleLabel?.font = .preferredFont(forTextStyle: .headline)
-        close.titleLabel?.adjustsFontForContentSizeCategory = true
+        close.imageView?.contentMode = .scaleAspectFit
+        close.imageEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 10)
+        close.backgroundColor = UIColor(red: 1, green: 0.94, blue: 0.85, alpha: 0.95)
+        close.layer.cornerRadius = 8
         close.addTarget(self, action: #selector(closePlayer), for: .touchUpInside)
         close.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(close)
         NSLayoutConstraint.activate([
             close.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             close.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            close.heightAnchor.constraint(greaterThanOrEqualToConstant: 44),
-            close.widthAnchor.constraint(greaterThanOrEqualToConstant: 60),
+            close.heightAnchor.constraint(equalToConstant: 44),
+            close.widthAnchor.constraint(equalToConstant: 48),
             playback.view.topAnchor.constraint(equalTo: close.bottomAnchor),
             playback.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             playback.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),

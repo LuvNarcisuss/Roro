@@ -86,3 +86,11 @@ await cp(
   path.join(root, "Assets/community/catalog.json"),
   path.join(root, "ios/Roro/AppResources/community.json"),
 );
+
+// The shell and the native preview use the same journal assets as the bundled pages.
+for (const [source, destination] of [
+  ["fonts/Kalam-Regular.ttf", "Kalam-Regular.ttf"],
+  ["icons/back.png", "journal-back.png"],
+]) {
+  await cp(path.join(root, "Assets", source), path.join(root, "ios/Roro/AppResources", destination));
+}

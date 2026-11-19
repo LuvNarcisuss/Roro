@@ -1,48 +1,67 @@
 {
   "version": 1,
-  "provenance": "Fictional local community personas and authored engagement. Source creators are credited separately; they are not represented as Roro members. Theme avatars reuse licensed photography recorded in Assets/photos/manifest.json.",
+  "categoryPrices": {
+    "Little joys": 40,
+    "On my walk": 40,
+    "At home": 40,
+    "Today's sky": 60,
+    "Something delicious": 40
+  },
+  "categoryCovers": {
+    "Little joys": "assets/photos/categories/paper-crane.jpg",
+    "On my walk": "assets/photos/categories/cobblestone-lane.jpg",
+    "At home": "assets/photos/categories/sunlit-armchair.jpg",
+    "Today's sky": "assets/photos/categories/pastel-cloudscape.jpg",
+    "Something delicious": "assets/photos/categories/pancake-stack.jpg"
+  },
+  "editorialCovers": {
+    "welcome": "assets/photos/editorial/coffee-for-two.jpg",
+    "collection": "assets/photos/editorial/fern-in-sunlight.jpg"
+  },
+  "provenance": "Fictional local community personas and authored engagement. Source creators are credited separately; they are not represented as Roro members. Avatars and covers use distinct licensed photography recorded in Assets/photos/manifest.json.",
+  "localRelationships": { "followers": ["milo"], "incomingRequests": ["june"] },
   "authors": [
     {
       "id": "milo",
       "name": "Milo Brooks",
       "handle": "milo.frames",
       "bio": "A camera, a long walk, and whatever catches my eye.",
-      "avatar": "assets/photos/coast.jpg"
+      "avatar": "assets/photos/avatars/camera-and-compass.jpg"
     },
     {
       "id": "june",
       "name": "June Park",
       "handle": "june.daylight",
       "bio": "Window light, coffee breaks, and little things at home.",
-      "avatar": "assets/photos/coffee.jpg"
+      "avatar": "assets/photos/avatars/vinyl-afternoon.jpg"
     },
     {
       "id": "rowan",
       "name": "Rowan Ellis",
       "handle": "rowan.looksup",
       "bio": "Collecting skies and taking the slow route.",
-      "avatar": "assets/photos/sky.jpg"
+      "avatar": "assets/photos/avatars/seashell-lines.jpg"
     },
     {
       "id": "ava",
       "name": "Ava Reed",
       "handle": "ava.smallthings",
       "bio": "Everyday colors, one small moment at a time.",
-      "avatar": "assets/photos/breakfast.jpg"
+      "avatar": "assets/photos/avatars/one-daisy.jpg"
     },
     {
       "id": "leo",
       "name": "Leo Morgan",
       "handle": "leo.wanders",
       "bio": "Walking without a plan. Keeping the good light.",
-      "avatar": "assets/photos/sunlight.jpg"
+      "avatar": "assets/photos/avatars/yellow-rain-boots.jpg"
     },
     {
       "id": "iris",
       "name": "Iris Lane",
       "handle": "iris.at.home",
       "bio": "Quiet corners and familiar faces.",
-      "avatar": "assets/photos/cat.jpg"
+      "avatar": "assets/photos/avatars/red-tea-kettle.jpg"
     },
     {
       "id": "nora",
@@ -314,6 +333,8 @@
     },
     {
       "id": "parked-bicycle",
+      "preview": "assets/photos/topics/parked-bicycle-preview.jpg",
+      "coinPrice": 10,
       "surface": "topics",
       "images": [
         "assets/photos/topics/parked-bicycle.jpg"
@@ -360,6 +381,8 @@
     },
     {
       "id": "rooftop-dusk",
+      "preview": "assets/photos/topics/rooftop-dusk-preview.jpg",
+      "coinPrice": 20,
       "surface": "topics",
       "images": [
         "assets/photos/topics/rooftop-dusk.jpg"

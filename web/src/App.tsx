@@ -1,3 +1,4 @@
+import ProfilePortrait from "./ProfilePortrait";
 import React, { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import {
@@ -11,6 +12,8 @@ import {
 import agreements from "../../Configuration/agreements.json";
 import { native } from "./bridge";
 import Topics from "./Topics";
+import { ChatList, FindFriends, Conversation, type ChatScope } from "./Chats";
+import TopicFilterDialog from "./TopicFilterDialog";
 import SafetyMenu from "./SafetyMenu";
 import SafetyRecord from "./SafetyRecord";
 import PullToRefresh from "./PullToRefresh";
@@ -20,7 +23,9 @@ import photoManifest from "../../Assets/photos/manifest.json";
 import MemberProfile from "./MemberProfile";
 import WorkGrid from "./WorkGrid";
 import {
+  editorialCovers,
   authors,
+  categoryPrices,
   isBlocked,
   allShorts,
   visibleShorts,
@@ -40,6 +45,7 @@ type Route = {
     | "topics"
     | "shorts"
     | "chats"
+    | "findFriends"
     | "me"
     | "settings"
     | "editProfile"
@@ -58,7 +64,9 @@ type Route = {
     | "blocked";
   id?: string;
   videoID?: string;
+  blockRevision?: number;
   search?: SearchState;
+  access?: string;
 };
 const priceStatus = {
   loading: "Loading prices…",
@@ -111,7 +119,7 @@ function coinUnit(amount?: number) {
   return amount === 1 ? "Coin" : "Coins";
 }
 
-const topicCredits = photoManifest.filter((item) => item.file.startsWith("photos/topics/"));
+const pexelsCredits = photoManifest.filter((item) => item.license === "Pexels License");
 
 export default function App() {
   const [session, setSession] = useState(0);
@@ -129,7 +137,17 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   const [scope, setScope] = useState("Discover");
   const [collection, setCollection] = useState("Moments");
   const [feedTurns, setFeedTurns] = useState({ home: 0, topics: 0 });
-  const [chatCheckedAt, setChatCheckedAt] = useState<Date>();
+  const [chatScope, setChatScope] = useState<ChatScope>("Recent");
+  const [chatSearch, setChatSearch] = useState(emptySearch);
+  const [friendSearch, setFriendSearch] = useState(emptySearch);
+  function findFriends() {
+    setFriendSearch(emptySearch);
+    push({ name: "findFriends" });
+  }
+  const [topicsSearch, setTopicsSearch] = useState(emptySearch);
+  const [topicCategory, setTopicCategory] = useState("");
+  const [accessFilter, setAccessFilter] = useState("All");
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [homeSearch, setHomeSearch] = useState(emptySearch);
   const [fullImage, setFullImage] = useState<string>();
   const [wallet, setWallet] = useState<Wallet>();
@@ -141,13 +159,27 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   const [topic, setTopic] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [surface, setSurface] = useState("home");
+  const [coinPrice, setCoinPrice] = useState("0");
   const [draftID, setDraftID] = useState<string>();
-  const [note, setNote] = useState("");
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
+  const [avatar, setAvatar] = useState<string>();
   const [options, setOptions] = useState<Photo>();
   const contentRef = useRef<HTMLElement>(null);
   const route = routes[routes.length - 1];
+  const lastBlockAlert = useRef<number | undefined>(undefined);
+  useEffect(() => {
+    const revision = route.blockRevision;
+    if (revision === undefined || lastBlockAlert.current === revision) return;
+    // Let the refreshed root paint before the native alert pauses WebKit.
+    let frame = requestAnimationFrame(() => {
+      frame = requestAnimationFrame(() => {
+        lastBlockAlert.current = revision;
+        window.alert("User blocked.");
+      });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [route.blockRevision]);
   const shortSearch = route.search ?? emptySearch;
   function setShortSearch(search: SearchState) {
     setRoutes((current) =>
@@ -185,8 +217,28 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   }, []);
   useEffect(() => {
     contentRef.current?.scrollTo(0, 0);
-    setNote("");
   }, [route.name, route.id]);
+  useEffect(() => {
+    if (!["message", "detail", "shorts"].includes(route.name)) return;
+    const viewport = window.visualViewport;
+    const content = contentRef.current;
+    const app = content?.parentElement;
+    if (!viewport || !content || !app) return;
+    const fitComposer = () => {
+      const inset = viewport.scale === 1
+        ? Math.max(0, app.getBoundingClientRect().bottom - viewport.offsetTop - viewport.height)
+        : 0;
+      content.style.setProperty("--chat-keyboard-inset", inset + "px");
+    };
+    fitComposer();
+    viewport.addEventListener("resize", fitComposer);
+    viewport.addEventListener("scroll", fitComposer);
+    return () => {
+      viewport.removeEventListener("resize", fitComposer);
+      viewport.removeEventListener("scroll", fitComposer);
+      content.style.removeProperty("--chat-keyboard-inset");
+    };
+  }, [route.name]);
   useEffect(() => {
     if (route.name !== "wallet") return;
     setSelectedOfferID(undefined);
@@ -208,7 +260,14 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
       if (command === "setReport" && payload.enabled === true) {
         flushSync(() => { apply(next); });
       } else {
-        apply(next);
+        const saved = apply(next);
+        if (command === "setBlock" && payload.enabled === true &&
+            typeof payload.id === "string" && saved.blocked?.includes(payload.id)) {
+          // Keep the originating tab, including when its detail stack contains another feed.
+          setRoutes(current => current[current.length - 1] === route
+            ? [{ name: current[0].name, blockRevision: saved.revision }]
+            : current);
+        }
       }
       if (next.cleanupPending)
         showNotice(
@@ -249,18 +308,22 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
     setRoutes([{ name: next }]);
   }
   function compose(moment?: Moment) {
-    setSurface(moment?.surface ?? (route.name === "topic" ? "topics" : "home"));
+    setSurface(moment?.surface ?? (route.name === "topic" || route.name === "topics" ? "topics" : "home"));
     setImages(moment?.images ?? []);
     setCaption(moment?.caption ?? "");
-    setTopic(moment?.topic ?? "");
+    setTopic(moment?.topic ?? (route.name === "topics" ? topicCategory : ""));
+    setCoinPrice(String(moment?.coinPrice ?? 0));
     setDraftID(moment?.id);
     push({ name: "compose" });
   }
-  async function pick() {
+  async function pick(purpose: "moment" | "avatar" = "moment") {
     setBusy(true);
     try {
-      const selected = await native<string[]>("pickPhotos");
-      if (selected.length) setImages(selected);
+      const selected = await native<string[]>("pickPhotos", { purpose });
+      if (selected.length) {
+        if (purpose === "avatar") setAvatar(selected[0]);
+        else setImages(selected);
+      }
     } catch (e) {
       showNotice((e as Error).message);
     } finally {
@@ -272,8 +335,13 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
       showNotice("Choose at least one photo.");
       return;
     }
+    const price = surface === "topics" ? Number(coinPrice) : 0;
+    if (surface === "topics" && ((!draft && !topic) || (!coinPrice || (coinPrice !== "0" && price === 0)) || !Number.isInteger(price) || price < 0 || price > 9999 || (price > 0 && price >= categoryPrices[topic]))) {
+      showNotice("Choose a category. A paid work needs a whole coin price below its category pass.");
+      return;
+    }
     const success = await act("saveMoment", {
-      surface,
+      surface, coinPrice: price,
       id: draftID ?? crypto.randomUUID(),
       images,
       caption,
@@ -334,7 +402,27 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
       author: state?.profile.name || "You",
       editorial: false,
     }));
-  const all = [...moments, ...catalog];
+  useEffect(() => {
+    if (!entered) return;
+    let active = true;
+    native<Wallet>("walletSnapshot").then((value) => { if (active) setWallet(value); })
+      .catch(() => { if (active) setWallet(undefined); });
+    return () => { active = false; };
+  }, [entered, route.name, route.id]);
+  function locked(photo: Photo) {
+    return photo.editorial && (photo.coinPrice ?? 0) > 0 && !wallet?.unlockedTopics.includes(photo.id) && !wallet?.unlockedCategories.includes(photo.topic);
+  }
+  async function unlock(photo: Photo, scope: "work" | "category") {
+    const price = scope === "work" ? photo.coinPrice : categoryPrices[photo.topic];
+    if (!price || busy) return;
+    const subject = scope === "work" ? "this work" : `all current and future works in ${photo.topic}`;
+    if (!confirm(`Spend ${price} Coins to unlock ${subject} on this iPhone?`)) return;
+    setBusy(true);
+    try { setWallet(await native<Wallet>("unlockTopicWork", { id: photo.id, scope, price })); }
+    catch (error) { showNotice((error as Error).message); }
+    finally { setBusy(false); }
+  }
+  const all = [...moments, ...catalog].map((p) => locked(p) ? { ...p, images: [p.preview ?? "assets/icons/credit-coin.png"] } : p);
   const visible = all.filter(
     (p) =>
       !state?.hidden.includes(p.id) && !state?.reportedPosts?.includes(p.id) &&
@@ -342,6 +430,9 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   );
   const homePhotos = visible.filter((photo) => photo.surface !== "topics");
   const topicPhotos = visible.filter((photo) => photo.surface === "topics");
+  const listingAccess = route.name === "topic" ? (route.access ?? "All") : accessFilter;
+  const listedTopicPhotos = topicPhotos.filter((p) => listingAccess === "All" || (listingAccess === "Paid") === ((p.coinPrice ?? 0) > 0));
+  const categoryOffer = listedTopicPhotos.find((p) => p.topic === route.id && p.editorial && (p.coinPrice ?? 0) > 0);
   const selected = visible.find(p => p.id === route.id);
   useEffect(() => {
     if (route.name !== "detail" || !state || selected) return;
@@ -349,6 +440,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
     if (post && (state.reportedPosts?.includes(post.id) || isBlocked(post.authorID, state))) back();
   }, [route, state, selected]);
   const clips = state ? visibleShorts(state) : [];
+  const listedTopicClips = listingAccess === "Paid" ? [] : clips;
   function openMember(id?: string) {
     if (!id || id === "you") push({ name: "me" });
     else push({ name: "member", id });
@@ -363,6 +455,8 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
     );
   }
   function openMessage(id: string) {
+    if (busy) return;
+    if (state?.unreadChats?.includes(id)) void act("setChatUnread", { peerID: id, enabled: false });
     push({ name: "message", id });
   }
   function openShort(videoID: string) {
@@ -370,6 +464,16 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   }
   function PhotoCard({ photo }: { photo: Photo }) {
     if (!state) return null;
+    if (locked(photo)) return (
+      <article className="topic-lock">
+        <img className="locked-preview" src={photo.images[0]} alt="Work preview" />
+        <small>{photo.author} · {photo.topic}</small>
+        <h3>{photo.caption}</h3>
+        <button onClick={() => push({ name: "detail", id: photo.id })}>
+          <Glyph name="credit-coin" />{photo.coinPrice} Coins
+        </button>
+      </article>
+    );
     const count = engagement(photo.id, state);
     return (
       <article className="photo-card">
@@ -400,7 +504,8 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
             More
           </ActionButton>}
         </div>
-        <div className="photo-strip">
+        <div className="journal-print">
+          <div className="photo-strip">
           {photo.images.map((src, index) => (
             <button
               className="photo-open"
@@ -415,6 +520,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               />
             </button>
           ))}
+        </div>
         </div>
         {photo.images.length > 1 && (
           <p className="photo-count">
@@ -432,7 +538,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
             onClick={() => void act("toggleLike", { id: photo.id })}
           />
           <IconButton
-            name="chat"
+            name="comment"
             count={count.comments}
             label="Open photo and comments"
             onClick={() => push({ name: "detail", id: photo.id })}
@@ -492,8 +598,8 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
         <AppLogo />
         <div className="welcome-photo">
           <img
-            src="assets/photos/coffee.jpg"
-            alt="Friends sharing a moment over coffee"
+            src={editorialCovers.welcome}
+            alt="Two hands meeting over coffee"
           />
           <span className="welcome-stamp">A little moment, kept.</span>
         </div>
@@ -555,6 +661,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
     topics: "Topics",
     shorts: "Shorts",
     chats: "Chats",
+    findFriends: "Find friends",
     me: "Me",
     message: "Message",
     blocked: "Blocked people",
@@ -575,6 +682,12 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
   const topLevel = ["home", "topics", "shorts", "chats", "me"].includes(
     route.name,
   );
+  const reactionIDs = route.name === "me" && (collection === "Liked" || collection === "Saved")
+    ? new Set(collection === "Liked" ? state.likes : state.saves)
+    : undefined;
+  const reactionWorks = reactionIDs
+    ? [...visible, ...clips].filter(work => reactionIDs.has(work.id))
+    : undefined;
   const pullPage = route.name === "home" || route.name === "topics" || route.name === "chats"
     ? route.name : undefined;
   const query = homeSearch.query.trim().toLowerCase();
@@ -602,6 +715,22 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
         >
           {route.name === "detail" && selected?.authorID && (
             <SafetyMenu postID={selected.id} authorID={selected.authorID} author={selected.author} act={act} busy={busy} />
+          )}
+          {route.name === "chats" && (
+            <>
+              <ToolbarSearch label="Search chats" value={chatSearch} change={setChatSearch} />
+              <IconButton name="add-friend" label="Find friends" onClick={findFriends} />
+            </>
+          )}
+          {route.name === "findFriends" && (
+            <ToolbarSearch label="Search people" value={friendSearch} change={setFriendSearch} />
+          )}
+          {route.name === "topics" && (
+            <>
+              <IconButton name="topics" label="Filter topics" onClick={() => setFiltersOpen(true)} />
+              <ToolbarSearch value={topicsSearch} change={setTopicsSearch} label="Search topics" />
+              <IconButton name="plus" label="Create topic work" onClick={() => compose()} />
+            </>
           )}
           {route.name === "home" && (
             <>
@@ -640,8 +769,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 return;
               }
               await reloadLibrary();
-              if (pullPage === "chats") setChatCheckedAt(new Date());
-              else if (pullPage) setFeedTurns((turns) => ({ ...turns, [pullPage]: turns[pullPage] + 1 }));
+              if (pullPage && pullPage !== "chats") setFeedTurns((turns) => ({ ...turns, [pullPage]: turns[pullPage] + 1 }));
             }}
           />
         )}
@@ -663,10 +791,9 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               onClick={() => push({ name: "topic", id: featuredTopic })}
             >
               <span>
-                <small>A LITTLE INSPIRATION</small>
                 <strong>{topicPrompts[featuredTopic]}</strong>
               </span>
-              <span className="topic-pill">{featuredTopic}</span>
+              <span className="sr-only">{featuredTopic}</span>
             </button>
             {orderedPhotos.map((p) => <PhotoCard key={p.id} photo={p} />)}
             {scope === "Following" && (
@@ -707,18 +834,33 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
           </>
         )}
         {route.name === "topics" && (
-          <Topics
-            orderedTopics={rotateItems(topics, feedTurns.topics)}
-            photos={topicPhotos}
-            shorts={clips}
-            state={state}
-            open={(id) => push({ name: "topic", id })}
-          />
+          <>
+            <Topics
+              orderedTopics={rotateItems(topics, feedTurns.topics).filter((t) => !topicCategory || topicCategory === t)}
+              query={topicsSearch.query}
+              access={accessFilter}
+              photos={listedTopicPhotos}
+              shorts={listedTopicClips}
+              state={state}
+              open={(id) => push({ name: "topic", id, access: accessFilter })}
+            />
+            {filtersOpen && (
+              <TopicFilterDialog
+                category={topicCategory}
+                access={accessFilter}
+                dismiss={() => setFiltersOpen(false)}
+                apply={(category, access) => {
+                  setTopicCategory(category);
+                  setAccessFilter(access);
+                }}
+              />
+            )}
+          </>
         )}
         {route.name === "shorts" && (
           <Shorts
             reloadLibrary={reloadLibrary}
-            key={`${route.id ?? "all"}-${route.videoID ?? "feed"}`}
+            key={`${route.id ?? "all"}-${route.videoID ?? "feed"}-${route.blockRevision ?? 0}`}
             initialTopic={route.id}
             selectedID={route.videoID}
             profile={openMember}
@@ -741,7 +883,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               <p className="topic-summary">
                 {(() => {
                   const count = totals(
-                    [...topicPhotos, ...clips].filter(
+                    [...listedTopicPhotos, ...listedTopicClips].filter(
                       (item) => item.topic === route.id,
                     ),
                     state,
@@ -749,31 +891,41 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                   return `${count.works} works · ${count.likes} likes · ${count.saves} saves · ${count.comments} comments`;
                 })()}
               </p>
-              <ActionButton
-                icon="camera"
-                className="primary"
-                onClick={() => {
-                  compose();
-                  setTopic(route.id ?? "");
-                }}
-              >
-                Add a photo
-              </ActionButton>
-              <ActionButton
-                icon="shorts"
-                className="secondary"
-                onClick={() => push({ name: "shorts", id: route.id })}
-              >
-                Explore shorts ·{" "}
-                {clips.filter((short) => short.topic === route.id).length}
-              </ActionButton>
+              {categoryOffer && (
+                <div className="category-offer">
+                  {wallet?.unlockedCategories.includes(categoryOffer.topic) ? <span>Category unlocked</span> :
+                    <button disabled={busy} onClick={() => {
+                      if (wallet && wallet.balance < categoryPrices[categoryOffer.topic]) push({ name: "wallet" });
+                      else void unlock(categoryOffer, "category");
+                    }}><Glyph name="credit-coin" />Category pass · {categoryPrices[categoryOffer.topic]} Coins</button>}
+                  <small>Includes current and future paid works in this category.</small>
+                </div>
+              )}
+              <div className="topic-cover-actions">
+                <ActionButton
+                  icon="camera"
+                  onClick={() => {
+                    compose();
+                    setTopic(route.id ?? "");
+                  }}
+                >
+                  Add a photo
+                </ActionButton>
+                {listedTopicClips.some((clip) => clip.topic === route.id) && <ActionButton
+                  icon="shorts"
+                  onClick={() => push({ name: "shorts", id: route.id })}
+                >
+                  Explore shorts ·{" "}
+                  {listedTopicClips.filter((short) => short.topic === route.id).length}
+                </ActionButton>}
+              </div>
             </div>
-            {topicPhotos
+            {listedTopicPhotos
               .filter((p) => p.topic === route.id)
               .map((p) => (
                 <PhotoCard key={p.id} photo={p} />
               ))}
-            {clips.filter((clip) => clip.topic === route.id).map((clip) => (
+            {listedTopicClips.filter((clip) => clip.topic === route.id).map((clip) => (
               <div className="setting-row page" key={clip.id}>
                 <span>{clip.caption || "Short video"}</span>
                 <ActionButton icon="shorts" onClick={() => openShort(clip.id)}>
@@ -781,8 +933,8 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 </ActionButton>
               </div>
             ))}
-            {!topicPhotos.some((p) => p.topic === route.id) &&
-              !clips.some((clip) => clip.topic === route.id) && (
+            {!listedTopicPhotos.some((p) => p.topic === route.id) &&
+              !listedTopicClips.some((clip) => clip.topic === route.id) && (
                 <Empty title="Your moment belongs here">
                   <p>Save a photo with this topic to start your collection.</p>
                 </Empty>
@@ -790,7 +942,27 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
           </>
         )}
         {route.name === "detail" &&
-          (selected ? (
+          (selected && locked(selected) ? (
+            <section className="page topic-lock">
+              <small>{selected.author} · {selected.topic}</small>
+              <h2>{selected.caption}</h2>
+              <p>{wallet ? `Your balance: ${wallet.balance} Coins` : "Checking balance…"}</p>
+              <div className="unlock-choices">
+                <button disabled={busy || (!!wallet && wallet.balance < (selected.coinPrice ?? 0))}
+                  onClick={() => void unlock(selected, "work")}>
+                  <Glyph name="credit-coin" /><span>This work · {selected.coinPrice} Coins</span>
+                </button>
+                <button disabled={busy || (!!wallet && wallet.balance < categoryPrices[selected.topic])}
+                  onClick={() => void unlock(selected, "category")}>
+                  <Glyph name="topics" /><span>Category pass · {categoryPrices[selected.topic]} Coins</span>
+                </button>
+              </div>
+              <p className="muted">The pass includes current and future works in {selected.topic} on this iPhone.</p>
+              {(!wallet || wallet.balance < Math.max(selected.coinPrice ?? 0, categoryPrices[selected.topic])) && (
+                <button onClick={() => push({ name: "wallet" })}><Glyph name="wallet" />Add coins</button>
+              )}
+            </section>
+          ) : selected ? (
             <div className="detail">
               <div className="detail-images">
                 {selected.images.map((src, i) => (
@@ -805,10 +977,17 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               </div>
               <div className="page">
                 <button
-                  className="text-button"
+                  className="detail-author text-button"
+                  aria-label={`Open ${selected.author}'s profile`}
                   onClick={() => openMember(selected.authorID)}
                 >
-                  {selected.author}
+                  <ProfilePortrait
+                    avatar={selected.authorID && selected.authorID !== "you"
+                      ? authorFor(selected.authorID, state).avatar
+                      : state.profile.avatar}
+                    name={selected.author}
+                  />
+                  <span>{selected.author}</span>
                 </button>
                 <h2>{selected.caption || "A little moment"}</h2>
                 {selected.topic && (
@@ -819,9 +998,9 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                     {selected.topic}
                   </button>
                 )}
-                <div className="actions">
+                <div className="detail-actions">
                   <ReactionButton
-                    className="icon-button"
+                    className="icon-button detail-like"
                     kind="like"
                     aria-label="Like photo"
                     selected={state.likes.includes(selected.id)}
@@ -830,7 +1009,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                     onClick={() => void act("toggleLike", { id: selected.id })}
                   />
                   <ReactionButton
-                    className="icon-button"
+                    className="icon-button detail-save"
                     kind="save"
                     aria-label="Save photo"
                     selected={state.saves.includes(selected.id)}
@@ -840,7 +1019,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                   />
                   <ActionButton
                     icon="share"
-                    className="text-button"
+                    className="detail-share"
                     onClick={() =>
                       void call("sharePhoto", { image: selected.images[0] })
                     }
@@ -850,83 +1029,14 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 </div>
                 <Comments
                   key={selected.id}
+                  showStorageNotice={false}
                   postID={selected.id}
-                  postDetail
                   profile={openMember}
                   state={state}
                   busy={busy}
                   act={act}
                   notify={showNotice}
                 />
-                <details className="private-notebook">
-                  <summary aria-label="Open private notes">
-                    <Icon name="edit" />
-                    <span className="sr-only">
-                      Private notes ·{" "}
-                      {
-                        state.notes.filter(
-                          (item) => item.postID === selected.id,
-                        ).length
-                      }
-                    </span>
-                  </summary>
-                  <section className="notes">
-                    <h3>Private notes</h3>
-                    <p className="muted">A thought to keep with this photo.</p>
-                    {state.notes
-                      .filter((n) => n.postID === selected.id)
-                      .map((n) => (
-                        <div className="note" key={n.id}>
-                          <p>{n.text}</p>
-                          <ActionButton
-                            icon="trash"
-                            className="text-button"
-                            onClick={() => void act("deleteNote", { id: n.id })}
-                          >
-                            Delete
-                          </ActionButton>
-                        </div>
-                      ))}
-                    <label className="field">
-                      <span>Your note</span>
-                      <textarea
-                        value={note}
-                        maxLength={500}
-                        onChange={(e) => setNote(e.target.value)}
-                        placeholder="What caught your eye?"
-                      />
-                    </label>
-                    <ActionButton
-                      icon="bookmark"
-                      className="primary"
-                      disabled={!note.trim() || busy}
-                      onClick={async () => {
-                        if (
-                          await act("addNote", {
-                            postID: selected.id,
-                            text: note,
-                            id: crypto.randomUUID(),
-                          })
-                        )
-                          setNote("");
-                      }}
-                    >
-                      Save note
-                    </ActionButton>
-                  </section>
-                </details>
-                {selected.editorial && (
-                  <p className="muted">
-                    Photography from {selected.surface === "topics" ? "Pexels" : "Unsplash"}.{" "}
-                    <ActionButton
-                      icon="info"
-                      className="text-button"
-                      onClick={() => push({ name: "credits" })}
-                    >
-                      View credits
-                    </ActionButton>
-                  </p>
-                )}
               </div>
             </div>
           ) : (
@@ -952,8 +1062,8 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
           <div className="page">
             <div className="collection-cover">
               <img
-                src="assets/photos/sunlight.jpg"
-                alt="Sunlight through trees"
+                src={editorialCovers.collection}
+                alt="Sunlit green fern fronds"
               />
               <h2>
                 Small things.
@@ -1021,7 +1131,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
             </label>
             <label className="field">
               <span>
-                Topic <small>Optional</small>
+                Topic {surface !== "topics" && <small>Optional</small>}
               </span>
               <select value={topic} onChange={(e) => setTopic(e.target.value)}>
                 <option value="">Choose a topic</option>
@@ -1030,6 +1140,20 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 ))}
               </select>
             </label>
+            {surface === "topics" && (
+              <>
+                <label className="field">Reader access
+                  <select value={coinPrice === "0" ? "free" : "paid"} onChange={(e) => setCoinPrice(e.target.value === "free" ? "0" : "10")}>
+                    <option value="free">Free</option><option value="paid">Paid</option>
+                  </select>
+                </label>
+                {coinPrice !== "0" && topic && <p className="muted">{topic} category pass: {categoryPrices[topic]} Coins</p>}
+                {coinPrice !== "0" && <label className="field">Unlock price in coins
+                  <input inputMode="numeric" type="text" maxLength={4} value={coinPrice}
+                    onChange={(e) => { if (/^\d*$/.test(e.target.value)) setCoinPrice(e.target.value.replace(/^0+/, "")); }} />
+                </label>}
+              </>
+            )}
             <p className="muted">
               Your photos stay in your library on this iPhone.
             </p>
@@ -1052,36 +1176,16 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
           </div>
         )}
         {route.name === "chats" && (
-          <div className="page">
-            <div className="chat-illustration">
-              <img src="assets/photos/coast.jpg" alt="A peaceful coastline" />
-            </div>
-            <Empty title="A place to connect">
-              <p>Your conversations will appear here when messaging is connected.</p>
-              {chatCheckedAt && (
-                <p className="muted">
-                  Messaging unavailable · Checked at{" "}
-                  <time dateTime={chatCheckedAt.toISOString()}>
-                    {chatCheckedAt.toLocaleTimeString("en", { timeStyle: "medium" })}
-                  </time>
-                </p>
-              )}
-              <ActionButton
-                icon="share"
-                className="secondary"
-                onClick={() => void call("sharePhoto", { image: "assets/photos/coast.jpg" })}
-              >
-                Share a little inspiration
-              </ActionButton>
-            </Empty>
-          </div>
+          <ChatList state={state} scope={chatScope} select={setChatScope} query={chatSearch.query}
+            open={openMessage} profile={openMember} findFriends={findFriends} act={act} busy={busy} />
+        )}
+        {route.name === "findFriends" && (
+          <FindFriends state={state} query={friendSearch.query} profile={openMember} open={openMessage} act={act} busy={busy} />
         )}
         {route.name === "me" && (
           <>
             <div className="profile-cover">
-              <div className="profile-initial">
-                {state.profile.name.slice(0, 1) || "R"}
-              </div>
+              <ProfilePortrait avatar={state.profile.avatar} name={state.profile.name} />
               <h1>{state.profile.name || "Your little moments"}</h1>
               <p>{state.profile.bio || "The everyday, through your eyes."}</p>
               <div className="stats">
@@ -1103,33 +1207,27 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 </span>
               </div>
             </div>
-            <div className="segmented">
-              {["Moments", "Shorts", "Saved", "Drafts"].map((item) => (
+            <div className="segmented me-collections" role="group" aria-label="Personal collections">
+              {["Moments", "Shorts", "Liked", "Saved", "Drafts"].map((item) => (
                 <button
                   key={item}
                   className={collection === item ? "selected" : ""}
+                  aria-pressed={collection === item}
                   onClick={() => setCollection(item)}
                 >
                   {item}
                 </button>
               ))}
             </div>
-            {collection === "Shorts" ? (
+            {collection === "Moments" || collection === "Shorts" ? (
               <div className="page">
-                <ActionButton
-                  icon="shorts"
-                  className="secondary wide"
-                  onClick={() => push({ name: "shorts" })}
-                >
-                  Open Shorts
-                </ActionButton>
-                <WorkGrid items={state.shorts ?? []} open={openShort} />
-                {!state.shorts?.length && (
-                  <Empty title="Keep a little motion">
-                    <p>
-                      Your saved videos will appear here. Add your first clip in
-                      Shorts.
-                    </p>
+                {collection === "Moments" && moments.length > 0 ? (
+                  <Grid photos={moments} />
+                ) : collection === "Shorts" && state.shorts?.length ? (
+                  <WorkGrid items={state.shorts} open={openShort} />
+                ) : (
+                  <Empty title="No posts yet">
+                    <p>{collection === "Moments" ? "Your photos will appear here." : "Your videos will appear here."}</p>
                   </Empty>
                 )}
               </div>
@@ -1161,49 +1259,17 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                   </Empty>
                 )}
               </div>
-            ) : (
+            ) : reactionWorks && (
               <div className="page">
-                <Grid
-                  photos={
-                    collection === "Saved"
-                      ? visible.filter((p) => state.saves.includes(p.id))
-                      : moments
-                  }
-                />
-                {collection === "Saved" && (
-                  <WorkGrid
-                    items={clips.filter((short) => state.saves.includes(short.id))}
-                    open={openShort}
-                  />
-                )}
-                {((collection === "Moments" && !moments.length) ||
-                  (collection === "Saved" &&
-                    !visible.some((p) => state.saves.includes(p.id)) &&
-                    !clips.some((short) =>
-                      state.saves.includes(short.id),
-                    ))) && (
-                  <Empty
-                    title={
-                      collection === "Moments"
-                        ? "Start with today"
-                        : "Keep what catches your eye"
-                    }
-                  >
-                    <p>
-                      {collection === "Moments"
-                        ? "A photo and a few words are all you need."
-                        : "Save a photo or short to find it here."}
-                    </p>
-                    <ActionButton
-                      icon="plus"
-                      className="primary"
-                      onClick={() =>
-                        collection === "Moments" ? compose() : root("home")
-                      }
-                    >
-                      {collection === "Moments"
-                        ? "Add your first moment"
-                        : "Find inspiration"}
+                <WorkGrid collection items={reactionWorks} open={(id, work) => {
+                  if ("poster" in work) openShort(id);
+                  else push({ name: "detail", id });
+                }} />
+                {reactionWorks.length === 0 && (
+                  <Empty title={collection === "Liked" ? "No likes yet" : "Keep what catches your eye"}>
+                    <p>{collection === "Liked" ? "Photos, topic posts and shorts you like appear here." : "Save a photo or short to find it here."}</p>
+                    <ActionButton icon="plus" className="primary" onClick={() => root("home")}>
+                      Find inspiration
                     </ActionButton>
                   </Empty>
                 )}
@@ -1219,6 +1285,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               onClick={() => {
                 setName(state.profile.name);
                 setBio(state.profile.bio);
+                setAvatar(state.profile.avatar);
                 push({ name: "editProfile" });
               }}
             >
@@ -1382,28 +1449,15 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
           </div>
         )}
         {route.name === "message" && route.id && (
-          <div className="page">
-            <button className="author" onClick={() => openMember(route.id)}>
-              <img src={authorFor(route.id, state).avatar} alt="" />
-              <strong>{authorFor(route.id, state).name}</strong>
-            </button>
-            <Empty
-              title={
-                isBlocked(route.id, state)
-                  ? "This person is blocked"
-                  : "Messaging is not available yet"
-              }
-            >
-              <p>
-                {isBlocked(route.id, state)
-                  ? "You can manage blocked people in Settings."
-                  : "You can browse and follow their work. Private messages will be available when messaging is connected."}
-              </p>
-            </Empty>
-          </div>
+          <Conversation preview={(peerID, mode) => void call("openCallPreview", {peerID, mode})} key={route.id} peerID={route.id} state={state} profile={openMember} act={act} busy={busy} />
         )}
         {route.name === "editProfile" && (
           <div className="page">
+            <button type="button" className="edit-avatar" aria-label="Change profile photo"
+              disabled={busy} onClick={() => void pick("avatar")}>
+              <ProfilePortrait avatar={avatar} name={name} />
+              <span className="edit-avatar-badge"><Glyph name="camera" /></span>
+            </button>
             <label className="field">
               <span>Name</span>
               <input
@@ -1425,9 +1479,9 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
             <ActionButton
               icon="check"
               className="primary wide"
-              disabled={busy || !name.trim()}
+              disabled={busy || (!name.trim() && (!!state.profile.name || !avatar))}
               onClick={async () => {
-                if (await act("profile", { name, bio })) back();
+                if (await act("profile", { name, bio, avatar })) back();
               }}
             >
               Save profile
@@ -1549,16 +1603,16 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 {wallet?.notice}
               </div>
             </section>
-            <h2>Purchase history</h2>
+            <h2>Wallet activity</h2>
             {wallet?.activity.length ? (
               wallet.activity.map((a) => (
                 <div className="history" key={a.id}>
-                  <span>{new Date(a.date).toLocaleDateString("en")}</span>
-                  <strong>+{a.credits.toLocaleString("en")} {coinUnit(a.credits).toLowerCase()}</strong>
+                  <span>{a.label && a.label + " · "}{new Date(a.date).toLocaleDateString("en")}</span>
+                  <strong>{a.credits > 0 ? "+" : ""}{a.credits.toLocaleString("en")} {coinUnit(a.credits).toLowerCase()}</strong>
                 </div>
               ))
             ) : wallet ? (
-              <p className="muted">No purchases yet.</p>
+              <p className="muted">No wallet activity yet.</p>
             ) : null}
           </div>
         )}
@@ -1566,7 +1620,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
           <div className="page credits">
             <h2>Everyday inspiration</h2>
             <p>
-              Home features Unsplash photography. Topic photographs and portraits are licensed from Pexels.
+              Home features Unsplash photography. Topic photographs, editorial covers and member avatars are licensed from Pexels.
               These images are editorial material. Photo subjects are not
               presented as Roro members.
             </p>
@@ -1574,8 +1628,8 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               Source URLs, file hashes and license information are included in
               the app’s asset manifest.
             </p>
-            <h2>Topics photography</h2>
-            {topicCredits.map((item) => (
+            <h2>Pexels photography</h2>
+            {pexelsCredits.map((item) => (
               <p key={item.id}>{item.title} · {item.author}</p>
             ))}
             <h2>Shorts sources</h2>
@@ -1583,7 +1637,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               Videos are licensed from Pexels. Community profiles and
               conversations are locally curated fictional personas. Source
               creators and people in the footage are not represented as Roro
-              members. Theme avatars use licensed collection photography.
+              members.
             </p>
             {sourceCredits.map((clip) => (
               <div className="source-credit" key={clip.id}>
@@ -1598,7 +1652,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 </ActionButton>
               </div>
             ))}
-            <p>Typography — Nunito, SIL Open Font License 1.1.</p>
+            <p>Typography — Kalam and Courgette, SIL Open Font License 1.1.</p>
             <p>Interface artwork — original images generated for Roro.</p>
             <p>Your imported photographs and videos remain yours.</p>
           </div>

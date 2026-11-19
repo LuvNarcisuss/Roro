@@ -1,12 +1,13 @@
 import React from "react";
 import type { Photo, ShortVideo } from "./types";
 
-export default function WorkGrid({ items, open }: {
+export default function WorkGrid({ items, open, collection = false }: {
   items: (Photo | ShortVideo)[];
-  open(id: string): void;
+  open(id: string, work: Photo | ShortVideo): void;
+  collection?: boolean;
 }) {
   return (
-    <div className="work-grid">
+    <div className={collection ? "work-grid collection-work-grid" : "work-grid"}>
       {items.map((work) => {
         const video = "poster" in work;
         return (
@@ -15,7 +16,7 @@ export default function WorkGrid({ items, open }: {
             type="button"
             className={`work-thumbnail${video ? " is-video" : ""}`}
             aria-label={`${video ? "Play" : "View"} ${work.caption || (video ? "short" : "moment")}`}
-            onClick={() => open(work.id)}
+            onClick={() => open(work.id, work)}
           >
             <img
               className="work-thumbnail-image"
@@ -23,8 +24,8 @@ export default function WorkGrid({ items, open }: {
               alt=""
               loading="lazy"
             />
-            {video && (
-              <img className="work-video-marker" src="assets/icons/shorts.png" alt="" />
+            {(video || collection) && (
+              <img className="work-type-marker" src={video ? "assets/icons/shorts.png" : "assets/icons/topics.png"} alt="" />
             )}
           </button>
         );

@@ -71,7 +71,7 @@ final class SafetyTests: XCTestCase {
         add(evidence)
     }
 
-    private let successMessage = "Report saved successfully. Your report is stored only on this iPhone."
+    private let successMessage = "Report saved for this account."
 
     private func dismissSavedReport(_ name: String) {
         let message = app.alerts.staticTexts[successMessage]
@@ -86,8 +86,8 @@ final class SafetyTests: XCTestCase {
 
     private func checkCommentReport(author: String, text: String, photo: Bool) {
         let menu = "More options for comment by " + author
-        let report = app.buttons[photo ? "Report comment" : "Report comment by " + author].firstMatch
-        if photo { openSafetyMenu(menu, report: "Report comment", author: author) }
+        let report = app.buttons["Report comment"].firstMatch
+        openSafetyMenu(menu, report: "Report comment", author: author)
         XCTAssertTrue(report.waitForExistence(timeout: 8))
         report.tap()
         let cancel = app.alerts.buttons["Cancel"]
@@ -95,7 +95,7 @@ final class SafetyTests: XCTestCase {
         cancel.tap()
         XCTAssertTrue(app.staticTexts[text].firstMatch.exists)
         XCTAssertFalse(app.alerts.staticTexts[successMessage].exists)
-        if photo { moreControl(menu).tap() }
+        moreControl(menu).tap()
         report.tap()
         confirm()
         dismissSavedReport(photo ? "Photo comment report saved" : "Short comment report saved")
@@ -144,17 +144,49 @@ final class SafetyTests: XCTestCase {
         undoRecord("Withdraw report for Coffee tastes better together.")
     }
 
+    private func confirmBlockAndDismissSuccess() {
+        confirm()
+        let message = app.alerts.staticTexts["User blocked."]
+        XCTAssertTrue(message.waitForExistence(timeout: 8))
+        confirm()
+        XCTAssertTrue(message.waitForNonExistence(timeout: 4))
+    }
+
+    func testBlockingMemberFromShortsReturnsToRefreshedFeed() throws {
+        let first = try clip()
+        let avatar = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Open ' AND label ENDSWITH %@", "'s profile")).firstMatch
+        let profileLabel = avatar.label
+        avatar.tap()
+        let block = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Block '")).firstMatch
+        XCTAssertTrue(block.waitForExistence(timeout: 8))
+        let person = String(block.label.dropFirst("Block ".count))
+        block.tap()
+        app.alerts.buttons["Cancel"].tap()
+        XCTAssertTrue(block.exists)
+        block.tap()
+        confirmBlockAndDismissSuccess()
+        XCTAssertTrue(app.buttons["More video options"].waitForExistence(timeout: 8))
+        XCTAssertFalse(app.buttons["Back"].exists)
+        XCTAssertFalse(app.buttons[profileLabel].exists)
+        XCTAssertNotEqual(try clip(), first)
+        openSettingsList("Blocked people")
+        undoRecord("Unblock " + person)
+    }
+
     func testCoffeeDetailBlocksCommenterAndPublisher() {
         openCoffeePost()
         let commentMenu = "More options for comment by Milo Brooks"
         openSafetyMenu(commentMenu, report: "Report comment", author: "Milo Brooks")
         app.buttons["Block Milo Brooks"].tap()
-        confirm()
+        XCTAssertTrue(app.alerts.staticTexts["If you block Milo Brooks, you’ll no longer see their posts or comments."].waitForExistence(timeout: 6))
+        confirmBlockAndDismissSuccess()
         XCTAssertTrue(moreControl(commentMenu).waitForNonExistence(timeout: 8))
-        XCTAssertTrue(app.staticTexts["Coffee tastes better together."].firstMatch.exists)
+        XCTAssertTrue(app.buttons["Discover"].waitForExistence(timeout: 8))
+        openCoffeePost()
         openSafetyMenu("More post options", report: "Report post", author: "Ava Reed")
         app.buttons["Block Ava Reed"].tap()
-        confirm()
+        XCTAssertTrue(app.alerts.staticTexts["If you block Ava Reed, you’ll no longer see their posts or comments."].waitForExistence(timeout: 6))
+        confirmBlockAndDismissSuccess()
         XCTAssertTrue(app.staticTexts["Coffee tastes better together."].firstMatch.waitForNonExistence(timeout: 8))
         openSettingsList("Blocked people")
         undoRecord("Unblock Milo Brooks")
@@ -260,10 +292,10 @@ final class SafetyTests: XCTestCase {
         openTopicPost()
         moreControl("More post options").tap()
         app.buttons["Block Nora Vale"].firstMatch.tap()
-        confirm()
+        confirmBlockAndDismissSuccess()
         XCTAssertTrue(app.buttons["Open photo and comments"].firstMatch.waitForNonExistence(timeout: 8))
-        XCTAssertTrue(app.buttons["Add a photo"].firstMatch.waitForExistence(timeout: 6))
-        app.buttons["Back"].firstMatch.tap()
+        XCTAssertTrue(app.buttons["Filter topics"].waitForExistence(timeout: 6))
+        XCTAssertFalse(app.buttons["Back"].exists)
         openSettingsList("Blocked people")
         undoRecord("Unblock Nora Vale")
     }
@@ -288,9 +320,10 @@ final class SafetyTests: XCTestCase {
         openTopicPost()
         openSafetyMenu(more, report: "Report comment", author: "Kit Lane")
         app.buttons["Block Kit Lane"].firstMatch.tap()
-        confirm()
+        confirmBlockAndDismissSuccess()
         XCTAssertTrue(moreControl(more).waitForNonExistence(timeout: 8))
-        XCTAssertTrue(moreControl("More post options").exists)
+        XCTAssertTrue(app.buttons["Filter topics"].waitForExistence(timeout: 8))
+        XCTAssertFalse(app.buttons["Back"].exists)
         app.terminate()
         launchShorts()
         openSettingsList("Blocked people")

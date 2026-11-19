@@ -1,5 +1,7 @@
 import data from "../../Assets/community/catalog.json";
 import type { Photo, ShortVideo, Snapshot } from "./types";
+export const categoryPrices: Record<string, number> = data.categoryPrices;
+export const { categoryCovers, editorialCovers } = data;
 export const authors = data.authors;
 export const communityPhotos: Photo[] = data.photos;
 export const communityShorts: ShortVideo[] = data.shorts;
@@ -13,7 +15,7 @@ export function authorFor(id: string | undefined, state: Snapshot) {
       name: id && id !== "you" ? "Community member" : state.profile.name || "You",
       handle: "",
       bio: id && id !== "you" ? "" : state.profile.bio,
-      avatar: "assets/icons/profile.png",
+      avatar: ((!id || id === "you") && state.profile.avatar) || "assets/icons/profile.png",
     }
   );
 }
@@ -36,7 +38,7 @@ export function commentsFor(id: string, state: Snapshot) {
   const local = (state.comments ?? [])
     .filter((item) => item.postID === id)
     .map((item) => ({ ...item, authorID: "you", local: true }));
-  return [...seeded.map((item) => ({ ...item, local: false })), ...local];
+  return [...seeded.map((item) => ({ ...item, parentID: undefined, local: false })), ...local];
 }
 export function engagement(id: string, state: Snapshot) {
   const work = works.find((item) => item.id === id);

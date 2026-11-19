@@ -33,6 +33,10 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Use your camera to show your video call preview.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Use your microphone to preview audio in voice and video calls.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
@@ -53,7 +57,7 @@
 		</dict>
 	</dict>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>JournalLaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>arm64</string>
@@ -74,7 +78,7 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AppResources/Nunito.ttf</string>
+		<string>AppResources/Kalam-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

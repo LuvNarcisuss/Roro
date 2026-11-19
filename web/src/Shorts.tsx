@@ -108,7 +108,7 @@ export function ShortList({
                 Share
               </ActionButton>
               <ActionButton
-                icon="chat"
+                icon="comment"
                 count={engagement(short.id, state).comments}
                 onClick={() => open(short.id)}
                 aria-label="Open short and comments"

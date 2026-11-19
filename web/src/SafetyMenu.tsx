@@ -1,3 +1,4 @@
+import { confirmBlock } from "./confirmBlock";
 import React, { useRef } from "react";
 import { ActionButton } from "./Controls";
 import { reportContent } from "./reportContent";
@@ -12,9 +13,10 @@ type Props = {
   busy: boolean;
   share?(): void;
   hide?(): void;
+  remove?(): void;
 };
 
-export default function SafetyMenu({ postID, commentID, authorID, author, act, busy, share, hide }: Props) {
+export default function SafetyMenu({ postID, commentID, authorID, author, act, busy, share, hide, remove }: Props) {
   const dialog = useRef<HTMLDialogElement>(null);
   const menuName = commentID ? `More options for comment by ${author}` : "More post options";
   const reportLabel = commentID ? "Report comment" : "Report post";
@@ -27,7 +29,7 @@ export default function SafetyMenu({ postID, commentID, authorID, author, act, b
   }
   function block() {
     close();
-    if (confirm(`Block ${author}? Their work and comments will be hidden on this iPhone.`)) {
+    if (confirmBlock(author)) {
       void act("setBlock", { id: authorID, enabled: true, postID, commentID });
     }
   }
@@ -36,10 +38,13 @@ export default function SafetyMenu({ postID, commentID, authorID, author, act, b
       onClick={() => dialog.current?.showModal()}>More</ActionButton>
     <dialog ref={dialog} aria-label={menuName} className="feed-panel safety-menu">
       <div className="menu-actions">
+        {remove ? <ActionButton icon="trash" labelPosition="below" disabled={busy}
+          onClick={() => { close(); remove(); }}>Delete comment</ActionButton> : <>
         <ActionButton icon="info" labelPosition="below" disabled={busy} onClick={report}>{reportLabel}</ActionButton>
         <button type="button" className="safety-block" aria-label={`Block ${author}`} disabled={busy} onClick={block}>
           <span aria-hidden="true">🚫</span><span>Block</span>
         </button>
+        </>}
         {share && <ActionButton icon="share" labelPosition="below" onClick={() => { close(); share(); }}>Share photo</ActionButton>}
         {hide && <ActionButton icon="eye" labelPosition="below" onClick={() => { close(); hide(); }}>Hide photo</ActionButton>}
         <ActionButton icon="close" labelPosition="below" onClick={close}>Cancel</ActionButton>

@@ -14,6 +14,8 @@ Compilation, bundling and typechecking remain authorized. No simulator launch, r
 
 ## Reference evidence and icon correction
 
+On the Shorts root tab, the five navigation icons and labels float over playback on a transparent surface. The active underline remains visible, and the gaps between controls pass touches through to playback. Home, Topics, Chats and Me use the paper-textured filmstrip dock.
+
 Read-only comparison: /Users/apple/Desktop/Vava/Vava/ReactNative/Shorts.tsx, Web/native.web.tsx, ReactNative/WebApp.tsx and the historical Shorts acceptance screenshot /tmp/vava-h5-final-images/A37A7106-AE04-419D-8CB6-C060DB565151.png. Follow the current H5 implementation, not the excluded legacy UIKit screen. Vava itself is unchanged. Preserve Roro colors, fonts, navigation labels, local user data and configuration. Remove the special center-tab background and oversized icon; all five navigation buttons use the same sizing. Replace the framed film icon with a transparent standalone play triangle.
 
 
@@ -28,4 +30,4 @@ A downward pull refreshes any clip or the empty feed. The current search and top
 
 The owner chose the existing local library as the safety authority. Reporting a community video hides it only on this iPhone. Blocking a member hides that member's content and comments. Settings supports confirmed withdrawal and unblocking by long press or an accessible button. The private action history and active records are written atomically. Reports, blocks, manual hides and saved selections are independent.
 
-Community comments on photos and Shorts can be reported individually. A comment report hides that one comment and updates visible counts. Its parent work and the author's other comments remain available unless another visibility rule applies. Settings lists reported comments by author and text and supports confirmed withdrawal. Both comment and video reports show a dismissible success alert after the local save. The alert states that the report is stored only on this iPhone.
+Community comments on photos and Shorts can be reported individually. A comment report hides that one comment and updates visible counts. Its parent work and the author's other comments remain available unless another visibility rule applies. Settings lists reported comments by author and text and supports confirmed withdrawal. Both comment and video reports show a dismissible success alert after the local save. Report confirmation and success alerts refer to the current account.

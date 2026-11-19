@@ -69,6 +69,8 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
               let environment = value["environment"] as? String, environments.contains(environment) else { throw roroError("Your purchase history could not be read. Please try again.") }
         for environment in environments {
             guard let account = value[environment] as? [String: Any], account["balance"] is Int,
+                  (account["unlockedCategories"] == nil || account["unlockedCategories"] is [String]),
+                  (account["unlockedTopics"] == nil || account["unlockedTopics"] is [String]),
                   account["transactions"] is [String], account["activity"] is [[String: Any]] else { throw roroError("Your purchase history could not be read. Please try again.") }
         }
         return value
@@ -82,11 +84,43 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
             return ["id": item.id, "price": price as Any? ?? NSNull(), "credits": item.credits]
         }
         return [
+            "unlockedCategories": account["unlockedCategories"] as? [String] ?? [],
+            "unlockedTopics": account["unlockedTopics"] as? [String] ?? [],
             "balance": account["balance"]!, "activity": account["activity"]!,
             "products": offers, "status": status, "notice": transactionNotice,
             "checkoutBlocked": checkoutBlocked,
             "canRetry": !undeliveredTransactions.isEmpty && processing.isEmpty && receiptRequest == nil
         ]
+    }
+
+    func unlockTopicWork(_ id: String, scope: String, quotedPrice: Int) throws -> [String: Any] {
+        guard let work = try CommunityCatalog.records("photos").first(where: { $0["id"] as? String == id }),
+              work["surface"] as? String == "topics", let workPrice = work["coinPrice"] as? Int,
+              (1...9999).contains(workPrice), let category = work["topic"] as? String,
+              let prices = try CommunityCatalog.load()["categoryPrices"] as? [String: Int],
+              let passPrice = prices[category], (1...9999).contains(passPrice),
+              ["work", "category"].contains(scope) else { throw roroError("This work is unavailable.") }
+        let url = displayedLedgerURL
+        var value = try ledger(at: url)
+        let environment = value["environment"] as! String
+        var account = value[environment] as! [String: Any]
+        let isPass = scope == "category"
+        let price = isPass ? passPrice : workPrice
+        guard price == quotedPrice else { throw roroError("The price has changed. Review the price and try again.") }
+        let passes = account["unlockedCategories"] as? [String] ?? []
+        let works = account["unlockedTopics"] as? [String] ?? []
+        if passes.contains(category) || (!isPass && works.contains(id)) { return try snapshot() }
+        let balance = account["balance"] as! Int
+        guard balance >= price else { throw roroError("You need more coins to unlock this work.") }
+        if isPass { account["unlockedCategories"] = passes + [category] }
+        else { account["unlockedTopics"] = works + [id] }
+        account["balance"] = balance - price
+        var activity = account["activity"] as! [[String: Any]]
+        activity.insert(["id": isPass ? "category-" + category : "topic-" + id, "label": isPass ? category + " pass" : "Topic work", "credits": -price, "date": ISO8601DateFormatter().string(from: Date())], at: 0)
+        account["activity"] = activity
+        value[environment] = account
+        try JSONSerialization.data(withJSONObject: value, options: [.sortedKeys]).write(to: url, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
+        return try snapshot()
     }
 
     private var checkoutBlocked: Bool {

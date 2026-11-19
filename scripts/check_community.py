@@ -19,6 +19,29 @@ def local(path):
     result = root / "Assets" / path.removeprefix("assets/")
     assert result.is_file(), path
     return result
+# Each bundled identity and each distinct work or editorial slot owns one image.
+assert set(data["categoryCovers"]) == topics
+assigned_images = [author["avatar"] for author in authors.values()]
+assigned_images.extend(image for photo in data["photos"] for image in photo["images"])
+assigned_images.extend(clip["poster"] for clip in data["shorts"])
+assigned_images.extend(data["categoryCovers"].values())
+assigned_images.extend(data["editorialCovers"].values())
+photo_sources = {
+    "assets/" + item["file"]: item["source"].split("?")[0].rstrip("/")
+    for item in json.loads((root / "Assets/photos/manifest.json").read_text())
+}
+photo_sources.update({clip["poster"]: clip["sourceURL"] for clip in data["shorts"]})
+seen_bytes = {}
+seen_sources = {}
+for path in assigned_images:
+    digest = hashlib.sha256(local(path).read_bytes()).digest()
+    source = photo_sources[path]
+    assert digest not in seen_bytes, f"Repeated image: {path} and {seen_bytes.get(digest)}"
+    assert source not in seen_sources, f"Repeated source: {path} and {seen_sources.get(source)}"
+    seen_bytes[digest] = path
+    seen_sources[source] = path
+    checks += 2
+
 # Compare the media that can appear on each surface, including followed clips.
 topic_photos = [p for p in data["photos"] if p.get("surface") == "topics"]
 home_works = [p for p in data["photos"] if p.get("surface") != "topics"] + data["shorts"]

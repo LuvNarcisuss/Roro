@@ -32,12 +32,12 @@ final class RoroNative: NSObject {
             if !["snapshot", "consent", "openAgreement"].contains(command), try library.snapshot()["consent"] as? Bool != true {
                 throw roroError("Please accept the agreements to continue.")
             }
-            if ["videoSource", "sharePhoto", "openSource"].contains(command) {
+            if ["videoSource", "sharePhoto", "openSource", "unlockTopicWork"].contains(command) {
                 let snapshot = try library.snapshot()
                 let blocked = Set(snapshot["blocked"] as? [String] ?? [])
                 let works = try CommunityCatalog.records("photos") + CommunityCatalog.records("shorts")
                 let match = works.first { record in
-                    if let id = payload["id"] as? String { return record["id"] as? String == id }
+                    if command != "sharePhoto", let id = payload["id"] as? String { return record["id"] as? String == id }
                     guard let path = payload["image"] as? String else { return false }
                     return record["video"] as? String == path || (record["images"] as? [String] ?? []).contains(path)
                 }
@@ -47,16 +47,37 @@ final class RoroNative: NSObject {
                 if let id = match?["id"] as? String, (snapshot["reportedPosts"] as? [String] ?? []).contains(id) {
                     throw roroError("This post is hidden.")
                 }
+                if command == "unlockTopicWork", let id = match?["id"] as? String,
+                   (snapshot["hidden"] as? [String] ?? []).contains(id) { throw roroError("This work is hidden.") }
+                if command == "sharePhoto", let price = match?["coinPrice"] as? Int, price > 0,
+                   let id = match?["id"] as? String {
+                    let wallet = try PurchaseService.shared.snapshot()
+                    let category = match?["topic"] as? String ?? ""
+                    guard (wallet["unlockedTopics"] as? [String] ?? []).contains(id) ||
+                          (wallet["unlockedCategories"] as? [String] ?? []).contains(category) else { throw roroError("Unlock this work before sharing it.") }
+                }
                 if let author = match?["authorID"] as? String, blocked.contains(author) {
                     throw roroError("Unblock this person before opening their work.")
                 }
             }
             switch command {
             case "snapshot": resolve(try library.visibleSnapshot(reload: payload["reload"] as? Bool == true))
+            case "openCallPreview":
+                guard let peer = payload["peerID"] as? String, let mode = payload["mode"] as? String,
+                      ["voice", "video"].contains(mode), PhotoLibrary.messagingPeers(try library.snapshot()).contains(peer),
+                      let member = try CommunityCatalog.records("authors").first(where: { $0["id"] as? String == peer }),
+                      let name = member["name"] as? String, let avatar = member["avatar"] as? String,
+                      picker == nil, videoPicker == nil, let controller = presenter(),
+                      !(controller is CallPreviewController), !controller.isBeingDismissed else {
+                    throw roroError("Call preview unavailable.")
+                }
+                let preview = CallPreviewController(video: mode == "video", name: name, portrait: pages.appendingPathComponent(avatar), pages: pages)
+                controller.present(preview, animated: true)
+                resolve(NSNull())
             case "pickPhotos":
                 guard picker == nil, videoPicker == nil, let controller = presenter() else { throw roroError("Please finish the current photo selection.") }
                 _ = try library.snapshot()
-                let picker = MediaPicker(library: library, pages: pages)
+                let picker = MediaPicker(library: library, pages: pages, forAvatar: payload["purpose"] as? String == "avatar")
                 self.picker = picker
                 picker.present(from: controller) { result in
                     self.picker = nil
@@ -137,6 +158,10 @@ final class RoroNative: NSObject {
                 share.popoverPresentationController?.sourceView = controller.view
                 controller.present(share, animated: true)
                 resolve(NSNull())
+            case "unlockTopicWork":
+                guard let id = payload["id"] as? String else { throw roroError("Choose a topic work.") }
+                guard let scope = payload["scope"] as? String, let price = payload["price"] as? Int else { throw roroError("Choose an unlock option.") }
+                resolve(try PurchaseService.shared.unlockTopicWork(id, scope: scope, quotedPrice: price))
             case "walletSnapshot": resolve(try PurchaseService.shared.snapshot())
             case "wallet":
                 PurchaseService.shared.load { result in

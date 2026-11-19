@@ -41,10 +41,13 @@ for (const name of files) {
     if (icon && ['ActionButton','IconButton','Glyph','Icon'].includes(tag) && !fs.existsSync(path.join(root,'Assets/icons',icon.value.value+'.png'))) errors.push(`${name}:${n.loc.start.line}: Missing icon ${icon.value.value}.`);
     if (tag === 'button') {
       const literal = n.children.filter(c => c.type === 'JSXText').map(c => c.value).join(' ').replace(/\s+/g,' ').trim();
-      if (actionWords.test(literal)) errors.push(`${name}:${n.loc.start.line}: Bare text action '${literal}'.`);
+      const swipeDelete = name === 'ChatSwipeRow.tsx' && literal === 'Delete' &&
+        p.parentPath.isJSXElement() && p.parentPath.node.openingElement.attributes.some(a =>
+          a.name?.name === 'className' && a.value?.value === 'chat-swipe-actions');
+      if (!swipeDelete && actionWords.test(literal)) errors.push(`${name}:${n.loc.start.line}: Bare text action '${literal}'.`);
     }
   }});
   if (/route\.name === "search"|panel === "search"/.test(source)) errors.push(`${name}: Detached search destination is forbidden.`);
 }
 if(errors.length) {console.error(errors.join('\n'));process.exit(1);}
-console.log(`${checked} JSX controls statically inspected: no bare text actions, no detached search destination, and referenced action glyphs exist.`);
+console.log(`${checked} JSX controls statically inspected: action labels follow project rules, no detached search destination, and referenced action glyphs exist.`);

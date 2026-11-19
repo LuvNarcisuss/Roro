@@ -5,6 +5,7 @@ export type Topic =
   | "Today's sky"
   | "Something delicious";
 export interface Moment {
+  coinPrice?: number;
   surface?: string;
   id: string;
   images: string[];
@@ -33,11 +34,26 @@ export interface Note {
   text: string;
   createdAt: string;
 }
+export interface ChatEntry {
+  id: string;
+  peerID: string;
+  text: string;
+  createdAt: string;
+}
 export interface Snapshot {
+  contacts?: string[];
+  incomingRequests?: string[];
+  verifiedFriends?: string[];
+  messagingPeers?: string[];
+  followers?: string[];
+  chatEntries?: ChatEntry[];
+  archivedChats?: string[];
+  pinnedChats?: string[];
+  unreadChats?: string[];
   revision: number;
   consent: boolean;
   cleanupPending?: boolean;
-  profile: { name: string; bio: string };
+  profile: { name: string; bio: string; avatar?: string };
   moments: Moment[];
   shorts?: ShortVideo[];
   likes: string[];
@@ -49,9 +65,11 @@ export interface Snapshot {
   reportedPosts?: string[];
   reportedComments?: string[];
   notes: Note[];
-  comments?: Note[];
+  comments?: (Note & { parentID?: string })[];
 }
 export interface Photo {
+  preview?: string;
+  coinPrice?: number;
   surface?: string;
   authorID?: string;
   id: string;
@@ -68,13 +86,15 @@ export interface Offer {
   credits: number;
 }
 export interface Wallet {
+  unlockedTopics: string[];
+  unlockedCategories: string[];
   notice: string;
   balance: number;
   products: Offer[];
   status: "loading" | "ready" | "partial" | "unavailable" | "failed";
   checkoutBlocked: boolean;
   canRetry: boolean;
-  activity: { id: string; credits: number; date: string }[];
+  activity: { id: string; label?: string; credits: number; date: string }[];
 }
 export type Command =
   | "snapshot"
@@ -82,6 +102,15 @@ export type Command =
   | "toggleLike"
   | "toggleSave"
   | "toggleFollow"
+  | "setContact"
+  | "respondFriendRequest"
+  | "removeFriend"
+  | "openCallPreview"
+  | "saveChatEntry"
+  | "setChatArchived"
+  | "setChatPinned"
+  | "setChatUnread"
+  | "deleteConversation"
   | "setReport"
   | "setBlock"
   | "toggleBlock"
@@ -104,6 +133,7 @@ export type Command =
   | "openAgreement"
   | "sharePhoto"
   | "wallet"
+  | "unlockTopicWork"
   | "walletSnapshot"
   | "purchase"
   | "retryPurchases"

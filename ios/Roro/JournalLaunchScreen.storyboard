@@ -15,7 +15,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667" />
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
             <subviews>
-              <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="RoroMark" translatesAutoresizingMaskIntoConstraints="NO" id="roro-launch-mark">
+              <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="roro-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="roro-launch-mark">
                 <rect key="frame" x="127.5" y="273.5" width="120" height="120" />
                 <constraints>
                   <constraint firstAttribute="width" constant="120" id="roro-mark-width" />
@@ -23,7 +23,7 @@
                 </constraints>
               </imageView>
             </subviews>
-            <color key="backgroundColor" red="0.980392" green="0.972549" blue="0.960784" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
+            <color key="backgroundColor" red="1" green="0.941176" blue="0.854902" alpha="1" colorSpace="custom" customColorSpace="sRGB" />
             <constraints>
               <constraint firstItem="roro-launch-mark" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="roro-center-x" />
               <constraint firstItem="roro-launch-mark" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="roro-center-y" />
@@ -37,6 +37,6 @@
     </scene>
   </scenes>
   <resources>
-    <image name="RoroMark" width="1024" height="1024" />
+    <image name="roro-logo.png" width="256" height="256" />
   </resources>
 </document>

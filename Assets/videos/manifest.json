@@ -193,5 +193,102 @@
       6,
       10
     ]
+  },
+  {
+    "id": "short-sea-breeze-portrait",
+    "video": "assets/videos/sea-breeze-portrait.mp4",
+    "poster": "assets/videos/sea-breeze-portrait.jpg",
+    "duration": 10.0,
+    "sourceAuthor": "Honye Sanges",
+    "sourceURL": "https://www.pexels.com/video/woman-in-bikini-fixing-her-hair-while-standing-on-beach-5139598/",
+    "licenseURL": "https://www.pexels.com/license/",
+    "downloadURL": "https://videos.pexels.com/video-files/5139598/5139598-hd_1280_720_24fps.mp4",
+    "license": "Pexels License",
+    "retrievedAt": "2026-11-19",
+    "videoSHA256": "18898a8e47051a88a1e60e0f7f01c5589d58583420d5e1bf9b6de1c3f8a7a6d7",
+    "posterSHA256": "294939082b7f0571b573d69087b778caec63d1fe2c15151100d5c7fbb7cf15ec",
+    "bytes": 2107037,
+    "width": 1280,
+    "height": 720,
+    "processing": "Excerpt starting at 0 seconds, H.264 at 24 fps, original speed, no audio. Poster extracted at the midpoint.",
+    "review": "Fashion portrait, with model and outfit visible in reviewed frames.",
+    "reviewTimes": [
+      1.667,
+      5.0,
+      8.333
+    ]
+  },
+  {
+    "id": "short-embroidered-runway",
+    "video": "assets/videos/embroidered-runway.mp4",
+    "poster": "assets/videos/embroidered-runway.jpg",
+    "duration": 10.0,
+    "sourceAuthor": "cottonbro studio",
+    "sourceURL": "https://www.pexels.com/video/a-woman-walking-down-the-runway-9512046/",
+    "licenseURL": "https://www.pexels.com/license/",
+    "downloadURL": "https://videos.pexels.com/video-files/9512046/9512046-hd_1366_720_25fps.mp4",
+    "license": "Pexels License",
+    "retrievedAt": "2026-11-19",
+    "videoSHA256": "5b0650620680f5c3fc2aee7216e7c7ec31f39851e3a157a8ff183267a10e7cce",
+    "posterSHA256": "68e75e7161e8ac0104a7ad0e67e65209e728b08a7b6df153f426997b86674f95",
+    "bytes": 2678614,
+    "width": 1280,
+    "height": 674,
+    "processing": "Excerpt starting at 5 seconds, H.264 at 24 fps, original speed, no audio. Poster extracted at the midpoint.",
+    "review": "Fashion portrait, with model and outfit visible in reviewed frames.",
+    "reviewTimes": [
+      1.667,
+      5.0,
+      8.333
+    ]
+  },
+  {
+    "id": "short-scarlet-studio",
+    "video": "assets/videos/scarlet-studio.mp4",
+    "poster": "assets/videos/scarlet-studio.jpg",
+    "duration": 8.0,
+    "sourceAuthor": "Ali Alcántara",
+    "sourceURL": "https://www.pexels.com/video/a-woman-in-a-red-dress-posing-for-a-photo-16987656/",
+    "licenseURL": "https://www.pexels.com/license/",
+    "downloadURL": "https://videos.pexels.com/video-files/16987656/16987656-hd_720_1280_24fps.mp4",
+    "license": "Pexels License",
+    "retrievedAt": "2026-11-19",
+    "videoSHA256": "1eae21773b699d62a646396a34506df898b0a5240f5c801ac49b60d66dc57611",
+    "posterSHA256": "38eb77e64cba4f037bc1e45effb0848aac35eb1e2906732d9a392a11c0e6385c",
+    "bytes": 857213,
+    "width": 720,
+    "height": 1280,
+    "processing": "Excerpt starting at 0 seconds, H.264 at 24 fps, original speed, no audio. Poster extracted at the midpoint.",
+    "review": "Fashion portrait, with model and outfit visible in reviewed frames.",
+    "reviewTimes": [
+      1.333,
+      4.0,
+      6.667
+    ]
+  },
+  {
+    "id": "short-seine-summer-style",
+    "video": "assets/videos/seine-summer-style.mp4",
+    "poster": "assets/videos/seine-summer-style.jpg",
+    "duration": 3.583333,
+    "sourceAuthor": "Zenia Diamond",
+    "sourceURL": "https://www.pexels.com/video/stylish-woman-by-the-eiffel-tower-in-summer-36947980/",
+    "licenseURL": "https://www.pexels.com/license/",
+    "downloadURL": "https://videos.pexels.com/video-files/36947980/15652687_2160_3840_30fps.mp4",
+    "license": "Pexels License",
+    "retrievedAt": "2026-11-19",
+    "videoSHA256": "329d9fc792207b186ae007909b281c5e3d23e8c0e5c81cdb56797a0199c20ada",
+    "posterSHA256": "16c711dbf53584ea7f67f9f4cde802cd5e2ee6d5d79ed53d16d091d092f313a1",
+    "bytes": 1351798,
+    "width": 720,
+    "height": 1280,
+    "processing": "Excerpt starting at 0 seconds, H.264 at 24 fps, original speed, no audio. Poster extracted at the midpoint.",
+    "review": "Fashion portrait, with model and outfit visible in reviewed frames.",
+    "reviewTimes": [
+      0.597,
+      1.792,
+      2.986
+    ],
+    "location": "Paris, France"
   }
 ]

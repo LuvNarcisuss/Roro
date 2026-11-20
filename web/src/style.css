@@ -1106,57 +1106,35 @@ button.icon-action.label-below.danger {
   font-size: 0.9375rem;
   margin-bottom: 0;
 }
-.topic-list {
+.topic-list, .community-grid {
   display: grid;
-  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 10px;
 }
+.topic-list > [role="status"] { grid-column: 1 / -1; }
 .topic-tile {
-  display: flex;
-  align-items: center;
-  padding: 0;
-  gap: 16px;
-  text-align: left;
-  background: #fff;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--line);
-}
-.topic-tile > img {
-  width: 106px;
-  height: 148px;
-  object-fit: cover;
-  align-self: stretch;
-}
-.topic-tile-copy {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 16px 14px 16px 0;
+  align-items: stretch;
+  padding: 0;
+  text-align: start;
+  overflow: hidden;
 }
-.topic-tile-copy strong {
-  font-size: 1.125rem;
-}
-.topic-tile-copy > span {
-  color: var(--muted);
-  line-height: 1.45;
-  font-size: 0.8125rem;
-}
-.topic-tile-copy small {
-  color: var(--accent);
-  font-size: 0.6875rem;
-  margin-top: 6px;
-}
-.topic-tile.featured {
-  display: block;
-}
-.topic-tile.featured > img {
+.topic-tile > img {
   width: 100%;
-  height: 210px;
-  display: block;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
-.topic-tile.featured .topic-tile-copy {
-  padding: 18px;
+.topic-tile-copy {
+  display: grid;
+  gap: 3px;
+  padding: 8px 5px;
+  overflow-wrap: anywhere;
 }
+.topic-tile-copy strong { font-size: 1.06rem; line-height: 1.25; }
+.topic-tile-copy > span { font-size: .85rem; color: var(--petrol); }
+.topic-tile-copy small { font-size: .74rem; line-height: 1.3; color: var(--muted); }
 .topic-cover-actions {
   display: flex;
   align-items: center;
@@ -1335,11 +1313,6 @@ button.icon-action.label-below.danger {
   color: #ae342b;
   font-size: 0.875rem;
   margin-top: 12px;
-}
-@media (max-width: 350px) {
-  .topic-tile > img {
-    width: 84px;
-  }
 }
 
 .topic-tile > img.empty-topic-cover {
@@ -2552,3 +2525,35 @@ div.detail-actions > button {
 .detail-save { --art-size: 28px; }
 .detail-share { --art-size: 33px; }
 .detail-actions .action-count { grid-row: 2; }
+
+.community-grid { padding: 0 8px 16px; align-items: start; }
+.community-grid:empty { padding: 0; }
+.community-grid > .short-list { display: contents; }
+.community-grid .photo-card { min-width: 0; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.community-grid .journal-print { order: -2; }
+.community-grid .photo-open { min-width: 0; }
+.community-grid .photo-open img { aspect-ratio: 4 / 5; }
+.community-grid .author-row { gap: 0; padding: 0; }
+.community-grid .author { flex: 1; min-width: 0; gap: 4px; }
+.community-grid .author img { width: 26px; height: 26px; flex: none; }
+.community-grid .author span { min-width: 0; }
+.community-grid .author strong, .community-grid .short-member strong { font-size: .85rem; overflow-wrap: anywhere; line-height: 1.15; }
+.community-grid .author-row > .icon-action { width: 44px; height: 44px; margin: 0; }
+.community-grid .author-row > .icon-action .icon { width: 22px; height: 22px; }
+.community-grid .caption { order: -1; margin: 8px 2px 0; font-size: .95rem; line-height: 1.28; }
+.community-grid .actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin: 0; }
+.community-grid .actions .icon-button:has(.action-count) { width: 100%; min-width: 44px; height: auto; padding: 2px 0; }
+.community-grid .actions .icon { width: 23px; height: 23px; }
+.community-grid .topic-link { align-self: start; min-height: 44px; }
+.community-grid .topic-lock { margin: 0; padding: 8px; min-width: 0; overflow-wrap: anywhere; }
+.community-grid .locked-preview { width: 100%; max-width: 100%; object-fit: cover; }
+.community-grid .short-card { min-width: 0; }
+.community-grid .short-cover { aspect-ratio: 4 / 5; }
+.community-grid .short-poster { object-fit: cover; }
+.community-grid .short-play img { width: 40px; height: 40px; }
+.community-grid .short-copy { padding: 6px; }
+.community-grid .short-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
+.community-grid .short-actions button { min-width: 44px; width: 100%; margin: 0; }
+.community-grid .short-copy p { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.community-grid .short-member { min-width: 0; gap: 4px; }
+.community-grid .short-member img { width: 26px; height: 26px; }

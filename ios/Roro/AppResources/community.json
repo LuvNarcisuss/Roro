@@ -8,10 +8,10 @@
     "Something delicious": 40
   },
   "categoryCovers": {
-    "Little joys": "assets/photos/categories/paper-crane.jpg",
+    "Little joys": "assets/photos/categories/street-dance-circle.jpg",
     "On my walk": "assets/photos/categories/cobblestone-lane.jpg",
     "At home": "assets/photos/categories/sunlit-armchair.jpg",
-    "Today's sky": "assets/photos/categories/pastel-cloudscape.jpg",
+    "Today's sky": "assets/photos/categories/lifeguard-tower-friends.jpg",
     "Something delicious": "assets/photos/categories/pancake-stack.jpg"
   },
   "editorialCovers": {
@@ -93,6 +93,209 @@
     }
   ],
   "photos": [
+    {
+      "id": "station-selfie",
+      "surface": "home",
+      "authorID": "ava",
+      "author": "Ava Reed",
+      "images": [
+        "assets/photos/portraits/station-selfie.jpg"
+      ],
+      "caption": "How do you fit everyone in? Hold the phone just a little higher.",
+      "topic": "Little joys",
+      "createdAt": "2026-11-19T08:00:00Z",
+      "editorial": true,
+      "likes": 87,
+      "saves": 17,
+      "comments": [
+        {
+          "id": "station-selfie-comment-1",
+          "authorID": "milo",
+          "text": "I like the low angle. It leaves room for the station, too.",
+          "createdAt": "2026-11-19T08:01:00Z"
+        },
+        {
+          "id": "station-selfie-comment-2",
+          "authorID": "iris",
+          "text": "The best part is everyone leaning into the frame.",
+          "createdAt": "2026-11-19T08:02:00Z"
+        }
+      ]
+    },
+    {
+      "id": "riverside-picnic",
+      "surface": "topics",
+      "authorID": "ella",
+      "author": "Ella Wren",
+      "images": [
+        "assets/photos/topics/riverside-picnic.jpg"
+      ],
+      "caption": "One picnic blanket, one bridge and just enough room for the whole group.",
+      "topic": "Something delicious",
+      "createdAt": "2026-11-19T08:00:00Z",
+      "editorial": true,
+      "likes": 65,
+      "saves": 13,
+      "comments": [
+        {
+          "id": "riverside-picnic-comment-1",
+          "authorID": "kit",
+          "text": "Keeping the bridge in the background really places us there.",
+          "createdAt": "2026-11-19T08:01:00Z"
+        },
+        {
+          "id": "riverside-picnic-comment-2",
+          "authorID": "nora",
+          "text": "Next picnic I am packing a camera along with the food.",
+          "createdAt": "2026-11-19T08:02:00Z"
+        }
+      ]
+    },
+    {
+      "id": "pasta-counter",
+      "surface": "home",
+      "authorID": "leo",
+      "author": "Leo Morgan",
+      "images": [
+        "assets/photos/portraits/pasta-counter.jpg"
+      ],
+      "caption": "Two cooks at the counter. What would you frame first, the hands or the faces?",
+      "topic": "Something delicious",
+      "createdAt": "2026-11-19T08:00:00Z",
+      "editorial": true,
+      "likes": 42,
+      "saves": 16,
+      "comments": [
+        {
+          "id": "pasta-counter-comment-1",
+          "authorID": "ava",
+          "text": "The hands first! They tell you what is happening.",
+          "createdAt": "2026-11-19T08:01:00Z"
+        },
+        {
+          "id": "pasta-counter-comment-2",
+          "authorID": "june",
+          "text": "I would step back for a second frame with both cooks.",
+          "createdAt": "2026-11-19T08:02:00Z"
+        }
+      ]
+    },
+    {
+      "id": "london-group-frame",
+      "surface": "topics",
+      "authorID": "kit",
+      "author": "Kit Lane",
+      "images": [
+        "assets/photos/topics/london-group-frame.jpg"
+      ],
+      "caption": "Sometimes the best street portrait is the moment everyone squeezes together.",
+      "topic": "On my walk",
+      "createdAt": "2026-11-19T08:00:00Z",
+      "editorial": true,
+      "likes": 103,
+      "saves": 22,
+      "comments": [
+        {
+          "id": "london-group-frame-comment-1",
+          "authorID": "nora",
+          "text": "That little lean toward the phone makes it feel spontaneous.",
+          "createdAt": "2026-11-19T08:01:00Z"
+        },
+        {
+          "id": "london-group-frame-comment-2",
+          "authorID": "ella",
+          "text": "I would keep the street in the frame just like this.",
+          "createdAt": "2026-11-19T08:02:00Z"
+        }
+      ]
+    },
+    {
+      "id": "surfside-walk",
+      "surface": "home",
+      "authorID": "iris",
+      "author": "Iris Lane",
+      "images": [
+        "assets/photos/portraits/surfside-walk.jpg"
+      ],
+      "caption": "A quieter portrait after the surf. I like leaving space in front of a walking pair.",
+      "topic": "On my walk",
+      "createdAt": "2026-11-19T08:00:00Z",
+      "editorial": true,
+      "likes": 54,
+      "saves": 11,
+      "comments": [
+        {
+          "id": "surfside-walk-comment-1",
+          "authorID": "leo",
+          "text": "The board gives the frame a lovely diagonal.",
+          "createdAt": "2026-11-19T08:01:00Z"
+        },
+        {
+          "id": "surfside-walk-comment-2",
+          "authorID": "rowan",
+          "text": "That space makes me want to follow them down the shore.",
+          "createdAt": "2026-11-19T08:02:00Z"
+        }
+      ]
+    },
+    {
+      "id": "bridge-dance",
+      "surface": "topics",
+      "authorID": "nora",
+      "author": "Nora Vale",
+      "images": [
+        "assets/photos/topics/bridge-dance.jpg"
+      ],
+      "caption": "The columns frame the dancers. Would you crop in or leave the whole arch?",
+      "topic": "Little joys",
+      "createdAt": "2026-11-19T08:00:00Z",
+      "editorial": true,
+      "likes": 38,
+      "saves": 15,
+      "comments": [
+        {
+          "id": "bridge-dance-comment-1",
+          "authorID": "kit",
+          "text": "I would keep the arch. It gives them a little stage.",
+          "createdAt": "2026-11-19T08:01:00Z"
+        },
+        {
+          "id": "bridge-dance-comment-2",
+          "authorID": "ella",
+          "text": "A tight shot of their hands would make a great second photo.",
+          "createdAt": "2026-11-19T08:02:00Z"
+        }
+      ]
+    },
+    {
+      "id": "surf-group-photo",
+      "surface": "home",
+      "authorID": "ava",
+      "author": "Ava Reed",
+      "images": [
+        "assets/photos/portraits/surf-group-photo.jpg"
+      ],
+      "caption": "Before the next wave, everyone piled into one picture. Who usually takes yours?",
+      "topic": "Little joys",
+      "createdAt": "2026-11-19T08:00:00Z",
+      "editorial": true,
+      "likes": 71,
+      "saves": 9,
+      "comments": [
+        {
+          "id": "surf-group-photo-comment-1",
+          "authorID": "june",
+          "text": "We pass the camera around so nobody gets left out.",
+          "createdAt": "2026-11-19T08:01:00Z"
+        },
+        {
+          "id": "surf-group-photo-comment-2",
+          "authorID": "milo",
+          "text": "The bright phone is a fun little detail.",
+          "createdAt": "2026-11-19T08:02:00Z"
+        }
+      ]
+    },
     {
       "id": "padova-paper",
       "authorID": "leo",
@@ -639,6 +842,122 @@
     }
   ],
   "shorts": [
+    {
+      "id": "short-sea-breeze-portrait",
+      "video": "assets/videos/sea-breeze-portrait.mp4",
+      "poster": "assets/videos/sea-breeze-portrait.jpg",
+      "duration": 10.0,
+      "sourceAuthor": "Honye Sanges",
+      "sourceURL": "https://www.pexels.com/video/woman-in-bikini-fixing-her-hair-while-standing-on-beach-5139598/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "authorID": "june",
+      "topic": "Little joys",
+      "caption": "Wind caught her hair between poses. Would you release the shutter on the lift or as it falls?",
+      "likes": 124,
+      "saves": 26,
+      "comments": [
+        {
+          "id": "short-sea-breeze-portrait-comment-1",
+          "authorID": "ava",
+          "text": "The lift gives the silhouette such a clear shape.",
+          "createdAt": "2026-11-19T09:01:00Z"
+        },
+        {
+          "id": "short-sea-breeze-portrait-comment-2",
+          "authorID": "iris",
+          "text": "I would wait for the hair to settle so the gaze comes through.",
+          "createdAt": "2026-11-19T09:02:00Z"
+        }
+      ],
+      "createdAt": "2026-11-19T09:00:00Z"
+    },
+    {
+      "id": "short-embroidered-runway",
+      "video": "assets/videos/embroidered-runway.mp4",
+      "poster": "assets/videos/embroidered-runway.jpg",
+      "duration": 10.0,
+      "sourceAuthor": "cottonbro studio",
+      "sourceURL": "https://www.pexels.com/video/a-woman-walking-down-the-runway-9512046/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "authorID": "milo",
+      "topic": "Little joys",
+      "caption": "A dark dress against a pale runway. The embroidery catches the light with every step.",
+      "likes": 109,
+      "saves": 24,
+      "comments": [
+        {
+          "id": "short-embroidered-runway-comment-1",
+          "authorID": "ava",
+          "text": "I like how the stitching stays visible against the dark fabric.",
+          "createdAt": "2026-11-19T09:01:00Z"
+        },
+        {
+          "id": "short-embroidered-runway-comment-2",
+          "authorID": "iris",
+          "text": "I would frame a little wider for the movement of the skirt.",
+          "createdAt": "2026-11-19T09:02:00Z"
+        }
+      ],
+      "createdAt": "2026-11-19T09:00:00Z"
+    },
+    {
+      "id": "short-scarlet-studio",
+      "video": "assets/videos/scarlet-studio.mp4",
+      "poster": "assets/videos/scarlet-studio.jpg",
+      "duration": 8.0,
+      "sourceAuthor": "Ali Alcántara",
+      "sourceURL": "https://www.pexels.com/video/a-woman-in-a-red-dress-posing-for-a-photo-16987656/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "authorID": "rowan",
+      "topic": "Little joys",
+      "caption": "Red against yellow, then the tiniest turn of the chin. Which frame would you keep?",
+      "likes": 86,
+      "saves": 21,
+      "comments": [
+        {
+          "id": "short-scarlet-studio-comment-1",
+          "authorID": "ava",
+          "text": "The pause before the turn is my pick.",
+          "createdAt": "2026-11-19T09:01:00Z"
+        },
+        {
+          "id": "short-scarlet-studio-comment-2",
+          "authorID": "iris",
+          "text": "I would keep a sliver of the backdrop stand in the shot.",
+          "createdAt": "2026-11-19T09:02:00Z"
+        }
+      ],
+      "createdAt": "2026-11-19T09:00:00Z"
+    },
+    {
+      "id": "short-seine-summer-style",
+      "video": "assets/videos/seine-summer-style.mp4",
+      "poster": "assets/videos/seine-summer-style.jpg",
+      "duration": 3.583333,
+      "sourceAuthor": "Zenia Diamond",
+      "sourceURL": "https://www.pexels.com/video/stylish-woman-by-the-eiffel-tower-in-summer-36947980/",
+      "licenseURL": "https://www.pexels.com/license/",
+      "authorID": "june",
+      "topic": "On my walk",
+      "caption": "A quick glance by the Seine. I left the bridge in to give this summer portrait a sense of place.",
+      "likes": 72,
+      "saves": 14,
+      "comments": [
+        {
+          "id": "short-seine-summer-style-comment-1",
+          "authorID": "ava",
+          "text": "The railing gives the portrait a nice line.",
+          "createdAt": "2026-11-19T09:01:00Z"
+        },
+        {
+          "id": "short-seine-summer-style-comment-2",
+          "authorID": "iris",
+          "text": "The sunlight in her hair is my favorite detail.",
+          "createdAt": "2026-11-19T09:02:00Z"
+        }
+      ],
+      "createdAt": "2026-11-19T09:00:00Z"
+    },
     {
       "id": "short-montmartre-portrait",
       "authorID": "june",

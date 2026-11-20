@@ -264,3 +264,7 @@ The Wallet entry moved from Settings to a centered card on Me between the compac
 ## European and US street portraits
 
 Four Home photos, three Topics photos and three twelve-second Shorts show people in Paris, London, Padova and New York. Each source page and photography location is recorded in the corresponding media manifest. All ten works are free to view, with per-work reactions and individual comment records.
+
+Home discovery and followed works, the Topics directory, and the works inside each category use two-column grids. Photo cards retain member profiles and independent reaction, comment and safety controls. The photo comment control opens the discussion directly. Topic summaries derive the number of photographers from the visible works. Seven new social photographs invite conversations about group portraiture, shared meals, dance and surfing. Two additional photographs are dedicated category covers. Credits and locations are recorded in the photo manifest.
+
+Four credited fashion portrait Shorts feature swimwear in sea light, embroidered runway detail, a red studio dress and a summer portrait in Paris. Each local video has its own poster and two photography discussion comments.

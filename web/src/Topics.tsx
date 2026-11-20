@@ -26,32 +26,25 @@ export default function Topics({
   open(topic: string): void;
 }) {
   const term = query.trim().toLowerCase();
-  const results = orderedTopics.filter((topic) => access === "All" || photos.some((p) => p.topic === topic)).filter((topic) => [topic, descriptions[topic],
+  const results = orderedTopics.filter((topic) => access === "All" || photos.some((p) => p.topic === topic) || shorts.some((clip) => clip.topic === topic)).filter((topic) => [topic, descriptions[topic],
     ...photos.filter((p) => p.topic === topic).map((p) => p.caption + " " + p.author),
     ...shorts.filter((s) => s.topic === topic).map((s) => s.caption),
   ].some((value) => value.toLowerCase().includes(term)));
   return (
     <div className="page topics-page">
-      <div className="section-intro">
-        <small>A LITTLE INSPIRATION</small>
-        <h2>
-          There is a story
-          <br />
-          in your everyday.
-        </h2>
-        <p>A few ideas to help you notice it.</p>
-      </div>
       <div className="topic-list">
         {!results.length && <p className="muted" role="status">No matching topics.</p>}
         {results.map((topic, index) => {
           const matching = photos.filter((photo) => photo.topic === topic);
           const clips = shorts.filter((short) => short.topic === topic);
-          const counts = totals([...matching, ...clips], state);
+          const works = [...matching, ...clips];
+          const counts = totals(works, state);
+          const contributors = new Set(works.map((work) => work.authorID || "you")).size;
           const cover =
             matching.length ? categoryCovers[topic] : "assets/icons/topics.png";
           return (
             <button
-              className={`topic-tile ${index === 0 ? "featured" : ""}`}
+              className="topic-tile"
               key={topic}
               onClick={() => open(topic)}
             >
@@ -65,10 +58,10 @@ export default function Topics({
               />
               <span className="topic-tile-copy">
                 <strong>{topic}</strong>
-                <span>{descriptions[topic]}</span>
+                <span>{contributors} {contributors === 1 ? "photographer" : "photographers"}</span>
                 <small>{Array.from(new Set([
                   ...matching.map((p) => p.coinPrice ? p.coinPrice + " Coins" : "Free"),
-
+                  ...(clips.length ? ["Free"] : []),
                 ])).join(" · ")}</small>
                 <small>
                   {matching.length} {matching.length === 1 ? "photo" : "photos"}{" "}

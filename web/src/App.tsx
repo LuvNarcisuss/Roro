@@ -40,6 +40,7 @@ import { catalog, rotateItems, topicPrompts, topics } from "./catalog";
 import type { Command, Moment, Photo, Snapshot, Wallet } from "./types";
 
 type Route = {
+  showComments?: boolean;
   name:
     | "home"
     | "topics"
@@ -216,8 +217,10 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
     void load();
   }, []);
   useEffect(() => {
-    contentRef.current?.scrollTo(0, 0);
-  }, [route.name, route.id]);
+    const comments = route.showComments && contentRef.current?.querySelector(".community-comments");
+    if (comments) comments.scrollIntoView({ block: "start" });
+    else contentRef.current?.scrollTo(0, 0);
+  }, [route.name, route.id, route.showComments]);
   useEffect(() => {
     if (!["message", "detail", "shorts"].includes(route.name)) return;
     const viewport = window.visualViewport;
@@ -482,14 +485,6 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
             <img src={authorFor(photo.authorID, state).avatar} alt="" />
             <span>
               <strong>{photo.author}</strong>
-              <small>
-                {photo.editorial
-                  ? "Everyday inspiration"
-                  : new Date(photo.createdAt!).toLocaleDateString("en", {
-                      month: "short",
-                      day: "numeric",
-                    })}
-              </small>
             </span>
           </button>
           {photo.surface === "topics" && photo.authorID ? (
@@ -541,7 +536,7 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
             name="comment"
             count={count.comments}
             label="Open photo and comments"
-            onClick={() => push({ name: "detail", id: photo.id })}
+            onClick={() => push({ name: "detail", id: photo.id, showComments: true })}
           />
           <ReactionButton
             className="icon-button"
@@ -795,20 +790,13 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
               </span>
               <span className="sr-only">{featuredTopic}</span>
             </button>
-            {orderedPhotos.map((p) => <PhotoCard key={p.id} photo={p} />)}
-            {scope === "Following" && (
-              <div className="page">
-                <ShortList
-                  items={followedClips}
-                  open={openShort}
-                  profile={openMember}
-                  state={state}
-                  busy={busy}
-                  act={act}
-                  notify={showNotice}
-                />
-              </div>
-            )}
+            <div className="community-grid">
+              {orderedPhotos.map((p) => <PhotoCard key={p.id} photo={p} />)}
+              {scope === "Following" && (
+                <ShortList items={followedClips} open={openShort} profile={openMember}
+                  state={state} busy={busy} act={act} notify={showNotice} />
+              )}
+            </div>
             {homeSearch.query.trim() && !orderedPhotos.length &&
               !(scope === "Following" && followedClips.length) && (
                 <Empty title="No matching moments">
@@ -920,19 +908,13 @@ function LocalSession({ onLogOut }: { onLogOut(): void }) {
                 </ActionButton>}
               </div>
             </div>
-            {listedTopicPhotos
-              .filter((p) => p.topic === route.id)
-              .map((p) => (
-                <PhotoCard key={p.id} photo={p} />
+            <div className="community-grid">
+              {listedTopicPhotos.filter((photo) => photo.topic === route.id).map((photo) => (
+                <PhotoCard key={photo.id} photo={photo} />
               ))}
-            {listedTopicClips.filter((clip) => clip.topic === route.id).map((clip) => (
-              <div className="setting-row page" key={clip.id}>
-                <span>{clip.caption || "Short video"}</span>
-                <ActionButton icon="shorts" onClick={() => openShort(clip.id)}>
-                  Play {clip.caption || "short video"}
-                </ActionButton>
-              </div>
-            ))}
+              <ShortList items={listedTopicClips.filter((clip) => clip.topic === route.id)}
+                open={openShort} profile={openMember} state={state} busy={busy} act={act} notify={showNotice} />
+            </div>
             {!listedTopicPhotos.some((p) => p.topic === route.id) &&
               !listedTopicClips.some((clip) => clip.topic === route.id) && (
                 <Empty title="Your moment belongs here">

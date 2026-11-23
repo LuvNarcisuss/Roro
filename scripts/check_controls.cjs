@@ -1,53 +1,41 @@
-/** Static UI contract lint; this does not mount or run the application. */
-const fs = require('node:fs');
-const path = require('node:path');
-const parser = require('@babel/parser');
-const traverse = require('@babel/traverse').default;
-const root = path.resolve(__dirname, '..');
-const files = fs.readdirSync(path.join(root, 'web/src')).filter(name => name.endsWith('.tsx'));
-let checked = 0;
-const errors = [];
-const actionWords = /^(Back|Close|Cancel|Done|Delete|More|Show|Share|Try again|Add comment|Save (?:note|moment|short|profile|draft)|View credits|View original|Choose (?:a|another)|Open Shorts|Get started)(?:\b|$)/;
-for (const name of files) {
-  const file = path.join(root, 'web/src', name);
-  const source = fs.readFileSync(file, 'utf8');
-  const ast = parser.parse(source, {sourceType:'module', plugins:['jsx','typescript']});
-  traverse(ast, {JSXElement(p) {
-    const n = p.node;
-    const tag = n.openingElement.name.name;
-    if (tag === 'main' && n.openingElement.attributes.some(a => a.name?.name === 'className' && a.value?.value === 'welcome')) {
-      const buttons = n.children.flatMap(child => child.children || []).filter(child =>
-        child.type === 'JSXElement' && ['button', 'ActionButton'].includes(child.openingElement.name.name)
-      );
-      const entry = buttons[0];
-      const visibleLogin = entry?.children.some(child =>
-        (child.type === 'JSXText' && child.value.trim() === 'Log in') ||
-        (child.type === 'JSXExpressionContainer' && child.expression.alternate?.value === 'Log in')
-      );
-      if (buttons.length !== 1 || entry.openingElement.name.name !== 'button' || !visibleLogin)
-        errors.push(`${name}: Welcome requires one visible Log in text button.`);
+/** Audit native UI source without building or launching the application. */
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const root = path.resolve(__dirname, "..");
+const read = file => fs.readFileSync(path.join(root, "ios/Roro/UI", file), "utf8");
+const icons = new Set(fs.readdirSync(path.join(root, "Assets/icons")).map(file => path.parse(file).name));
+const files = fs.readdirSync(path.join(root, "ios/Roro/UI")).filter(file => file.endsWith(".swift"));
+const controls = ["JournalIcon", "PhotographyArt", "PhotographyLabeledAction", "PhotographyCountAction", "AccountGlyph", "railButton"];
+const control = new RegExp("\\b(?:" + controls.join("|") + ')\\(\\s*(?:(?:icon|name):\\s*)?"([a-z-]+)"', "g");
+const dialogActions = new Set(["Cancel", "Remove", "Delete", "Block", "Unlock", "Keep editing", "Leave", "Discard"]);
+let count = 0;
+for (const file of files) {
+    const source = read(file);
+    for (const hit of source.matchAll(control)) {
+        assert(icons.has(hit[1]) || hit[1] === "block", file + " references missing icon " + hit[1]);
+        count++;
     }
-    if (!['button','ActionButton','ReactionButton','IconButton','Glyph','Icon'].includes(tag)) return;
-    checked++;
-    if (tag === 'ActionButton') {
-      const placement = n.openingElement.attributes.find(a => a.name?.name === 'labelPosition')?.value?.value;
-      const menu = p.findParent(parent => parent.isJSXElement() && parent.node.openingElement.attributes.some(a =>
-        a.name?.name === 'className' && a.value?.value === 'menu-actions'
-      ));
-      if (menu && placement !== 'below') errors.push(`${name}:${n.loc.start.line}: Menu actions require a visible label below the icon.`);
-      if (placement === 'beside' && name !== 'MemberProfile.tsx') errors.push(`${name}:${n.loc.start.line}: Side-by-side labels are for member profiles.`);
+    for (const hit of source.matchAll(/\bButton\("([^"]+)"/g)) {
+        assert(dialogActions.has(hit[1]), file + " has an unreviewed text action " + hit[1]);
     }
-    const icon = n.openingElement.attributes.find(a => ['icon','name'].includes(a.name?.name) && a.value?.type === 'StringLiteral');
-    if (icon && ['ActionButton','IconButton','Glyph','Icon'].includes(tag) && !fs.existsSync(path.join(root,'Assets/icons',icon.value.value+'.png'))) errors.push(`${name}:${n.loc.start.line}: Missing icon ${icon.value.value}.`);
-    if (tag === 'button') {
-      const literal = n.children.filter(c => c.type === 'JSXText').map(c => c.value).join(' ').replace(/\s+/g,' ').trim();
-      const swipeDelete = name === 'ChatSwipeRow.tsx' && literal === 'Delete' &&
-        p.parentPath.isJSXElement() && p.parentPath.node.openingElement.attributes.some(a =>
-          a.name?.name === 'className' && a.value?.value === 'chat-swipe-actions');
-      if (!swipeDelete && actionWords.test(literal)) errors.push(`${name}:${n.loc.start.line}: Bare text action '${literal}'.`);
-    }
-  }});
-  if (/route\.name === "search"|panel === "search"/.test(source)) errors.push(`${name}: Detached search destination is forbidden.`);
 }
-if(errors.length) {console.error(errors.join('\n'));process.exit(1);}
-console.log(`${checked} JSX controls statically inspected: action labels follow project rules, no detached search destination, and referenced action glyphs exist.`);
+const library = read("PhotographyComponents.swift");
+assert(library.includes(".onSubmit { focused = false }") && library.includes('query = ""'));
+assert(library.includes("if below") && library.includes("VStack(spacing: 4) { artwork; Text(label)") &&
+       library.includes("HStack(spacing: 5) { artwork; Text(label)"));
+for (const file of ["PhotographyFeed.swift", "JournalShortsPanels.swift"]) {
+    const sheet = file === "PhotographyFeed.swift" ? read(file).split("struct PhotographySafetySheet")[1].split("struct PhotographyUnlock")[0] : read(file);
+    for (const line of sheet.split("\n").filter(line => line.includes("PhotographyLabeledAction("))) {
+        assert(line.includes("below: true"), file + " needs a visible label below its option icon");
+    }
+}
+const profile = read("PhotographyMember.swift");
+assert(profile.includes('label: "Message"') && profile.includes('"Follow back"'));
+const design = read("JournalDesign.swift");
+assert(design.includes("minWidth: 44, minHeight: 44") && design.includes(".accessibilityLabel("));
+const routes = fs.readFileSync(path.join(root, "ios/Roro/Native/JournalStore.swift"), "utf8").split("enum JournalTab")[0];
+assert(!/case[^\n]*\bsearch\b/i.test(routes), "Search must expand inline");
+assert(read("AccountChats.swift").includes(".swipeActions("));
+assert(read("JournalRoot.swift").includes('Text("Log in")') && read("JournalRoot.swift").includes(".disabled(!checked)"));
+console.log(`Inspected ${files.length} SwiftUI files and ${count} literal icon references. Native control source checks passed.`);

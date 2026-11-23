@@ -17,10 +17,7 @@ settings:
     PRODUCT_BUNDLE_IDENTIFIER: com.roro.photography
     MARKETING_VERSION: 0.1.0
     CURRENT_PROJECT_VERSION: '3'
-    ENABLE_USER_SCRIPT_SANDBOXING: NO
-    CLANG_CXX_LANGUAGE_STANDARD: c++20
-    SWIFT_OBJC_BRIDGING_HEADER: Roro/Roro-Bridging-Header.h
-    OTHER_LDFLAGS: $(inherited) -ObjC
+    COMPRESS_PNG_FILES: NO
     ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 packages:
   SwiftASN1:
@@ -34,11 +31,29 @@ targets:
       - package: SwiftASN1
     sources:
       - path: Roro
-        excludes:
-          - AppResources
       - path: ../Assets/icons/roro-logo.png
         buildPhase: resources
-      - path: Roro/AppResources
+      - path: ../Assets/artwork-manifest.json
+        buildPhase: resources
+      - path: ../Configuration
+        type: folder
+        buildPhase: resources
+      - path: ../Assets/backgrounds
+        type: folder
+        buildPhase: resources
+      - path: ../Assets/icons
+        type: folder
+        buildPhase: resources
+      - path: ../Assets/photos
+        type: folder
+        buildPhase: resources
+      - path: ../Assets/videos
+        type: folder
+        buildPhase: resources
+      - path: ../Assets/community
+        type: folder
+        buildPhase: resources
+      - path: ../Assets/fonts
         type: folder
         buildPhase: resources
     settings:
@@ -49,21 +64,6 @@ targets:
         SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
         INFOPLIST_FILE: Roro/Info.plist
         GENERATE_INFOPLIST_FILE: NO
-    preBuildScripts:
-      - name: Package local photo pages
-        script: |
-          set -e
-          /bin/sh "$SRCROOT/../node_modules/react-native/scripts/xcode/with-environment.sh" "$SRCROOT/../scripts/package-web.sh"
-        basedOnDependencyAnalysis: false
-    postCompileScripts:
-      - name: Bundle React Native shell
-        script: |
-          set -e
-          export FORCE_BUNDLING=1
-          WITH_ENVIRONMENT="$SRCROOT/../node_modules/react-native/scripts/xcode/with-environment.sh"
-          REACT_NATIVE_XCODE="$SRCROOT/../node_modules/react-native/scripts/react-native-xcode.sh"
-          /bin/sh -c "\"$WITH_ENVIRONMENT\" \"$REACT_NATIVE_XCODE\""
-        basedOnDependencyAnalysis: false
 schemes:
   Roro:
     build:

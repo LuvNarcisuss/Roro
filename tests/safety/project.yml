@@ -6,7 +6,10 @@ targets:
   RoroSafetyTests:
     type: bundle.ui-testing
     platform: iOS
-    sources: [SafetyTests.swift]
+    sources:
+      - path: SafetyTests.swift
+      - path: ../../Assets/community/catalog.json
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.roro.photography.safetytests

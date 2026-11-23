@@ -2,7 +2,7 @@
 
 - Roro is a lightweight everyday photography app. Use exactly Home, Topics, Shorts, Chats and Me, with Shorts in the center.
 - Show the Roro logo during launch, on the welcome/login page and in the upper-left corner of the five root tabs. Omit it from child pages. Center header titles independently of trailing controls. All non-playback pages use the shared warm cotton-paper artwork. Use the approved hand-printed photography journal style with Courgette headings, Kalam copy, a petrol film-strip dock and individually illustrated controls. The Shorts playback surface stays full-screen video.
-- Use React Native, TypeScript and a bundled local H5 ZIP. Native Swift modules own storage, photo/video import, video previews and StoreKit 1. The Shorts feed follows the owner-requested Vava-style inline WKWebView player; native code exports validated saved media and allowlisted bundled community clips.
+- Implement all product screens in SwiftUI, with UIKit system presenters, native AVPlayer Shorts playback, Swift local persistence and StoreKit 1. Bundle native artwork and media directly from Assets.
 - Support portrait iPhone only, iOS 16+. Disable iPad, Catalyst, Mac compatibility and Vision compatibility.
 - All project artifacts and app-owned copy are English. Converse with the owner in Chinese.
 - Keep all authored images, fonts and provenance under root Assets. Runtime assets are bundled locally with relative paths.
@@ -11,8 +11,8 @@
 - The owner confirmed com.roro.photography as the Bundle ID on November 18, 2026. Preserve it in the generator, Debug/Release settings and artifact checks. The signing team remains unconfigured. Use the owner-approved nine-tier consumable catalog in Configuration/products.json. US price points are for App Store Connect setup, while the wallet displays StoreKit's localized prices. Never import another app's configuration.
 - StoreKit 1 uses native products and queue callbacks. Credit only a matching verified receipt, persist transaction deduplication and balance together, then finish. No starting credit.
 - Preserve private data, stable IDs and atomic persistence. Do not overwrite corrupt state or delete Photos originals.
-- On November 17, 2026 the owner authorized compilation, including required H5 bundling and typechecking. App/Simulator launch and runtime tests still require explicit authorization.
-- Use the dedicated iPhone 17 Pro simulator named Roro UI Acceptance on iOS 26.0 (UDID 911635AB-2201-41C3-A80A-DA902AED9C3A) for simulator builds and later authorized acceptance. Do not substitute another project's simulator.
+- On November 17, 2026 the owner authorized compilation, including typechecking. App/Simulator launch and runtime tests still require explicit authorization.
+- For authorized simulator work, resolve the dedicated iPhone 17 Pro named Roro QA from the local device list on each run. Use its resolved UDID throughout the build, installation, launch and any authorized tests. Record the actual runtime and device.
 - Read docs/superpowers/specs/2026-11-17-roro.md and docs/STATUS.md and docs/superpowers/specs/2026-11-17-shorts-design.md before changes.
 
 - On November 17, 2026 the owner authorized fictional local community records and licensed Pexels video as a fallback to YouTube/Instagram. Keep source creators separate from fictional member identities. Derive profile/topic totals and comment counts from the same work/comment records. Persist local reactions and comments atomically; keep existing private notes separate.
@@ -27,7 +27,7 @@ Before editing search, page controls or profiles, read docs/superpowers/plans/20
 - Block/unblock is atomically persisted local state, removes following on block, filters affected content/comments/collections and has a Settings management route. Keep old records without blocked compatible and preserve hidden/liked/saved records. Chats stores requests, approved friends, conversations and archive choices on this iPhone. Show no friend recommendations. Require mutual following or an accepted incoming request for private messages and local voice or video previews. Use user-entered records for history. Omit delivery labels and explanatory copy, and never generate replies, receipts or remote friend acceptance.
 - Before delivery, audit remaining literal button labels, search close/submit/return paths, new-entry filters, asset provenance and current built resources. Compile only within the existing authorization; leave runtime acceptance explicitly open.
 
-Run `node scripts/check_controls.cjs` for the static control audit before delivery. It checks icon references, rejects bare text action labels and detached search destinations, and checks label placement in option sheets and member profiles. This is source lint, not runtime acceptance.
+Run `node scripts/check_controls.cjs` for the native SwiftUI source audit before delivery. It checks literal icon references, direct text action labels, search destinations and label placement in option sheets and member profiles. This is source lint, not runtime acceptance.
 
 - Member profile works use a two-column thumbnail grid, approximately one quarter of the former full-width cover area. Keep odd final items half-width, retain photo/video detail entry and derive statistics from the unchanged records. Personal Shorts and saved-video collections use the same compact covers; existing smaller photo grids remain compact.
 

@@ -8,12 +8,10 @@ import UniformTypeIdentifiers
 final class MediaPicker: NSObject, PHPickerViewControllerDelegate {
     private var completion: ((Result<[String], Error>) -> Void)?
     private let library: PhotoLibrary
-    private let pages: URL
     private let forAvatar: Bool
 
-    init(library: PhotoLibrary, pages: URL, forAvatar: Bool) {
+    init(library: PhotoLibrary, forAvatar: Bool) {
         self.library = library
-        self.pages = pages
         self.forAvatar = forAvatar
     }
 
@@ -55,10 +53,7 @@ final class MediaPicker: NSObject, PHPickerViewControllerDelegate {
                 for item in imported.values { if let url = try? self.library.mediaURL(item) { try? FileManager.default.removeItem(at: url) } }
                 self.finish(.failure(failure))
             } else {
-                do {
-                    try self.library.exportMedia(to: self.pages)
-                    self.finish(.success(imported.keys.sorted().compactMap { imported[$0] }))
-                } catch { self.finish(.failure(error)) }
+                self.finish(.success(imported.keys.sorted().compactMap { imported[$0] }))
             }
         }
     }
@@ -70,17 +65,16 @@ final class MediaPicker: NSObject, PHPickerViewControllerDelegate {
     }
 }
 
-// Videos remain in native storage; the WebView only receives JPEG posters.
+// Import the normalized video and its poster into the private media library.
 final class VideoPicker: NSObject, PHPickerViewControllerDelegate {
     private let library: PhotoLibrary
-    private let pages: URL
     private var completion: ((Result<[String: Any]?, Error>) -> Void)?
     private var exportSession: AVAssetExportSession?
     private var importProgress: Progress?
     private var timeout: DispatchWorkItem?
     private var finished = false
 
-    init(library: PhotoLibrary, pages: URL) { self.library = library; self.pages = pages }
+    init(library: PhotoLibrary) { self.library = library }
 
     func present(from controller: UIViewController, completion: @escaping (Result<[String: Any]?, Error>) -> Void) {
         self.completion = completion
@@ -158,10 +152,9 @@ final class VideoPicker: NSObject, PHPickerViewControllerDelegate {
             guard !finished, let jpeg = UIImage(cgImage: frame).jpegData(compressionQuality: 0.86) else { throw roroError("Your video cover could not be prepared.") }
             try jpeg.write(to: poster, options: [.atomic, .completeFileProtectionUntilFirstUserAuthentication])
             try FileManager.default.setAttributes([.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication], ofItemAtPath: video.path)
-            try library.exportMedia(to: pages)
             finish(.success(["video": "media/" + video.lastPathComponent, "poster": "media/" + poster.lastPathComponent, "duration": finalDuration]))
         } catch {
-            for url in [video, poster, pages.appendingPathComponent("media/" + poster.lastPathComponent)] { try? FileManager.default.removeItem(at: url) }
+            for url in [video, poster] { try? FileManager.default.removeItem(at: url) }
             finish(.failure(error))
         }
     }
@@ -196,7 +189,7 @@ final class ShortPlayerController: UIViewController {
         playback.view.translatesAutoresizingMaskIntoConstraints = false
         playback.didMove(toParent: self)
         let close = UIButton(type: .custom)
-        if let path = Bundle.main.path(forResource: "journal-back", ofType: "png", inDirectory: "AppResources") {
+        if let path = Bundle.main.path(forResource: "back", ofType: "png", inDirectory: "icons") {
             close.setImage(UIImage(contentsOfFile: path), for: .normal)
         }
         close.accessibilityLabel = "Close video"

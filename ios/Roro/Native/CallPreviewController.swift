@@ -6,7 +6,6 @@ final class CallPreviewController: UIViewController {
     private let video: Bool
     private let peerName: String
     private let portrait: URL
-    private let pages: URL
     private let camera = AVCaptureSession()
     private var microphone: AVAudioEngine?
     private let queue = DispatchQueue(label: "com.roro.photography.call-preview")
@@ -23,11 +22,10 @@ final class CallPreviewController: UIViewController {
     private var generation = 0
     private var recoveredCameraReset = false
 
-    init(video: Bool, name: String, portrait: URL, pages: URL) {
+    init(video: Bool, name: String, portrait: URL) {
         self.video = video
         peerName = name
         self.portrait = portrait
-        self.pages = pages
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .fullScreen
         isModalInPresentation = true
@@ -109,7 +107,7 @@ final class CallPreviewController: UIViewController {
     }
 
     private func artwork(_ name: String) -> UIImage? {
-        guard let pixels = UIImage(contentsOfFile: pages.appendingPathComponent("assets/icons/\(name).png").path)?.cgImage else { return nil }
+        guard let icon = JournalAssets.url("assets/icons/\(name).png"), let pixels = UIImage(contentsOfFile: icon.path)?.cgImage else { return nil }
         return UIImage(cgImage: pixels, scale: CGFloat(pixels.width) / 38, orientation: .up).withRenderingMode(.alwaysOriginal)
     }
 

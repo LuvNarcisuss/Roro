@@ -26,19 +26,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>Use your camera to show your video call preview.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Use your microphone to preview audio in voice and video calls.</string>
-	<key>RCTNewArchEnabled</key>
-	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -78,7 +69,9 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>AppResources/Kalam-Regular.ttf</string>
+		<string>fonts/Kalam-Regular.ttf</string>
+		<string>fonts/Kalam-Bold.ttf</string>
+		<string>fonts/Courgette-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

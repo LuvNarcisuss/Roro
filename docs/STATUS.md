@@ -1,5 +1,19 @@
 # Implementation and verification status
 
+## Native Swift migration, November 23, 2026
+
+The current Roro target starts a SwiftUI navigation stack from its scene delegate. All five tabs, child screens, menus, editors, consent and wallet use Swift. The build copies journal artwork, fonts, community data, photos and videos directly from the root Assets folders. Shorts uses AVPlayer and UIKit hosts the existing system pickers, Safari agreement viewer, sharing and local call previews.
+
+The Swift private library still reads Application Support/Roro and its Media directory. Compared with revision b9bc1c4, the code that initializes, migrates, validates, persists and mutates library records is unchanged. The original production, sandbox and Xcode purchase accounting and verified transaction deduplication remain in place. The UI refreshes its balance after successful delivery. The app removes the obsolete display cache only after the library is readable and all referenced originals are present.
+
+Xcode 26.3 built unsigned arm64 Debug and Release device bundles with the generic iOS destination and iOS 16.0 deployment target. The native control audit inspected 15 SwiftUI files and 83 literal icon references. The project audit passed 301 checks and the catalog audit passed 737 checks across nine members, 25 photos, 12 shorts and 90 comments. Each bundle contains the native app and the directly packaged media. The bundle verifier compares 125 resource files with their sources in addition to checking the separate launch artwork and manifest. The migrated agreement and safety UI test sources passed Swift syntax parsing. These checks do not exercise app interactions.
+
+The owner authorized building and running the native app on Roro QA. On November 23, 2026 a new iPhone 17 Pro simulator was created with the installed iOS 26.3 runtime. The name resolved to UDID 32F50BDE-596D-4540-9A8C-C3621294D0D2 for this run. Xcode built the current Roro.xcodeproj Debug scheme for that UDID. The simulator bundle passed the 125-file resource check. The same device installed and launched com.roro.photography. Its screen showed Welcome to Roro, the unchecked consent box and the disabled Log in button. The screenshot is in .build/roro-qa-launch.png. This run covered startup only. Functional UI tests, in-place upgrades and purchases remain unverified on this native build.
+
+## Historical implementation and verification records
+
+The sections below describe earlier revisions. Their architecture and runtime results predate the native Swift implementation.
+
 ## Implemented source
 
 - React Native shell, local React/TypeScript screens and native ZIP extraction.

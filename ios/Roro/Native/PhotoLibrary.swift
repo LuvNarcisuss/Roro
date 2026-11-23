@@ -5,10 +5,10 @@ func roroError(_ message: String) -> NSError {
     NSError(domain: "Roro", code: 1, userInfo: [NSLocalizedDescriptionKey: message])
 }
 
-// The same immutable catalog is bundled for the H5 pages and native ID validation.
+// Views and storage validate against the same immutable community records.
 enum CommunityCatalog {
     static func load() throws -> [String: Any] {
-        guard let url = Bundle.main.url(forResource: "community", withExtension: "json", subdirectory: "AppResources"),
+        guard let url = Bundle.main.url(forResource: "catalog", withExtension: "json", subdirectory: "community"),
               let data = try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any],
               data["authors"] is [[String: Any]], data["photos"] is [[String: Any]], data["shorts"] is [[String: Any]] else {
             throw roroError("The inspiration library could not be opened.")
@@ -506,10 +506,11 @@ final class PhotoLibrary {
         return value
     }
 
-    func finishPendingCleanup(pages: URL) throws {
+    func finishPendingCleanup() throws {
         var value = try snapshot()
         guard value["cleanupPending"] as? Bool == true else { return }
-        try cleanRemovedMedia(pages: pages, clearAll: true)
+        try cleanRemovedMedia(clearAll: true)
+        try removeLegacyMediaCache()
         value["cleanupPending"] = false
         value["revision"] = (value["revision"] as! Int) + 1
         try persist(value)
@@ -520,7 +521,7 @@ final class PhotoLibrary {
         UUID(uuidString: String(relative.dropFirst(6).dropLast(ext.count + 1))) != nil
     }
 
-    func discardVideo(_ relative: String, pages: URL) throws {
+    func discardVideo(_ relative: String) throws {
         guard validMediaPath(relative, extension: "mp4") else { throw roroError("This video is unavailable.") }
         let state = try snapshot()
         let poster = String(relative.dropLast(4)) + ".jpg"
@@ -528,8 +529,7 @@ final class PhotoLibrary {
         guard !used.contains(relative), !used.contains(poster) else { return }
         for item in [relative, poster] {
             let source = media.appendingPathComponent(String(item.dropFirst(6)))
-            let exported = pages.appendingPathComponent(item)
-            for url in [source, exported] where fileManager.fileExists(atPath: url.path) { try fileManager.removeItem(at: url) }
+            if fileManager.fileExists(atPath: source.path) { try fileManager.removeItem(at: source) }
         }
     }
 
@@ -552,17 +552,17 @@ final class PhotoLibrary {
         return media.appendingPathComponent(name)
     }
 
-    func exportMedia(to pages: URL) throws {
-        _ = try snapshot()
-        let destination = pages.appendingPathComponent("media", isDirectory: true)
-        try fileManager.createDirectory(at: destination, withIntermediateDirectories: true)
-        for source in try fileManager.contentsOfDirectory(at: media, includingPropertiesForKeys: nil) where source.pathExtension == "jpg" {
-            let output = destination.appendingPathComponent(source.lastPathComponent)
-            if !fileManager.fileExists(atPath: output.path) { try fileManager.copyItem(at: source, to: output) }
-        }
+    // Earlier releases made disposable display copies here. Keep those copies if
+    // any referenced original is missing so a damaged library can be recovered.
+    func removeLegacyMediaCache() throws {
+        let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        let legacy = caches.appendingPathComponent("RoroPages", isDirectory: true)
+        guard fileManager.fileExists(atPath: legacy.path) else { return }
+        for path in referencedMedia(try snapshot()) { _ = try mediaURL(path) }
+        try fileManager.removeItem(at: legacy)
     }
 
-    func cleanRemovedMedia(pages: URL, clearAll: Bool = false) throws {
+    func cleanRemovedMedia(clearAll: Bool = false) throws {
         let state = try snapshot()
         let used = referencedMedia(state)
         for source in try fileManager.contentsOfDirectory(at: media, includingPropertiesForKeys: [.creationDateKey]) {
@@ -570,8 +570,6 @@ final class PhotoLibrary {
             let date = try source.resourceValues(forKeys: [.creationDateKey]).creationDate ?? Date()
             if !used.contains(relative) && (clearAll || Date().timeIntervalSince(date) > 86400) {
                 try fileManager.removeItem(at: source)
-                let exported = pages.appendingPathComponent(relative)
-                if fileManager.fileExists(atPath: exported.path) { try fileManager.removeItem(at: exported) }
             }
         }
     }

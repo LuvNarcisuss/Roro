@@ -8,6 +8,7 @@ struct CreditProduct: Decodable {
 
 final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTransactionObserver, SKRequestDelegate {
     static let shared = PurchaseService()
+    static let balanceDidChange = Notification.Name("RoroPurchaseBalanceDidChange")
     private var catalog: [CreditProduct] = []
     private var configured: [String: Int] = [:]
     private var products: [String: SKProduct] = [:]
@@ -25,7 +26,7 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
     override private init() {
         ledgerURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Roro/purchases.json")
         super.init()
-        if let url = Bundle.main.url(forResource: "products", withExtension: "json", subdirectory: "AppResources"),
+        if let url = Bundle.main.url(forResource: "products", withExtension: "json", subdirectory: "Configuration"),
            let data = try? Data(contentsOf: url), let items = try? JSONDecoder().decode([CreditProduct].self, from: data) {
             for item in items where !item.id.isEmpty && item.credits > 0 && item.credits <= 1_000_000 && configured[item.id] == nil {
                 catalog.append(item)
@@ -334,6 +335,7 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
             self.pendingProducts.remove(transaction.payment.productIdentifier)
             self.transactionNotice = alreadyCredited ? "" : "Purchase confirmed. Your balance has been updated."
             SKPaymentQueue.default().finishTransaction(transaction)
+            NotificationCenter.default.post(name: Self.balanceDidChange, object: self)
         } catch {
             transactionNotice = "Your purchase is waiting for confirmation. Please check again later."
             // Leave undelivered transactions in Apple's queue for a later retry.

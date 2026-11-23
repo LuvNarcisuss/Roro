@@ -1,61 +1,43 @@
-"""Verify a compiled app's identity, signature-independent resources and source freshness."""
+"""Verify the native iPhone bundle and compare its immutable media with source."""
 from pathlib import Path
 import argparse
-import hashlib
-import json
+import filecmp
 import plistlib
-import zipfile
+import subprocess
+import tempfile
 
 parser = argparse.ArgumentParser()
-parser.add_argument('app', type=Path)
-args = parser.parse_args()
+parser.add_argument("app", type=Path)
+app = parser.parse_args().app.resolve()
 root = Path(__file__).resolve().parents[1]
-app = args.app.resolve()
-info = plistlib.loads((app / 'Info.plist').read_bytes())
-assert info['UIDeviceFamily'] == [1], 'The app must support iPhone only.'
-assert info['CFBundleIdentifier'] == 'com.roro.photography'
-assert (app / 'AppResources/products.json').read_bytes() == (root / 'Configuration/products.json').read_bytes(), 'Built wallet catalog must match source.'
-launch_name = info['UILaunchStoryboardName']
-assert launch_name == 'JournalLaunchScreen'
-launch_views = (app / (launch_name + '.storyboardc')).glob('*.nib')
-assert any(b'roro-logo.png' in view.read_bytes() for view in launch_views), 'Check the compiled launch image reference.'
-brand = (root / 'Assets/icons/roro-logo.png').read_bytes()
-assert (app / 'roro-logo.png').is_file(), 'The system launch screen needs its standalone PNG.'
-assert (app / 'assets/Assets/icons/roro-logo.png').read_bytes() == brand
-archive = app / 'AppResources/RoroWeb.zip'
-assert archive.read_bytes() == (root / 'ios/Roro/AppResources/RoroWeb.zip').read_bytes()
-assert hashlib.sha256(archive.read_bytes()).hexdigest() == (app / 'AppResources/RoroWeb.sha256').read_text().strip()
-with zipfile.ZipFile(archive) as bundle:
-    manifest = json.loads(bundle.read('manifest.json'))
-    for relative, digest in manifest['inputs'].items():
-        assert hashlib.sha256((root / relative).read_bytes()).hexdigest() == digest, relative
-    artwork = json.loads((root / 'Assets/artwork-manifest.json').read_text())
-    assert bundle.read('assets/artwork-manifest.json') == (root / 'Assets/artwork-manifest.json').read_bytes()
-    for item in artwork:
-        if item['file'].startswith(('icons/', 'backgrounds/')):
-            assert bundle.read('assets/' + item['file']) == (root / 'Assets' / item['file']).read_bytes()
-    community = json.loads(bundle.read('assets/community/catalog.json'))
-    assert community == json.loads((app / 'AppResources/community.json').read_text())
-    assert community == json.loads((root / 'Assets/community/catalog.json').read_text())
-    for clip in community['shorts']:
-        for key in ['video', 'poster']:
-            relative = clip[key]
-            assert bundle.read(relative) == (root / 'Assets' / relative.removeprefix('assets/')).read_bytes()
-    for item in json.loads((root / 'Assets/photos/manifest.json').read_text()):
-        relative = item['file']
-        assert hashlib.sha256(bundle.read('assets/' + relative)).hexdigest() == item['sha256'], relative
-    for author in community['authors']:
-        assert author['avatar'] in bundle.namelist()
-    assert sum(item.file_size for item in bundle.infolist()) <= 150_000_000
-    for relative in ['index.html', 'app.js', 'app.css', 'assets/fonts/Nunito.ttf', 'assets/icons/home.png', 'assets/icons/topics.png', 'assets/icons/shorts.png', 'assets/icons/share.png', 'assets/icons/wallet.png', 'assets/icons/check.png', 'assets/photos/coffee.jpg']:
-        assert relative in bundle.namelist(), relative
-assert (app / 'main.jsbundle').stat().st_size > 0
-assert not (app / 'Resources').exists()
-print(json.dumps({
-    'bundle': info['CFBundleIdentifier'],
-    'deviceFamily': info['UIDeviceFamily'],
-    'minimumOS': info['MinimumOSVersion'],
-    'webArchiveBytes': archive.stat().st_size,
-    'shellBundleBytes': (app / 'main.jsbundle').stat().st_size,
-    'sourceManifestVerified': len(manifest['inputs']),
-}, indent=2))
+info = plistlib.loads((app / "Info.plist").read_bytes())
+assert info["UIDeviceFamily"] == [1] and info["CFBundleIdentifier"] == "com.roro.photography"
+assert info["UISupportedInterfaceOrientations"] == ["UIInterfaceOrientationPortrait"]
+assert info["MinimumOSVersion"] == "16.0"
+assert info["UILaunchStoryboardName"] == "JournalLaunchScreen"
+assert any(b"roro-logo.png" in path.read_bytes() for path in (app / "JournalLaunchScreen.storyboardc").glob("*.nib"))
+# Xcode may re-encode the standalone launch PNG. Reproduce its copy phase and
+# compare the result. The main icons folder is still checked byte for byte.
+logo = root / "Assets/icons/roro-logo.png"
+built_logo = app / "roro-logo.png"
+if not filecmp.cmp(logo, built_logo, shallow=False):
+    with tempfile.TemporaryDirectory() as temporary:
+        converted = Path(temporary) / "launch.png"
+        subprocess.run(["xcrun", "copypng", "-strip-PNG-text", logo, converted], check=True)
+        assert filecmp.cmp(converted, built_logo, shallow=False), "Launch logo differs from its source"
+assert filecmp.cmp(root / "Assets/artwork-manifest.json", app / "artwork-manifest.json", shallow=False)
+for font in info["UIAppFonts"]:
+    assert (app / font).is_file(), font
+folders = [root / "Configuration"] + [root / "Assets" / name for name in
+    ("backgrounds", "icons", "community", "photos", "videos", "fonts")]
+count = 0
+for folder in folders:
+    for path in folder.rglob("*"):
+        if path.is_file() and not path.name.startswith("."):
+            destination = app / folder.name / path.relative_to(folder)
+            assert filecmp.cmp(path, destination, shallow=False), str(destination)
+            count += 1
+for path in app.rglob("*"):
+    assert path.suffix.lower() not in {".html", ".js", ".jsbundle", ".zip", ".tsx"}, path
+    assert not any(name in path.name.lower() for name in ("hermes", "react-native", "rctbridge")), path
+print(f"Native iPhone bundle verified. {count} resource files match their sources.")

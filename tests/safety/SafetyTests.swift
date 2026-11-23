@@ -2,24 +2,32 @@ import XCTest
 
 final class SafetyTests: XCTestCase {
     private let app = XCUIApplication(bundleIdentifier: "com.roro.photography")
-    private let captions = [
-        "short-camera-day": "A little practice before heading out. Finding the frame is half the fun.",
-        "short-bridge-walk": "Look for the lines. An ordinary walk can turn into a whole photo story.",
-        "short-coffee-light": "Window light, a warm cup, and a few quiet seconds before the first sip.",
-        "short-cat-pause": "The most patient subject in the house. Until the next nap, anyway.",
-        "short-evening-sky": "Stayed a little longer for the last light. Some colors are worth waiting for."
-    ]
+    private struct Fixtures: Decodable {
+        struct Work: Decodable {
+            let id: String
+            let caption: String
+        }
+        let shorts: [Work]
+    }
+
+    private var captions: [String: String] = [:]
+    private let coffeeCaption = "Coffee tastes better together."
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        let url = try XCTUnwrap(Bundle(for: SafetyTests.self).url(forResource: "catalog", withExtension: "json"))
+        let fixtures = try JSONDecoder().decode(Fixtures.self, from: Data(contentsOf: url))
+        captions = Dictionary(uniqueKeysWithValues: fixtures.shorts.map { ($0.id, $0.caption) })
+        XCTAssertGreaterThan(captions.count, 1)
         launchShorts()
     }
 
     private func launchShorts() {
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         app.launch()
         let login = app.buttons["Log in"]
         XCTAssertTrue(login.waitForExistence(timeout: 16))
-        if !login.isEnabled { app.staticTexts["I agree to the"].firstMatch.tap() }
+        if !login.isEnabled { app.buttons["I agree to the"].tap() }
         login.tap()
         XCTAssertTrue(app.buttons["Discover"].waitForExistence(timeout: 10))
         app.buttons["Shorts"].firstMatch.tap()
@@ -38,32 +46,37 @@ final class SafetyTests: XCTestCase {
         (up ? bottom : top).press(forDuration: 0.08, thenDragTo: up ? top : bottom)
     }
 
-    private func confirm() {
-        let ok = app.alerts.buttons.matching(NSPredicate(format: "label IN %@", ["OK", "Ok", "好", "确定"])).firstMatch
-        XCTAssertTrue(ok.waitForExistence(timeout: 6))
-        ok.tap()
+    private func confirm(_ action: String) {
+        let button = app.alerts.buttons[action]
+        XCTAssertTrue(button.waitForExistence(timeout: 6))
+        button.tap()
+    }
+
+    private func advance(from id: String, up: Bool) throws -> String {
+        let caption = try XCTUnwrap(captions[id])
+        swipe(up: up)
+        XCTAssertTrue(app.staticTexts[caption].waitForNonExistence(timeout: 8), "The feed stayed on " + id)
+        return try clip()
     }
 
     func testRefreshRoundAndTwoSwipeLaps() throws {
         let initial = try clip()
-        swipe(up: true)
-        let later = try clip()
-        XCTAssertNotEqual(initial, later)
+        let later = try advance(from: initial, up: true)
         var pulls = [initial, later]
-        for _ in 0..<3 {
-            swipe(up: false)
-            pulls.append(try clip())
+        var current = later
+        for _ in 2..<captions.count {
+            current = try advance(from: current, up: false)
+            pulls.append(current)
         }
-        XCTAssertEqual(Set(pulls).count, 5, pulls.description)
-        swipe(up: false)
-        var lap = [try clip()]
-        XCTAssertNotEqual(lap[0], pulls.last)
-        for _ in 0..<10 {
-            swipe(up: true)
-            lap.append(try clip())
+        XCTAssertEqual(Set(pulls), Set(captions.keys))
+        current = try advance(from: current, up: false)
+        var lap = [current]
+        for _ in 0..<(2 * captions.count) {
+            current = try advance(from: current, up: true)
+            lap.append(current)
         }
-        XCTAssertEqual(Set(lap.prefix(5)).count, 5)
-        XCTAssertEqual(Array(lap[0..<5]), Array(lap[5..<10]))
+        XCTAssertEqual(Set(lap.prefix(captions.count)), Set(captions.keys))
+        XCTAssertEqual(Array(lap.prefix(captions.count)), Array(lap.dropFirst(captions.count).prefix(captions.count)))
         XCTAssertEqual(lap.first, lap.last)
         let evidence = XCTAttachment(string: "Refresh round: \(pulls)\nTwo laps: \(lap)")
         evidence.name = "Visible clip IDs"
@@ -80,7 +93,7 @@ final class SafetyTests: XCTestCase {
         evidence.name = name
         evidence.lifetime = .keepAlways
         add(evidence)
-        confirm()
+        confirm("OK")
         XCTAssertTrue(message.waitForNonExistence(timeout: 4))
     }
 
@@ -93,30 +106,46 @@ final class SafetyTests: XCTestCase {
         let cancel = app.alerts.buttons["Cancel"]
         XCTAssertTrue(cancel.waitForExistence(timeout: 6))
         cancel.tap()
+        let closeSheet = app.buttons["Cancel"].firstMatch
+        XCTAssertTrue(closeSheet.waitForExistence(timeout: 5))
+        closeSheet.tap()
         XCTAssertTrue(app.staticTexts[text].firstMatch.exists)
         XCTAssertFalse(app.alerts.staticTexts[successMessage].exists)
         moreControl(menu).tap()
         report.tap()
-        confirm()
+        confirm("Report")
         dismissSavedReport(photo ? "Photo comment report saved" : "Short comment report saved")
         XCTAssertFalse(app.staticTexts[text].firstMatch.exists)
     }
 
     private func withdrawCommentReport(author: String, text: String) {
-        app.buttons["Me"].firstMatch.tap()
-        app.buttons["Settings"].firstMatch.tap()
-        app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "Reported comments")).firstMatch.tap()
+        openSettingsList("Reported comments")
         let undo = app.buttons["Withdraw report for " + author + " — " + text]
         XCTAssertTrue(undo.waitForExistence(timeout: 8))
         undo.press(forDuration: 0.9)
-        confirm()
+        confirm("Withdraw")
         XCTAssertTrue(undo.waitForNonExistence(timeout: 6))
+    }
+
+    private func search(_ label: String, for text: String) {
+        if app.buttons["Close search"].exists { app.buttons["Close search"].tap() }
+        let searchButton = app.buttons[label]
+        XCTAssertTrue(searchButton.waitForExistence(timeout: 6))
+        searchButton.tap()
+        let field = app.textFields[label]
+        XCTAssertTrue(field.waitForExistence(timeout: 6))
+        field.tap()
+        field.typeText(text + "\n")
     }
 
     private func openCoffeePost() {
         app.buttons["Home"].firstMatch.tap()
-        app.buttons["Open photo and comments"].firstMatch.tap()
-        XCTAssertTrue(app.staticTexts["Coffee tastes better together."].firstMatch.waitForExistence(timeout: 8))
+        search("Search photos or people", for: coffeeCaption)
+        XCTAssertTrue(app.staticTexts[coffeeCaption].firstMatch.waitForExistence(timeout: 6))
+        let discussion = app.buttons.matching(identifier: "Open photo and comments")
+        XCTAssertEqual(discussion.count, 1)
+        discussion.firstMatch.tap()
+        XCTAssertTrue(moreControl("More post options").waitForExistence(timeout: 8))
     }
 
     func testCoffeePostMenuAndReport() {
@@ -135,7 +164,7 @@ final class SafetyTests: XCTestCase {
         add(screenshot)
         openSafetyMenu("More post options", report: "Report post", author: "Ava Reed")
         app.buttons["Report post"].firstMatch.tap()
-        confirm()
+        confirm("Report")
         dismissSavedReport("Coffee post report saved")
         XCTAssertTrue(app.staticTexts["Coffee tastes better together."].firstMatch.waitForNonExistence(timeout: 8))
         app.terminate()
@@ -145,10 +174,10 @@ final class SafetyTests: XCTestCase {
     }
 
     private func confirmBlockAndDismissSuccess() {
-        confirm()
+        confirm("Block")
         let message = app.alerts.staticTexts["User blocked."]
         XCTAssertTrue(message.waitForExistence(timeout: 8))
-        confirm()
+        confirm("OK")
         XCTAssertTrue(message.waitForNonExistence(timeout: 4))
     }
 
@@ -201,31 +230,40 @@ final class SafetyTests: XCTestCase {
         withdrawCommentReport(author: "Milo Brooks", text: "The warm tones make this feel so inviting.")
     }
 
+    private func selectCameraShort() throws {
+        let caption = try XCTUnwrap(captions["short-camera-day"])
+        search("Search shorts or people", for: caption)
+        XCTAssertTrue(app.staticTexts[caption].waitForExistence(timeout: 8))
+        XCTAssertEqual(try clip(), "short-camera-day")
+    }
+
     func testShortCommentReportDialogAndWithdrawal() throws {
-        let initial = try clip()
+        try selectCameraShort()
         let text = "The camera strap makes this feel so familiar."
         app.buttons["Open 4 comments"].tap()
         checkCommentReport(author: "Rowan Ellis", text: text, photo: false)
         XCTAssertTrue(app.staticTexts["That soft light is lovely."].firstMatch.exists)
         app.terminate()
         launchShorts()
-        XCTAssertEqual(try clip(), initial)
+        try selectCameraShort()
         XCTAssertTrue(app.buttons["Open 3 comments"].exists)
         withdrawCommentReport(author: "Rowan Ellis", text: text)
         app.terminate()
         launchShorts()
+        try selectCameraShort()
         app.buttons["Open 4 comments"].tap()
         XCTAssertTrue(app.staticTexts[text].firstMatch.waitForExistence(timeout: 6))
     }
 
-    private let topicCaption = "A few stems brought the whole table to life."
-    private let topicComment = "The yellow against that green is so good."
+    private let topicCaption = "Tea, a book and an afternoon with no plans."
+    private let topicComment = "That looks like a good place to spend an hour."
 
     private func openTopicCategory() {
         app.buttons["Topics"].firstMatch.tap()
-        let tile = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "Little joys")).firstMatch
+        let tile = app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "At home")).firstMatch
         XCTAssertTrue(tile.waitForExistence(timeout: 8))
         tile.tap()
+        XCTAssertTrue(app.buttons["Add a photo"].waitForExistence(timeout: 8))
     }
 
     private func moreControl(_ label: String) -> XCUIElement {
@@ -233,9 +271,11 @@ final class SafetyTests: XCTestCase {
     }
 
     private func openTopicPost() {
-        let photo = app.buttons["Open photo and comments"].firstMatch
-        XCTAssertTrue(photo.waitForExistence(timeout: 8))
-        photo.tap()
+        let expected = app.staticTexts[topicCaption].firstMatch
+        XCTAssertTrue(expected.waitForExistence(timeout: 8))
+        let entries = app.buttons.matching(identifier: "Open photo and comments")
+        XCTAssertEqual(entries.count, 1, "Expected the isolated At home topic fixture")
+        entries.firstMatch.tap()
         XCTAssertTrue(moreControl("More post options").waitForExistence(timeout: 8))
     }
 
@@ -264,7 +304,7 @@ final class SafetyTests: XCTestCase {
         let undo = app.buttons[name].firstMatch
         XCTAssertTrue(undo.waitForExistence(timeout: 8))
         undo.tap()
-        confirm()
+        confirm(name.hasPrefix("Unblock ") ? "Unblock" : "Withdraw")
         XCTAssertTrue(undo.waitForNonExistence(timeout: 6))
     }
 
@@ -275,13 +315,13 @@ final class SafetyTests: XCTestCase {
         app.buttons["Cancel"].firstMatch.tap()
         moreControl("More post options").tap()
         app.buttons["Report post"].firstMatch.tap()
-        confirm()
+        confirm("Report")
         dismissSavedReport("Topic post report saved")
-        XCTAssertFalse(app.buttons["Open photo and comments"].firstMatch.exists)
+        XCTAssertFalse(app.staticTexts[topicCaption].firstMatch.exists)
         app.terminate()
         launchShorts()
         openTopicCategory()
-        XCTAssertFalse(app.buttons["Open photo and comments"].firstMatch.exists)
+        XCTAssertFalse(app.staticTexts[topicCaption].firstMatch.exists)
         app.buttons["Back"].firstMatch.tap()
         openSettingsList("Reported posts")
         undoRecord("Withdraw report for " + topicCaption)
@@ -306,7 +346,7 @@ final class SafetyTests: XCTestCase {
         let more = "More options for comment by Kit Lane"
         openSafetyMenu(more, report: "Report comment", author: "Kit Lane")
         app.buttons["Report comment"].firstMatch.tap()
-        confirm()
+        confirm("Report")
         dismissSavedReport("Topic comment report saved")
         XCTAssertFalse(app.staticTexts[topicComment].firstMatch.exists)
         XCTAssertTrue(moreControl("More post options").exists)
@@ -335,19 +375,17 @@ final class SafetyTests: XCTestCase {
         let title = try XCTUnwrap(captions[first])
         app.buttons["More video options"].tap()
         app.buttons["Report video"].tap()
-        confirm()
+        confirm("Report")
         dismissSavedReport("Video report saved")
         XCTAssertFalse(app.staticTexts[title].exists)
         app.terminate()
         launchShorts()
         XCTAssertNotEqual(try clip(), first)
-        app.buttons["Me"].firstMatch.tap()
-        app.buttons["Settings"].firstMatch.tap()
-        app.buttons.matching(NSPredicate(format: "label BEGINSWITH %@", "Reported videos")).firstMatch.tap()
+        openSettingsList("Reported videos")
         let undo = app.buttons["Withdraw report for " + title]
         XCTAssertTrue(undo.waitForExistence(timeout: 8))
         undo.press(forDuration: 0.9)
-        confirm()
+        confirm("Withdraw")
         XCTAssertTrue(app.staticTexts["No reported videos"].firstMatch.waitForExistence(timeout: 8))
     }
 }

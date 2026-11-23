@@ -5,6 +5,7 @@ final class AgreementCloseTests: XCTestCase {
 
     override func setUpWithError() throws {
         continueAfterFailure = false
+        app.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         app.launch()
         XCTAssertTrue(welcome.waitForExistence(timeout: 15))
     }
@@ -15,7 +16,7 @@ final class AgreementCloseTests: XCTestCase {
     private func openSettings() {
         let login = app.buttons["Log in"]
         if !login.isEnabled {
-            app.staticTexts["I agree to the"].tap()
+            app.buttons["I agree to the"].tap()
         }
         login.tap()
         let me = app.buttons["Me"]
@@ -26,7 +27,10 @@ final class AgreementCloseTests: XCTestCase {
     }
 
     private func verifyClose(_ title: String, returningTo origin: XCUIElement) {
-        let link = app.links[title]
+        let link = app.descendants(matching: .any).matching(NSPredicate(
+            format: "label == %@ AND (elementType == %d OR elementType == %d)",
+            title, XCUIElement.ElementType.button.rawValue, XCUIElement.ElementType.link.rawValue
+        )).firstMatch
         XCTAssertTrue(link.isHittable)
         link.tap()
 
@@ -35,7 +39,7 @@ final class AgreementCloseTests: XCTestCase {
             format: "label IN %@", ["Close", "Done", "关闭", "完成"]
         )).firstMatch
         XCTAssertTrue(close.waitForExistence(timeout: 10))
-        let document = app.otherElements["Roro - " + title].firstMatch
+        let document = app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", "Roro - " + title)).firstMatch
         XCTAssertTrue(document.waitForExistence(timeout: 30), "Expected the selected agreement to load")
         XCTAssertFalse(origin.exists && origin.isHittable)
         // Safari's suggested hit point can fall outside its circular close button.

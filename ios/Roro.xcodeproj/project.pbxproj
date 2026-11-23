@@ -9,38 +9,49 @@
 /* Begin PBXBuildFile section */
 		269FC6485E5C47518410851A /* roro-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B09D15131AB43278D55C7DE /* roro-logo.png */; };
 		0D23E6594516200964401481 /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635108D50B5356C442B76495 /* PhotoLibrary.swift */; };
-		4C2C94DCCD1B9FDA74281C9B /* RoroNativeBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 2348BDC288B13AD9D506FC46 /* RoroNativeBridge.m */; };
 		62422D8D0001490711F7AD08 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17CBF4FC1AA922DABF0E486 /* SceneDelegate.swift */; };
-		68A627BC67EB0847E4F0DA85 /* PageArchive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 849E5F26544D134579F70BDF /* PageArchive.swift */; };
-		712850C4776350CA433A5C27 /* AppResources in Resources */ = {isa = PBXBuildFile; fileRef = A35B5A790DCDAEBCD12D7B79 /* AppResources */; };
 		783FF51992854031AF4E682A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1470F8557DE15DEB3F85A3AA /* Images.xcassets */; };
 		8E2B05F51AE8E0981F8B32AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB90A56D1221D0F0592AC09E /* AppDelegate.swift */; };
-		9176D09ADE80C9FCD3C0D62D /* RoroNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71CE20AD608D4E1D645E9352 /* RoroNative.swift */; };
 		AEA2B44E44C642FF2EC12AD4 /* JournalLaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7149865F23260C75368BFB9B /* JournalLaunchScreen.storyboard */; };
 		B89569ABBCF39AC5CE37DB44 /* PurchaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B209FF1B391C42EC323F6737 /* PurchaseService.swift */; };
 		2E8579A0A510F9F4D0A9FEC0 /* XcodeReceipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 296AF934F9CA6C96ED09875F /* XcodeReceipt.swift */; };
 		C58CA700CF7E8D4F4F36E809 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 6F66F8A1B2FD8A9F50EFBF82 /* PrivacyInfo.xcprivacy */; };
 		D3214C4FC34F3B1688C1BAA0 /* MediaPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885B875A7813F7B56FF35E0 /* MediaPicker.swift */; };
 		DF246110EA3445EBAC000110 /* CallPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF246110EA3445EBAC000111 /* CallPreviewController.swift */; };
-		FA477BC6EF8DF264B7EFA8F2 /* libPods-Roro.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5523F3DE35458FE23BB6ED17 /* libPods-Roro.a */; };
 		264F913CE1D6ED757AF0CF54 /* SwiftASN1 in Frameworks */ = {isa = PBXBuildFile; productRef = 0DAA083CCF0991896C1D709B /* SwiftASN1 */; };
+		B8552C08E28B44173199451E /* JournalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB3318691F63BFF8759EE827 /* JournalStore.swift */; };
+		29082F4492E70A0197334D5C /* AccountChats.swift in Sources */ = {isa = PBXBuildFile; fileRef = E716F3BAB07B98D03A70BCE9 /* AccountChats.swift */; };
+		D22E1EA59EEA2DF160858BFA /* AccountViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08FEDEAFAE46EC63772A5B3E /* AccountViews.swift */; };
+		36827AC2BA268F25C3178ADF /* AccountWallet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36613AB747076194604FCBA4 /* AccountWallet.swift */; };
+		57CCD64D1F6CCB5443314852 /* JournalDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6F7F69E73B38CA1F3EBEFE9 /* JournalDesign.swift */; };
+		1C2016B2BAA776D2690A9E62 /* JournalRoot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155F1CADC4574798AE1368B1 /* JournalRoot.swift */; };
+		ABAA3A9559324FAC0204F49A /* JournalShorts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8D6B6CE7DC673CDE736EBA8 /* JournalShorts.swift */; };
+		E33903E44651E4D16F907A07 /* JournalShortsComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068026955764CEB512DAB657 /* JournalShortsComposer.swift */; };
+		B57990266A410FB0B9D74B35 /* JournalShortsPanels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF6DD1180238174CCBB0F29 /* JournalShortsPanels.swift */; };
+		E0356B0888FA6A75B2512A60 /* JournalShortsPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B9E194A6E03869BDC5C3BF /* JournalShortsPlayer.swift */; };
+		B95F825AA657E45B88FB6C9E /* PhotographyComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52015D3B747CDEAB140C2CA5 /* PhotographyComponents.swift */; };
+		6E66393971049E33548817F8 /* PhotographyCompose.swift in Sources */ = {isa = PBXBuildFile; fileRef = E691032E52C8D842B12CFF8A /* PhotographyCompose.swift */; };
+		5B7FF3BEBDEE3684E1AB5A9C /* PhotographyDiscovery.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5CA4EDEEB175192E2DCC1F8 /* PhotographyDiscovery.swift */; };
+		2928FC830A4F79B2CD9EA4E1 /* PhotographyDiscussion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BD005F77F114D8004DE0F5 /* PhotographyDiscussion.swift */; };
+		C0837136AEF78AB6B5B9D4AE /* PhotographyFeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB1F58E1536557754E9A904 /* PhotographyFeed.swift */; };
+		C6BA5E1B565FE1DCB96B30F7 /* PhotographyMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 893C103FAE0E33D7818F2EB6 /* PhotographyMember.swift */; };
+		3E6F3C48453307574C119ACC /* artwork-manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = E59F3552CF81AE7458A1BC51 /* artwork-manifest.json */; };
+		957A3BB7FFD4FFF9272BAE40 /* Configuration in Resources */ = {isa = PBXBuildFile; fileRef = 902B2D714CD6055A2188A331 /* Configuration */; };
+		073E6F90626CCBF7584F47EB /* backgrounds in Resources */ = {isa = PBXBuildFile; fileRef = 293D19CA258A18E177EC20D5 /* backgrounds */; };
+		9B50A132E89F662A0DEFBCC4 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = D7FF4EBEE0C549F811864858 /* icons */; };
+		647A0FE91B926877547A16A4 /* photos in Resources */ = {isa = PBXBuildFile; fileRef = 64B891CA854FC8B94A77BCB1 /* photos */; };
+		F3D69E91AC82911008B2DD0D /* videos in Resources */ = {isa = PBXBuildFile; fileRef = ED25365DDD55E54A3AA4B6B3 /* videos */; };
+		B65073E5A86F031EABE9955C /* community in Resources */ = {isa = PBXBuildFile; fileRef = 056EA60D74DAE91B3937EC5A /* community */; };
+		F66CBCB1AC2F9CA223394B73 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 38C95FA265741ADC7450A208 /* fonts */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		6B09D15131AB43278D55C7DE /* roro-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "roro-logo.png"; path = "../Assets/icons/roro-logo.png"; sourceTree = SOURCE_ROOT; };
 		1470F8557DE15DEB3F85A3AA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		2348BDC288B13AD9D506FC46 /* RoroNativeBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoroNativeBridge.m; sourceTree = "<group>"; };
-		343AF83ADC651CA1179C6280 /* Roro-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Roro-Bridging-Header.h"; sourceTree = "<group>"; };
-		5523F3DE35458FE23BB6ED17 /* libPods-Roro.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Roro.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		635108D50B5356C442B76495 /* PhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrary.swift; sourceTree = "<group>"; };
 		6F66F8A1B2FD8A9F50EFBF82 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		7149865F23260C75368BFB9B /* JournalLaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = JournalLaunchScreen.storyboard; sourceTree = "<group>"; };
-		71CE20AD608D4E1D645E9352 /* RoroNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoroNative.swift; sourceTree = "<group>"; };
-		72308F7D43C5121004A51737 /* Pods-Roro.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roro.release.xcconfig"; path = "Target Support Files/Pods-Roro/Pods-Roro.release.xcconfig"; sourceTree = "<group>"; };
 		73F066C6FB37EA5049959300 /* Roro.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Roro.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		849E5F26544D134579F70BDF /* PageArchive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageArchive.swift; sourceTree = "<group>"; };
-		8BDB9B8F389A490C034A990B /* Pods-Roro.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Roro.debug.xcconfig"; path = "Target Support Files/Pods-Roro/Pods-Roro.debug.xcconfig"; sourceTree = "<group>"; };
-		A35B5A790DCDAEBCD12D7B79 /* AppResources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AppResources; path = Roro/AppResources; sourceTree = SOURCE_ROOT; };
 		B209FF1B391C42EC323F6737 /* PurchaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseService.swift; sourceTree = "<group>"; };
 		296AF934F9CA6C96ED09875F /* XcodeReceipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XcodeReceipt.swift; sourceTree = "<group>"; };
 		C17CBF4FC1AA922DABF0E486 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +60,30 @@
 		F885B875A7813F7B56FF35E0 /* MediaPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPicker.swift; sourceTree = "<group>"; };
 		DF246110EA3445EBAC000111 /* CallPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallPreviewController.swift; sourceTree = "<group>"; };
 		2827190C133742B365BCC9F4 /* RoroCredits.storekit */ = {isa = PBXFileReference; path = RoroCredits.storekit; sourceTree = "<group>"; };
+		DB3318691F63BFF8759EE827 /* JournalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JournalStore.swift"; path = "Roro/Native/JournalStore.swift"; sourceTree = SOURCE_ROOT; };
+		E716F3BAB07B98D03A70BCE9 /* AccountChats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "AccountChats.swift"; path = "Roro/UI/AccountChats.swift"; sourceTree = SOURCE_ROOT; };
+		08FEDEAFAE46EC63772A5B3E /* AccountViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "AccountViews.swift"; path = "Roro/UI/AccountViews.swift"; sourceTree = SOURCE_ROOT; };
+		36613AB747076194604FCBA4 /* AccountWallet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "AccountWallet.swift"; path = "Roro/UI/AccountWallet.swift"; sourceTree = SOURCE_ROOT; };
+		A6F7F69E73B38CA1F3EBEFE9 /* JournalDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JournalDesign.swift"; path = "Roro/UI/JournalDesign.swift"; sourceTree = SOURCE_ROOT; };
+		155F1CADC4574798AE1368B1 /* JournalRoot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JournalRoot.swift"; path = "Roro/UI/JournalRoot.swift"; sourceTree = SOURCE_ROOT; };
+		F8D6B6CE7DC673CDE736EBA8 /* JournalShorts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JournalShorts.swift"; path = "Roro/UI/JournalShorts.swift"; sourceTree = SOURCE_ROOT; };
+		068026955764CEB512DAB657 /* JournalShortsComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JournalShortsComposer.swift"; path = "Roro/UI/JournalShortsComposer.swift"; sourceTree = SOURCE_ROOT; };
+		6CF6DD1180238174CCBB0F29 /* JournalShortsPanels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JournalShortsPanels.swift"; path = "Roro/UI/JournalShortsPanels.swift"; sourceTree = SOURCE_ROOT; };
+		97B9E194A6E03869BDC5C3BF /* JournalShortsPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "JournalShortsPlayer.swift"; path = "Roro/UI/JournalShortsPlayer.swift"; sourceTree = SOURCE_ROOT; };
+		52015D3B747CDEAB140C2CA5 /* PhotographyComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PhotographyComponents.swift"; path = "Roro/UI/PhotographyComponents.swift"; sourceTree = SOURCE_ROOT; };
+		E691032E52C8D842B12CFF8A /* PhotographyCompose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PhotographyCompose.swift"; path = "Roro/UI/PhotographyCompose.swift"; sourceTree = SOURCE_ROOT; };
+		F5CA4EDEEB175192E2DCC1F8 /* PhotographyDiscovery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PhotographyDiscovery.swift"; path = "Roro/UI/PhotographyDiscovery.swift"; sourceTree = SOURCE_ROOT; };
+		13BD005F77F114D8004DE0F5 /* PhotographyDiscussion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PhotographyDiscussion.swift"; path = "Roro/UI/PhotographyDiscussion.swift"; sourceTree = SOURCE_ROOT; };
+		2CB1F58E1536557754E9A904 /* PhotographyFeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PhotographyFeed.swift"; path = "Roro/UI/PhotographyFeed.swift"; sourceTree = SOURCE_ROOT; };
+		893C103FAE0E33D7818F2EB6 /* PhotographyMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "PhotographyMember.swift"; path = "Roro/UI/PhotographyMember.swift"; sourceTree = SOURCE_ROOT; };
+		E59F3552CF81AE7458A1BC51 /* artwork-manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "artwork-manifest.json"; path = "../Assets/artwork-manifest.json"; sourceTree = SOURCE_ROOT; };
+		902B2D714CD6055A2188A331 /* Configuration */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "Configuration"; path = "../Configuration"; sourceTree = SOURCE_ROOT; };
+		293D19CA258A18E177EC20D5 /* backgrounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "backgrounds"; path = "../Assets/backgrounds"; sourceTree = SOURCE_ROOT; };
+		D7FF4EBEE0C549F811864858 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "icons"; path = "../Assets/icons"; sourceTree = SOURCE_ROOT; };
+		64B891CA854FC8B94A77BCB1 /* photos */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "photos"; path = "../Assets/photos"; sourceTree = SOURCE_ROOT; };
+		ED25365DDD55E54A3AA4B6B3 /* videos */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "videos"; path = "../Assets/videos"; sourceTree = SOURCE_ROOT; };
+		056EA60D74DAE91B3937EC5A /* community */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "community"; path = "../Assets/community"; sourceTree = SOURCE_ROOT; };
+		38C95FA265741ADC7450A208 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "fonts"; path = "../Assets/fonts"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,7 +91,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA477BC6EF8DF264B7EFA8F2 /* libPods-Roro.a in Frameworks */,
 				264F913CE1D6ED757AF0CF54 /* SwiftASN1 in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -68,13 +102,11 @@
 			isa = PBXGroup;
 			children = (
 				EB90A56D1221D0F0592AC09E /* AppDelegate.swift */,
-				A35B5A790DCDAEBCD12D7B79 /* AppResources */,
 				1470F8557DE15DEB3F85A3AA /* Images.xcassets */,
 				E2E2CD51FA5CA3C297D717D9 /* Info.plist */,
 				6B09D15131AB43278D55C7DE /* roro-logo.png */,
 				7149865F23260C75368BFB9B /* JournalLaunchScreen.storyboard */,
 				6F66F8A1B2FD8A9F50EFBF82 /* PrivacyInfo.xcprivacy */,
-				343AF83ADC651CA1179C6280 /* Roro-Bridging-Header.h */,
 				C17CBF4FC1AA922DABF0E486 /* SceneDelegate.swift */,
 				E25EFA87F5882487819842CB /* Native */,
 			);
@@ -92,43 +124,44 @@
 		4AB044C1BC15E075240A3011 = {
 			isa = PBXGroup;
 			children = (
+				38C95FA265741ADC7450A208 /* fonts */,
+				056EA60D74DAE91B3937EC5A /* community */,
+				ED25365DDD55E54A3AA4B6B3 /* videos */,
+				64B891CA854FC8B94A77BCB1 /* photos */,
+				D7FF4EBEE0C549F811864858 /* icons */,
+				293D19CA258A18E177EC20D5 /* backgrounds */,
+				902B2D714CD6055A2188A331 /* Configuration */,
+				E59F3552CF81AE7458A1BC51 /* artwork-manifest.json */,
+				893C103FAE0E33D7818F2EB6 /* PhotographyMember.swift */,
+				2CB1F58E1536557754E9A904 /* PhotographyFeed.swift */,
+				13BD005F77F114D8004DE0F5 /* PhotographyDiscussion.swift */,
+				F5CA4EDEEB175192E2DCC1F8 /* PhotographyDiscovery.swift */,
+				E691032E52C8D842B12CFF8A /* PhotographyCompose.swift */,
+				52015D3B747CDEAB140C2CA5 /* PhotographyComponents.swift */,
+				97B9E194A6E03869BDC5C3BF /* JournalShortsPlayer.swift */,
+				6CF6DD1180238174CCBB0F29 /* JournalShortsPanels.swift */,
+				068026955764CEB512DAB657 /* JournalShortsComposer.swift */,
+				F8D6B6CE7DC673CDE736EBA8 /* JournalShorts.swift */,
+				155F1CADC4574798AE1368B1 /* JournalRoot.swift */,
+				A6F7F69E73B38CA1F3EBEFE9 /* JournalDesign.swift */,
+				36613AB747076194604FCBA4 /* AccountWallet.swift */,
+				08FEDEAFAE46EC63772A5B3E /* AccountViews.swift */,
+				E716F3BAB07B98D03A70BCE9 /* AccountChats.swift */,
 				7D11E5EC1DA9D6410AC275E6 /* Configuration */,
 				0B924AEBE382F72D3B969E3B /* Roro */,
 				3470954B95BD5A9D36EB0429 /* Products */,
-				E24D9E335D4ED207312A2ADB /* Pods */,
-				CACA7A84DA6AFDAED60E33B3 /* Frameworks */,
 			);
-			sourceTree = "<group>";
-		};
-		CACA7A84DA6AFDAED60E33B3 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5523F3DE35458FE23BB6ED17 /* libPods-Roro.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E24D9E335D4ED207312A2ADB /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				8BDB9B8F389A490C034A990B /* Pods-Roro.debug.xcconfig */,
-				72308F7D43C5121004A51737 /* Pods-Roro.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		E25EFA87F5882487819842CB /* Native */ = {
 			isa = PBXGroup;
 			children = (
+				DB3318691F63BFF8759EE827 /* JournalStore.swift */,
 				F885B875A7813F7B56FF35E0 /* MediaPicker.swift */,
 				DF246110EA3445EBAC000111 /* CallPreviewController.swift */,
-				849E5F26544D134579F70BDF /* PageArchive.swift */,
 				635108D50B5356C442B76495 /* PhotoLibrary.swift */,
 				B209FF1B391C42EC323F6737 /* PurchaseService.swift */,
 				296AF934F9CA6C96ED09875F /* XcodeReceipt.swift */,
-				71CE20AD608D4E1D645E9352 /* RoroNative.swift */,
-				2348BDC288B13AD9D506FC46 /* RoroNativeBridge.m */,
 			);
 			path = Native;
 			sourceTree = "<group>";
@@ -149,14 +182,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A755E847800E3B9AF43EDD7C /* Build configuration list for PBXNativeTarget "Roro" */;
 			buildPhases = (
-				C3F5B56166492AAFADAA91BB /* [CP] Check Pods Manifest.lock */,
-				A1C6110851B5878EA00C31E3 /* Package local photo pages */,
 				4BE67636FFBF2F53B560A675 /* Sources */,
-				E73925992B64DB62825FAC2A /* Bundle React Native shell */,
 				288AA2AED7B3AA5252436CD3 /* Resources */,
 				5DB4F1C4EB64E44D982692B4 /* Frameworks */,
-				F258FB0642E3D8417EB59AB1 /* [CP] Embed Pods Frameworks */,
-				236D7812C9D38A4C63E53EFD /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -208,7 +236,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				712850C4776350CA433A5C27 /* AppResources in Resources */,
+				F66CBCB1AC2F9CA223394B73 /* fonts in Resources */,
+				B65073E5A86F031EABE9955C /* community in Resources */,
+				F3D69E91AC82911008B2DD0D /* videos in Resources */,
+				647A0FE91B926877547A16A4 /* photos in Resources */,
+				9B50A132E89F662A0DEFBCC4 /* icons in Resources */,
+				073E6F90626CCBF7584F47EB /* backgrounds in Resources */,
+				957A3BB7FFD4FFF9272BAE40 /* Configuration in Resources */,
+				3E6F3C48453307574C119ACC /* artwork-manifest.json in Resources */,
 				783FF51992854031AF4E682A /* Images.xcassets in Resources */,
 				269FC6485E5C47518410851A /* roro-logo.png in Resources */,
 				AEA2B44E44C642FF2EC12AD4 /* JournalLaunchScreen.storyboard in Resources */,
@@ -218,117 +253,34 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		236D7812C9D38A4C63E53EFD /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A1C6110851B5878EA00C31E3 /* Package local photo pages */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Package local photo pages";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\n/bin/sh \"$SRCROOT/../node_modules/react-native/scripts/xcode/with-environment.sh\" \"$SRCROOT/../scripts/package-web.sh\"\n";
-		};
-		C3F5B56166492AAFADAA91BB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Roro-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E73925992B64DB62825FAC2A /* Bundle React Native shell */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native shell";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "set -e\nexport FORCE_BUNDLING=1\nWITH_ENVIRONMENT=\"$SRCROOT/../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"$SRCROOT/../node_modules/react-native/scripts/react-native-xcode.sh\"\n/bin/sh -c \"\\\"$WITH_ENVIRONMENT\\\" \\\"$REACT_NATIVE_XCODE\\\"\"\n";
-		};
-		F258FB0642E3D8417EB59AB1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Roro/Pods-Roro-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4BE67636FFBF2F53B560A675 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6BA5E1B565FE1DCB96B30F7 /* PhotographyMember.swift in Sources */,
+				C0837136AEF78AB6B5B9D4AE /* PhotographyFeed.swift in Sources */,
+				2928FC830A4F79B2CD9EA4E1 /* PhotographyDiscussion.swift in Sources */,
+				5B7FF3BEBDEE3684E1AB5A9C /* PhotographyDiscovery.swift in Sources */,
+				6E66393971049E33548817F8 /* PhotographyCompose.swift in Sources */,
+				B95F825AA657E45B88FB6C9E /* PhotographyComponents.swift in Sources */,
+				E0356B0888FA6A75B2512A60 /* JournalShortsPlayer.swift in Sources */,
+				B57990266A410FB0B9D74B35 /* JournalShortsPanels.swift in Sources */,
+				E33903E44651E4D16F907A07 /* JournalShortsComposer.swift in Sources */,
+				ABAA3A9559324FAC0204F49A /* JournalShorts.swift in Sources */,
+				1C2016B2BAA776D2690A9E62 /* JournalRoot.swift in Sources */,
+				57CCD64D1F6CCB5443314852 /* JournalDesign.swift in Sources */,
+				36827AC2BA268F25C3178ADF /* AccountWallet.swift in Sources */,
+				D22E1EA59EEA2DF160858BFA /* AccountViews.swift in Sources */,
+				29082F4492E70A0197334D5C /* AccountChats.swift in Sources */,
+				B8552C08E28B44173199451E /* JournalStore.swift in Sources */,
 				8E2B05F51AE8E0981F8B32AF /* AppDelegate.swift in Sources */,
 				D3214C4FC34F3B1688C1BAA0 /* MediaPicker.swift in Sources */,
 				DF246110EA3445EBAC000110 /* CallPreviewController.swift in Sources */,
-				68A627BC67EB0847E4F0DA85 /* PageArchive.swift in Sources */,
 				0D23E6594516200964401481 /* PhotoLibrary.swift in Sources */,
 				B89569ABBCF39AC5CE37DB44 /* PurchaseService.swift in Sources */,
 				2E8579A0A510F9F4D0A9FEC0 /* XcodeReceipt.swift in Sources */,
-				9176D09ADE80C9FCD3C0D62D /* RoroNative.swift in Sources */,
-				4C2C94DCCD1B9FDA74281C9B /* RoroNativeBridge.m in Sources */,
 				62422D8D0001490711F7AD08 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -338,7 +290,6 @@
 /* Begin XCBuildConfiguration section */
 		9D43C1037D48CEF63B16B5D3 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BDB9B8F389A490C034A990B /* Pods-Roro.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -358,7 +309,6 @@
 		};
 		AE01583AC25D60939FCF38BE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 72308F7D43C5121004A51737 /* Pods-Roro.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -383,7 +333,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -411,11 +360,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				COMPRESS_PNG_FILES = NO;
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -428,32 +377,19 @@
 				MARKETING_VERSION = 0.1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(inherited)",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-				);
-				PODFILE_DIR = "$(SRCROOT)";
+
+
+
 				PRODUCT_BUNDLE_IDENTIFIER = com.roro.photography;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = "Roro/Roro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				USE_HERMES = true;
 			};
 			name = Release;
 		};
@@ -464,7 +400,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "c++20";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
@@ -492,11 +427,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				COMPRESS_PNG_FILES = NO;
 				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -516,32 +451,19 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				OTHER_CPLUSPLUSFLAGS = (
-					"$(inherited)",
-					"-DRCT_REMOVE_LEGACY_ARCH=1",
-				);
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-				);
-				PODFILE_DIR = "$(SRCROOT)";
+
+
+
 				PRODUCT_BUNDLE_IDENTIFIER = com.roro.photography;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
-				SWIFT_OBJC_BRIDGING_HEADER = "Roro/Roro-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				USE_HERMES = true;
 			};
 			name = Debug;
 		};

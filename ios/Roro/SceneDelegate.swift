@@ -1,57 +1,21 @@
-import React
-import React_RCTAppDelegate
-import ReactAppDependencyProvider
+import SwiftUI
 import UIKit
 
-class SceneDelegate: RCTDefaultReactNativeFactoryDelegate, UIWindowSceneDelegate {
-  var window: UIWindow?
-  var reactNativeFactory: RCTReactNativeFactory?
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    var window: UIWindow?
+    private let store = JournalStore()
 
-  func scene(
-    _ scene: UIScene,
-    willConnectTo session: UISceneSession,
-    options connectionOptions: UIScene.ConnectionOptions
-  ) {
-    guard let windowScene = scene as? UIWindowScene else {
-      return
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
+               options connectionOptions: UIScene.ConnectionOptions) {
+        guard let scene = scene as? UIWindowScene else { return }
+        let window = UIWindow(windowScene: scene)
+        window.rootViewController = UIHostingController(rootView: JournalRoot().environmentObject(store))
+        self.window = window
+        window.makeKeyAndVisible()
     }
 
-    #if DEBUG
-    // Debug also uses the embedded bundle, so startup does not need to probe Metro.
-    RCTBundleURLProviderAllowPackagerServerAccess(false)
-    #endif
-
-    dependencyProvider = RCTAppDependencyProvider()
-    reactNativeFactory = RCTReactNativeFactory(delegate: self)
-    window = UIWindow(windowScene: windowScene)
-    
-    #if DEBUG
-    let devMenuConfiguration = RCTDevMenuConfiguration(
-      devMenuEnabled: true,
-      shakeGestureEnabled: true,
-      keyboardShortcutsEnabled: true
-    )
-    reactNativeFactory?.devMenuConfiguration = devMenuConfiguration
-    #endif
-    
-    reactNativeFactory?.startReactNative(
-      withModuleName: "Roro",
-      in: window,
-      connectionOptions: connectionOptions
-    )
-
-   
-  }
-
-  func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-    RCTLinkingManager.scene(scene, openURLContexts: URLContexts)
-  }
-
-  func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
-    RCTLinkingManager.scene(scene, continue: userActivity)
-  }
-
-  override func bundleURL() -> URL? {
-    Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-  }
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        PurchaseService.shared.retry()
+        store.refreshWallet()
+    }
 }

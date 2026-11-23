@@ -1,5 +1,7 @@
 # Topics and Shorts
 
+The November 23, 2026 Swift migration supersedes all earlier implementation and build instructions in this record. The product and interaction requirements still apply. Current build instructions are in README.md.
+
 The owner explicitly requests Home / Topics / Shorts / Chats / Me in that order. This supersedes the previous three-root navigation. Preserve Roro identity, warm photography theme, StoreKit 1 and local-first architecture.
 
 Topics lists the five existing everyday topics with photo covers and real local content counts. Topic details retain photo creation and link to matching shorts. Shorts is the central navigation destination. The owner corrected the original card-list design by explicitly referencing Vava. Use one full-height inline video at a time, vertical swipe paging, top search/add controls, a right-side action rail, lower-left caption/topic and a seek bar above the navigation dock. Captions, optional topics, likes, saved state, share and deletion remain available. Me includes Shorts and saved videos. The subsequent owner-approved community extension adds fictional local member/engagement records and five licensed Pexels clips. Original source creators are separately credited. Profile totals sum the visible works listed on that profile; topic totals sum the matching visible photos and shorts.

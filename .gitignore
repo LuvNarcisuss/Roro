@@ -1,12 +1,6 @@
-node_modules/
-ios/Pods/
 ios/build/
 .build/
 .DS_Store
 *.xcuserstate
+xcuserdata/
 .env*
-!ios/.xcode.env
-
-ios/.xcode.env.local
-
-!ios/Roro.xcodeproj/xcshareddata/xcschemes/Roro.xcscheme

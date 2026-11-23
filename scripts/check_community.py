@@ -105,9 +105,9 @@ for topic in topics:
     assert owned
     summary[topic] = {"works": len(owned), "likes": sum(w["likes"] for w in owned), "saves": sum(w["saves"] for w in owned), "comments": sum(len(w["comments"]) for w in owned)}
     checks += 1
-shell = (root / "shell/App.tsx").read_text()
+native = "".join(file.read_text() for file in (root / "ios/Roro").rglob("*.swift"))
 for command in ("addComment", "deleteComment", "openSource"):
-    assert f'"{command}"' in shell
+    assert f'"{command}"' in native
     checks += 1
 assert not re.search(r"[\u3400-\u9fff]", json.dumps(data, ensure_ascii=False))
 print(json.dumps({"staticChecks": checks, "authors": len(authors), "shorts": len(data["shorts"]), "photos": len(data["photos"]), "comments": len(comment_ids), "totals": summary}, indent=2))

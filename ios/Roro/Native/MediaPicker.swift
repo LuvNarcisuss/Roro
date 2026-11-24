@@ -189,8 +189,13 @@ final class ShortPlayerController: UIViewController {
         playback.view.translatesAutoresizingMaskIntoConstraints = false
         playback.didMove(toParent: self)
         let close = UIButton(type: .custom)
-        if let path = Bundle.main.path(forResource: "back", ofType: "png", inDirectory: "icons") {
-            close.setImage(UIImage(contentsOfFile: path), for: .normal)
+        if let file = JournalAssets.url("assets/icons/back.png") {
+            close.setImage(UIImage(contentsOfFile: file.path), for: .normal)
+        }
+        Task { @MainActor [weak close] in
+            if let file = try? await JournalAssets.fetch("assets/icons/back.png") {
+                close?.setImage(UIImage(contentsOfFile: file.path), for: .normal)
+            }
         }
         close.accessibilityLabel = "Close video"
         close.imageView?.contentMode = .scaleAspectFit

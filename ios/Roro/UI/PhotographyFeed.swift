@@ -37,27 +37,12 @@ private struct PhotographyCard: View {
                     Rectangle().fill(Color(red: 0.94, green: 0.75, blue: 0.45).opacity(0.8))
                         .frame(width: 31, height: 9).rotationEffect(.degrees(16)).padding(.trailing, 2).accessibilityHidden(true)
                 }.shadow(color: .brown.opacity(0.22), radius: 2, y: 2)
-            if paths.count > 1 { Text("\(paths.count) photos · Swipe to explore").font(.caption) }
-            if !work.str("caption").isEmpty { Text(work.str("caption")).padding(.top, 4) }
             if locked {
-                Text("\(work.str("author")) · \(work.str("topic"))").font(.footnote)
+                PhotographyAuthor(id: work.str("authorID"))
                 PhotographyLabeledAction(icon: "credit-coin", label: "\(work.int("coinPrice")) Coins") { app.open(.photo(id, false)) }
             } else {
-                HStack(spacing: 0) {
-                    PhotographyAuthor(id: work.str("authorID"))
-                    Spacer(minLength: 0)
+                PhotographyCardFooter(work: work, commentLabel: "Open photo and comments", openComments: { app.open(.photo(id, true)) }) {
                     PhotographyOptions(work: work, placement: .card)
-                }
-                HStack(spacing: 0) {
-                    PhotographyReaction(work: work, like: true).frame(maxWidth: .infinity)
-                    PhotographyCountAction(icon: "comment", label: "Open photo and comments", count: app.comments(id).count) {
-                        app.open(.photo(id, true))
-                    }.frame(maxWidth: .infinity)
-                    PhotographyReaction(work: work, like: false).frame(maxWidth: .infinity)
-                }
-                if !work.str("topic").isEmpty {
-                    Button { app.open(.topic(work.str("topic"))) } label: { Text(work.str("topic")).frame(minHeight: 44) }
-                        .foregroundStyle(JournalColor.petrol)
                 }
             }
         }.frame(maxWidth: .infinity, alignment: .topLeading)
@@ -65,14 +50,38 @@ private struct PhotographyCard: View {
 
     private func cover(_ path: String, index: Int) -> some View {
         Button { app.open(.photo(work.str("id"), false)) } label: { PhotographyCrop(path: path) }
+            .accessibilityIdentifier("photo-cover-\(work.str("id"))-\(index)")
             .accessibilityLabel("View photo \(index + 1)")
+    }
+}
+
+private struct PhotographyCardFooter<Options: View>: View {
+    @EnvironmentObject private var app: JournalStore
+    let work: Record
+    let commentLabel: String
+    let openComments: () -> Void
+    @ViewBuilder let options: () -> Options
+
+    var body: some View {
+        HStack(spacing: 0) {
+            PhotographyAuthor(id: work.str("authorID"))
+            Spacer(minLength: 0)
+            options()
+        }
+        HStack(spacing: 0) {
+            PhotographyReaction(work: work, like: true).frame(maxWidth: .infinity)
+            PhotographyCountAction(icon: "comment", label: commentLabel, count: app.comments(work.str("id")).count, action: openComments)
+                .frame(maxWidth: .infinity)
+            PhotographyReaction(work: work, like: false).frame(maxWidth: .infinity)
+        }
     }
 }
 
 private struct PhotographyShortCard: View {
     @EnvironmentObject private var app: JournalStore
     let work: Record
-    @State private var deleting = false
+    @State private var showingComments = false
+    @State private var showingOptions = false
     private var id: String { work.str("id") }
 
     var body: some View {
@@ -87,29 +96,23 @@ private struct PhotographyShortCard: View {
                             .background(.black.opacity(0.6), in: Capsule()).padding(4)
                     }
             }.accessibilityLabel("Play \(work.str("caption"))")
-            HStack(spacing: 3) {
-                PhotographyAuthor(id: work.str("authorID"))
-                Spacer(minLength: 1)
-                Text(PhotographyCatalog.shortDate(work.str("createdAt"))).font(.caption2)
-            }
-            if !work.str("caption").isEmpty { Text(work.str("caption")).lineLimit(2) }
-            if !work.str("topic").isEmpty { Text(work.str("topic")).font(.footnote) }
-            LazyVGrid(columns: PhotographyCatalog.columns, spacing: 1) {
-                PhotographyReaction(work: work, like: true)
-                PhotographyReaction(work: work, like: false)
-                JournalIcon("share", "Share short") { app.sharePhotographyMedia(work.str("video")) }
-                PhotographyCountAction(icon: "comment", label: "Open short and comments", count: app.comments(id).count) { app.open(.shorts(id, nil)) }
-                if work.str("authorID").isEmpty { JournalIcon("trash", "Delete short") { deleting = true } }
+            PhotographyCardFooter(work: work, commentLabel: "Open short and comments", openComments: { showingComments = true }) {
+                JournalIcon("more", "More video options") { showingOptions = true }
             }
         }.padding(5).background(PhotographyCatalog.cream, in: RoundedRectangle(cornerRadius: 5))
-            .alert("Delete this short from Roro?", isPresented: $deleting) {
-                Button("Cancel", role: .cancel) {}
-                Button("Delete", role: .destructive) {
-                    if app.change("deleteShort", ["id": id]) {
-                        Task { _ = try? await app.perform("discardVideo", ["video": work.str("video")]) }
-                    }
-                }
-            } message: { Text("Your original video is kept.") }
+            .sheet(isPresented: $showingComments) {
+                JournalShortComments(workID: id, close: { showingComments = false }) { author in
+                    showingComments = false
+                    app.openPhotographyProfile(author)
+                }.presentationDetents([.medium, .large])
+            }
+            .sheet(isPresented: $showingOptions) {
+                JournalShortOptions(clip: work, close: { showingOptions = false }, notifyOnDismiss: { notice in
+                    if notice == "Report saved for this account." { app.confirmation = notice }
+                    else { app.message = notice }
+                }, share: { app.sharePhotographyMedia(work.str("video")) })
+                .presentationDetents([.medium, .large])
+            }
     }
 }
 
@@ -118,7 +121,7 @@ enum PhotographyOptionPlacement {
 }
 
 private enum PhotographyConfirmation: String, Identifiable {
-    case report, block, deletePhoto, deleteComment
+    case report, reportAuthor, block, deletePhoto, deleteComment
     var id: String { rawValue }
 }
 
@@ -165,15 +168,15 @@ private struct PhotographySafetySheet: View {
     private var author: String { comment?.str("authorID") ?? work.str("authorID") }
     private var name: String { app.photographyMember(author).str("name") }
     private var isMine: Bool { author.isEmpty || author == "you" || comment?["local"] as? Bool == true }
-    private var canReport: Bool { !isMine && (placement != .card || work.str("surface") == "topics") }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 8) {
                 if placement == .card && work.str("surface") != "topics" { PhotographyTitle(title: "This moment") }
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 72))], spacing: 12) {
-                    if canReport {
+                LazyVGrid(columns: [GridItem(.adaptive(minimum: 72), alignment: .top)], spacing: 12) {
+                    if !isMine {
                         PhotographyLabeledAction(icon: "info", label: placement == .comment ? "Report comment" : "Report post", below: true) { confirmation = .report }
+                        PhotographyLabeledAction(icon: "profile", label: "Report author", below: true) { confirmation = .reportAuthor }.accessibilityLabel("Report author " + name)
                         PhotographyLabeledAction(icon: "block", label: "Block", below: true) { confirmation = .block }.accessibilityLabel("Block \(name)")
                     }
                     if placement == .comment && isMine {
@@ -202,6 +205,7 @@ private struct PhotographySafetySheet: View {
                     label = "Report"
                     title = "Report this \(placement == .comment ? "comment" : "post") and hide it for this account?"
                 case .block: label = "Block"; title = "If you block \(name), you’ll no longer see their posts or comments."
+                case .reportAuthor: label = "Report"; title = "Report \(name) for this account?"
                 case .deletePhoto: label = "Delete"; title = "Delete this moment from Roro? Your original photos are kept."
                 case .deleteComment: label = "Delete"; title = "Delete this comment?"
                 }
@@ -214,10 +218,12 @@ private struct PhotographySafetySheet: View {
         let commentID = comment?.str("id")
         let success: Bool
         switch selection {
-        case .block:
+        case .block, .reportAuthor:
             var payload: Record = ["id": author, "enabled": true, "postID": postID]
             payload["commentID"] = commentID
-            success = app.change("setBlock", payload)
+            if selection == .reportAuthor { payload["kind"] = "author" }
+            success = app.change(selection == .block ? "setBlock" : "setReport", payload)
+            if success && selection == .reportAuthor { app.confirmation = "Report saved for this account." }
         case .report:
             var payload: Record = ["kind": commentID == nil ? "post" : "comment", "id": commentID ?? postID, "enabled": true]
             if commentID != nil { payload["postID"] = postID }

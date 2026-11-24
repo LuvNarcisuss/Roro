@@ -1,5 +1,25 @@
 # Implementation and verification status
 
+## Account moderation, November 24, 2026
+
+Roro records content and member reports separately in the signed-in account's local journal. Photos, Shorts, topic posts and comments expose safety actions for their actual authors. Settings supports confirmed withdrawal and unblock. A committed block returns to the originating tab, filters conversations and content, and shows one acknowledgement. The [moderation acceptance record](moderation-acceptance-2026-11-24.md) covers the simulator cases and service boundaries.
+
+## Project asset storage, November 23, 2026
+
+The company Roro project has three Storage buckets. The release index contains 227 project files (169,456,886 bytes), including 47 interface files, 66 member media files and 114 private source files. All staged files matched the project sources by SHA-256. The two paid originals are in the private source inventory. Their previews are in the member inventory. App icons, launch artwork and system fonts retain their native build references.
+
+The CLI session could list the project but Supabase denied its Storage upload request. The Chrome extension lacked permission to submit local files, and the native picker did not submit a batch. Remote inventory showed zero objects. The release marker remains empty, and the app uses the bundled fallback. The cloud loader, hash verification, cache and file references are implemented. Runtime rendering, playback and cloud downloads are pending acceptance.
+
+## Company authentication, November 23, 2026
+
+Roro uses Supabase Auth in the company's Thingtill Org project `awpvqvtvqjkdddoidntx` (Singapore). This supersedes earlier device-only login decisions. The database migrations validate addresses for password accounts. Auth manages the email and bcrypt password hash in its private user table. The welcome screen requires an email, password and agreement acceptance. It opens the local journal after successful authentication. A cold launch requires login again.
+
+New accounts have separate on-device libraries, media and purchase ledgers. As of November 24, sign-in opens the account's existing or new journal directly. Previously linked accounts retain their original journal and wallet. Untagged legacy purchases still use the original ledger. The app does not upload journal content.
+
+The project reported healthy. Its Auth settings endpoint returned HTTP 200 with the email provider enabled using the bundled publishable key. Database inspection confirmed the validation trigger, absence of anonymous and authenticated client read access to the credential table, and zero existing users. A read-only check of the deployed pattern accepted one tagged address and rejected four malformed addresses. Supabase's security advisor reported no findings.
+
+The Debug build succeeded for Roro QA (iPhone 17 Pro, iOS 26.3, UDID `32F50BDE-596D-4540-9A8C-C3621294D0D2`). The 307 project checks, 737 community checks, control audit, bundle signature check and comparison of 126 packaged resources passed. Agreement and safety UI test sources parsed. App launch, a successful account login, legacy linking, account switching and purchases have not been exercised for this revision.
+
 ## Native Swift migration, November 23, 2026
 
 The current Roro target starts a SwiftUI navigation stack from its scene delegate. All five tabs, child screens, menus, editors, consent and wallet use Swift. The build copies journal artwork, fonts, community data, photos and videos directly from the root Assets folders. Shorts uses AVPlayer and UIKit hosts the existing system pickers, Safari agreement viewer, sharing and local call previews.
@@ -9,6 +29,12 @@ The Swift private library still reads Application Support/Roro and its Media dir
 Xcode 26.3 built unsigned arm64 Debug and Release device bundles with the generic iOS destination and iOS 16.0 deployment target. The native control audit inspected 15 SwiftUI files and 83 literal icon references. The project audit passed 301 checks and the catalog audit passed 737 checks across nine members, 25 photos, 12 shorts and 90 comments. Each bundle contains the native app and the directly packaged media. The bundle verifier compares 125 resource files with their sources in addition to checking the separate launch artwork and manifest. The migrated agreement and safety UI test sources passed Swift syntax parsing. These checks do not exercise app interactions.
 
 The owner authorized building and running the native app on Roro QA. On November 23, 2026 a new iPhone 17 Pro simulator was created with the installed iOS 26.3 runtime. The name resolved to UDID 32F50BDE-596D-4540-9A8C-C3621294D0D2 for this run. Xcode built the current Roro.xcodeproj Debug scheme for that UDID. The simulator bundle passed the 125-file resource check. The same device installed and launched com.roro.photography. Its screen showed Welcome to Roro, the unchecked consent box and the disabled Log in button. The screenshot is in .build/roro-qa-launch.png. This run covered startup only. Functional UI tests, in-place upgrades and purchases remain unverified on this native build.
+
+## Home and topic feed cards
+
+Discover, Following and topic detail grids share the same photo and video cards. Accessible works display a cover, the author portrait and name, a More button, and the Like, Comment and Save counts. Captions and topics remain searchable and available in detail views. Locked photos show the author and the existing unlock action.
+
+Photo detail actions align the Like, Save and Share artwork in one fixed-height row. Counts appear below the artwork. The options sheet centers the prohibition emoji above its Block label.
 
 ## Historical implementation and verification records
 
@@ -261,6 +287,10 @@ A confirmed block publishes the saved library and returns to the originating tab
 
 ## Journal launch artwork
 
+Build 4 uses RoroBrandLaunch and the standalone JournalLaunchLogo.png for system launch. The SwiftUI loading view displays the matching image set. On November 24 an in-place installation on Roro QA (iPhone 17 Pro, iOS 26.3) initially showed a cached camera snapshot despite the updated artwork in the installed bundle. After backing up the app's system launch snapshots and restarting the simulator, a cold-launch recording showed the blue and purple mark centered on cream. The captured frame is in `.build/acceptance/brand-launch/cold-launch.png`.
+
+On November 24 the owner supplied the blue and purple Roro wordmark and requested removal of its exterior black background. Launch, login and all five root tabs use its transparent cutout. The iPhone app icon uses the same cutout on an opaque journal-paper cream background. The black lettering outline is retained. The supplied original and cutout are archived in `Assets/originals/brand`.
+
 Build 2 uses JournalLaunchScreen and the transparent JournalLaunchLogo asset for the native launch screen. The launch image source matches the Roro mark used by the embedded React Native shell and web pages. The compiled storyboard reference and shell artwork are checked by the bundle verifier.
 
 Build 3 bundles the original transparent camera PNG as a standalone resource for the system launch storyboard. On Roro UI Acceptance (iPhone 17 Pro), the recorded cold launch after an in-place upgrade showed the green camera on the native launch screen, the same artwork in the shell loader, and the welcome page. The transition to the shell briefly showed a plain background. All three pre-upgrade library, media and purchase file hashes matched afterward. The recording and native launch frame are in `.build/acceptance/journal-cold-launch/`.
@@ -275,10 +305,20 @@ Photo details end with the comment list and floating composer. The local-storage
 
 The Wallet entry moved from Settings to a centered card on Me between the compact personal statistics and collection tabs. The entire card opens the existing wallet and displays its local coin balance.
 
+Profile block actions and the Settings blocked-people row display the bundled prohibition emoji from `icons/block.png`, matching the photo and video action sheets. The image renders independently of the journal font.
+
 ## European and US street portraits
 
 Four Home photos, three Topics photos and three twelve-second Shorts show people in Paris, London, Padova and New York. Each source page and photography location is recorded in the corresponding media manifest. All ten works are free to view, with per-work reactions and individual comment records.
 
 Home discovery and followed works, the Topics directory, and the works inside each category use two-column grids. Photo cards retain member profiles and independent reaction, comment and safety controls. The photo comment control opens the discussion directly. Topic summaries derive the number of photographers from the visible works. Seven new social photographs invite conversations about group portraiture, shared meals, dance and surfing. Two additional photographs are dedicated category covers. Credits and locations are recorded in the photo manifest.
 
+The Topics directory opens with a journal prompt above the grid. Its original transparent illustration shows three photographic prints hanging from a cord, with the prompt typeset separately in Courgette.
+
 Four credited fashion portrait Shorts feature swimwear in sea light, embroidered runway detail, a red studio dress and a summer portrait in Paris. Each local video has its own poster and two photography discussion comments.
+
+## November 23 native project wallet repair
+
+The standalone Roro project opens its internal Roro.xcodeproj/project.xcworkspace. Its Debug Run reference previously resolved one directory short of the nine-product StoreKit file. The shared scheme and XcodeGen specification now resolve ../../Configuration/RoroCredits.storekit from the internal workspace. The source check uses that same base. Direct simulator launches do not select a local StoreKit catalog.
+
+The repaired Debug project built for Roro QA (iPhone 17 Pro, iOS 26.3, 32F50BDE-596D-4540-9A8C-C3621294D0D2). The control audit, 301 static checks, signature verification and all 125 bundled resource comparisons passed. The existing Debug simulator receipt verifier pins the signing certificate used by the installed Xcode 26.3. Local purchases and the Apple-backed wallet have separate ledgers. Runtime purchase acceptance for this revision is pending.

@@ -64,7 +64,7 @@
       <CommandLineArguments>
       </CommandLineArguments>
       <StoreKitConfigurationFileReference
-         identifier = "../Configuration/RoroCredits.storekit">
+         identifier = "../../Configuration/RoroCredits.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

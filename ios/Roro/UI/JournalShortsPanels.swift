@@ -25,7 +25,7 @@ struct ShortPaper: ViewModifier {
 }
 
 private enum ShortConfirmation: String, Identifiable {
-    case report, delete
+    case report, reportAuthor, block, delete
     var id: String { rawValue }
 }
 
@@ -34,10 +34,13 @@ struct JournalShortOptions: View {
     let clip: Record
     let close: () -> Void
     let notifyOnDismiss: (String) -> Void
+    var share: (() -> Void)? = nil
     @State private var editingNotes = false
     @State private var note = ""
     @State private var confirmation: ShortConfirmation?
     private var workID: String { clip.str("id") }
+    private var authorID: String { clip.str("authorID") }
+    private var authorName: String { app.photographyMember(authorID).str("name") }
     private var notes: [Record] { app.state.rows("notes").filter { $0.str("postID") == workID } }
 
     var body: some View {
@@ -56,6 +59,16 @@ struct JournalShortOptions: View {
         .modifier(ShortPaper())
         .alert(item: $confirmation) { kind in
             switch kind {
+            case .reportAuthor, .block:
+                let blocking = kind == .block
+                let title = blocking ? "If you block \(authorName), you’ll no longer see their posts or comments." : "Report \(authorName) for this account?"
+                return Alert(title: Text(title), primaryButton: .destructive(Text(blocking ? "Block" : "Report")) {
+                    let payload: Record = ["id": authorID, "kind": "author", "postID": workID, "enabled": true]
+                    if app.change(blocking ? "setBlock" : "setReport", payload) {
+                        if !blocking { notifyOnDismiss("Report saved for this account.") }
+                        close()
+                    }
+                }, secondaryButton: .cancel())
             case .report:
                 return Alert(title: Text("Report this video and hide it for this account?"),
                              primaryButton: .destructive(Text("Report")) {
@@ -84,6 +97,9 @@ struct JournalShortOptions: View {
             Text(clip.str("authorID").isEmpty ? "This video is saved in your personal Roro library." : "Video by \(clip.str("sourceAuthor")) · Pexels License")
                 .foregroundStyle(JournalColor.ink.opacity(0.76))
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100), alignment: .top)], spacing: 16) {
+                if let share {
+                    PhotographyLabeledAction(icon: "share", label: "Share short", below: true, action: share)
+                }
                 PhotographyLabeledAction(icon: "edit", label: "Private notes · \(notes.count)", below: true) { editingNotes = true }
                 if clip.str("authorID").isEmpty {
                     PhotographyLabeledAction(icon: "trash", label: "Delete short", below: true) { confirmation = .delete }
@@ -92,6 +108,8 @@ struct JournalShortOptions: View {
                         Task { do { _ = try await app.perform("openSource", ["id": workID]) } catch { app.showError(error) } }
                     }
                     PhotographyLabeledAction(icon: "info", label: "Report video", below: true) { confirmation = .report }
+                    PhotographyLabeledAction(icon: "profile", label: "Report author", below: true) { confirmation = .reportAuthor }.accessibilityLabel("Report author " + authorName)
+                    PhotographyLabeledAction(icon: "block", label: "Block", below: true) { confirmation = .block }.accessibilityLabel("Block " + authorName)
                     PhotographyLabeledAction(icon: "eye", label: "Hide short", below: true) {
                         if app.change("hide", ["id": workID]) { close() }
                     }

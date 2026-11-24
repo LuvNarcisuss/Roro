@@ -14,11 +14,16 @@ final class AgreementCloseTests: XCTestCase {
     private var settings: XCUIElement { app.buttons["Edit profile"] }
 
     private func openSettings() {
-        let login = app.buttons["Log in"]
-        if !login.isEnabled {
-            app.buttons["I agree to the"].tap()
+        guard let email = ProcessInfo.processInfo.environment["RORO_QA_EMAIL"],
+              let password = ProcessInfo.processInfo.environment["RORO_QA_PASSWORD"] else {
+            XCTFail("Configure the QA email and password in the test runner.")
+            return
         }
-        login.tap()
+        app.buttons["I agree to the"].tap()
+        let address = app.textFields["Email address"]
+        address.tap()
+        address.typeText(email + "\n")
+        app.secureTextFields["Password"].typeText(password + "\n")
         let me = app.buttons["Me"]
         XCTAssertTrue(me.waitForExistence(timeout: 10))
         me.tap()

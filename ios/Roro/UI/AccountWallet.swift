@@ -147,7 +147,7 @@ struct AccountWallet: View {
 }
 
 enum AccountSafetyKind: String {
-    case blocked, video = "reports", post = "reportedPosts", comment = "reportedComments"
+    case blocked, video = "reports", post = "reportedPosts", comment = "reportedComments", author = "reportedAuthors"
 
     var title: String {
         switch self {
@@ -155,6 +155,7 @@ enum AccountSafetyKind: String {
         case .video: return "Reported videos"
         case .post: return "Reported posts"
         case .comment: return "Reported comments"
+        case .author: return "Reported authors"
         }
     }
 }
@@ -173,7 +174,7 @@ struct AccountSafety: View {
 
     private func label(for id: String) -> String {
         switch kind {
-        case .blocked:
+        case .blocked, .author:
             return app.members.first { $0.accountID == id }?.str("name") ?? "Community member"
         case .video, .post:
             let works = app.catalog.rows(kind == .video ? "shorts" : "photos")
@@ -195,7 +196,6 @@ struct AccountSafety: View {
             JournalHeader(kind.title)
             ScrollView {
                 VStack(alignment: .leading, spacing: 8) {
-                    if kind != .blocked { Text("Reports are saved only on this iPhone.").foregroundColor(.secondary) }
                     if records.isEmpty { AccountEmpty(title: "No " + kind.title.lowercased()) }
                     ForEach(records, id: \.self) { id in
                         safetyRow(id)
@@ -212,6 +212,7 @@ struct AccountSafety: View {
                     var payload: Record = ["id": action.id, "enabled": false]
                     if kind == .post { payload["kind"] = "post" }
                     if kind == .comment { payload["kind"] = "comment" }
+                    if kind == .author { payload["kind"] = "author" }
                     _ = app.change("setReport", payload)
                 }
             }, secondaryButton: .cancel())
@@ -237,11 +238,13 @@ struct AccountSafety: View {
 
 struct AccountCredits: View {
     @EnvironmentObject var app: JournalStore
-    private static let photographs: [Record] = {
-        guard let file = JournalAssets.url("assets/photos/manifest.json"), let data = try? Data(contentsOf: file),
-              let values = try? JSONSerialization.jsonObject(with: data) as? [Record] else { return [] }
-        return values.filter { $0.str("license") == "Pexels License" }
-    }()
+    @State private var photographs: [Record] = []
+
+    private func loadCredits() async {
+        guard let file = try? await app.assetFile("assets/photos/manifest.json"), let data = try? Data(contentsOf: file),
+              let values = try? JSONSerialization.jsonObject(with: data) as? [Record] else { return }
+        photographs = values.filter { $0.str("license") == "Pexels License" }
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -251,8 +254,9 @@ struct AccountCredits: View {
                     AccountHeading(text: "Everyday inspiration")
                     Text("Home features photography from Unsplash and Pexels. Topic photographs, editorial covers and member avatars are licensed from Pexels. These images are editorial material. Photo subjects are not presented as Roro members.")
                     Text("Source URLs, file hashes and license information are included in the app’s asset manifest.")
+                    Text("The prohibited emoji is from Twemoji by Twitter, Inc. and other contributors, licensed under CC BY 4.0.")
                     AccountHeading(text: "Pexels photography")
-                    ForEach(Self.photographs, id: \.accountID) { photo in
+                    ForEach(photographs, id: \.accountID) { photo in
                         Text(photo.str("title") + " · " + photo.str("author"))
                     }
                     AccountHeading(text: "Shorts sources")
@@ -274,7 +278,7 @@ struct AccountCredits: View {
                     Text("Interface artwork — original images generated for Roro.")
                     Text("Your imported photographs and videos remain yours.")
                 }.padding(20)
-            }.refreshable { await app.accountRefresh() }
+            }.task { await loadCredits() }.refreshable { await loadCredits(); await app.accountRefresh() }
         }
     }
 }

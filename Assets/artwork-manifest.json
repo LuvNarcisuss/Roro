@@ -82,12 +82,15 @@
   {
     "name": "AppIcon",
     "file": "AppIcon.png",
-    "sha256": "955e1781041eb3508bfb68815cc856c77855e98f67e577ce4dcc93b4d3eb442f",
-    "original": "originals/journal/roro-logo.png",
-    "originalSha256": "8578263104be8ae497320c7ac57bd5ce2056b2a6ebce7d807364ddecdc629638",
+    "sha256": "6c16629cbc7824ea803626673718619c0ba54c7d5dc5102d81cdbb4cee7d4732",
+    "original": "originals/brand/roro-logo.png",
+    "originalSha256": "e9bea5c666a486abff161638370bebddf72654afd42fce595876d9b23a0618e4",
+    "source": "Owner-supplied Roro logo.png",
+    "receivedAt": "2026-11-24",
+    "cutout": "originals/brand/roro-cutout.png",
+    "cutoutSha256": "5acab7798b5beb702b67eeb198f0d7f5088151a4f52b6d6d2c15b9819e569b23",
     "tool": "Built-in image_gen",
-    "prompt": "Deliver one individually redrawn original transparent PNG application icon for a photowalk journal. Vintage travel-poster linocut/risograph printed by hand, strong simplified shapes, ink chatter and small flecks ONLY inside silhouette. Limited flat spot inks deep petrol #124d49, persimmon #dc5935, saffron #e9a322, espresso #4a3024, cream #fff0d4. High contrast legibility at 28 pixels, optically centered, compact, 85% canvas, no cast shadows, gradients, emoji look or enclosing app tile. No background whatsoever. No letters except if specifically requested. SUBJECT: Roro logo: A horizontal deep teal vintage film camera with a sunset landscape embossed in its circular lens: saffron sun and teal hills. Hand-letter EXACT word 'Roro' in large legible ivory brush script across the upper camera body. Fill the canvas, width to height around 1.25. No other text. Launcher export on apricot paper.",
-    "generatedAt": "2026-11-19"
+    "prompt": "Extract the exact existing supplied Roro logo onto real transparent alpha. Remove only the exterior black background connected to the canvas edges and between the three rays. Keep absolutely all original foreground pixels, original silhouette, positions, size, colors, smooth glossy highlights, play triangle, left rays and star, and the entire thick black outline and black counters of the white Roro letters. Square canvas, same registration. No new shadow, lettering, border or design, no checkerboard."
   },
   {
     "name": "topics",
@@ -312,12 +315,15 @@
   {
     "name": "roro-logo",
     "file": "icons/roro-logo.png",
-    "sha256": "ad17f2e8c894ba0b4872aedb18f7a95a0545dc5a8611461f1527e5b4a34d87fb",
-    "original": "originals/journal/roro-logo.png",
-    "originalSha256": "8578263104be8ae497320c7ac57bd5ce2056b2a6ebce7d807364ddecdc629638",
+    "sha256": "ba206de2580cdfa00269578450e9ad61267db321f99d1af81d3a6e5779a68c2b",
+    "original": "originals/brand/roro-logo.png",
+    "originalSha256": "e9bea5c666a486abff161638370bebddf72654afd42fce595876d9b23a0618e4",
+    "source": "Owner-supplied Roro logo.png",
+    "receivedAt": "2026-11-24",
+    "cutout": "originals/brand/roro-cutout.png",
+    "cutoutSha256": "5acab7798b5beb702b67eeb198f0d7f5088151a4f52b6d6d2c15b9819e569b23",
     "tool": "Built-in image_gen",
-    "prompt": "Deliver one individually redrawn original transparent PNG application icon for a photowalk journal. Vintage travel-poster linocut/risograph printed by hand, strong simplified shapes, ink chatter and small flecks ONLY inside silhouette. Limited flat spot inks deep petrol #124d49, persimmon #dc5935, saffron #e9a322, espresso #4a3024, cream #fff0d4. High contrast legibility at 28 pixels, optically centered, compact, 85% canvas, no cast shadows, gradients, emoji look or enclosing app tile. No background whatsoever. No letters except if specifically requested. SUBJECT: Roro logo: A horizontal deep teal vintage film camera with a sunset landscape embossed in its circular lens: saffron sun and teal hills. Hand-letter EXACT word 'Roro' in large legible ivory brush script across the upper camera body. Fill the canvas, width to height around 1.25. No other text.",
-    "generatedAt": "2026-11-19"
+    "prompt": "Extract the exact existing supplied Roro logo onto real transparent alpha. Remove only the exterior black background connected to the canvas edges and between the three rays. Keep absolutely all original foreground pixels, original silhouette, positions, size, colors, smooth glossy highlights, play triangle, left rays and star, and the entire thick black outline and black counters of the white Roro letters. Square canvas, same registration. No new shadow, lettering, border or design, no checkerboard."
   },
   {
     "name": "credit-coin",
@@ -438,5 +444,25 @@
     "tool": "Built-in image_gen",
     "prompt": "One isolated transparent PNG toolbar glyph for Roro, a vintage photography journal. Flat hand-printed linocut strokes, petroleum teal, creamy ivory, saffron and persimmon inks. Simple bold shape readable at 30 pixels. No lettering, button tile, shadow or background. A red classic telephone handset lying horizontally, both blunt earpieces pointing downward. Recognizable end-call pictogram, bold persimmon red silhouette.",
     "generatedAt": "2026-11-19"
+  },
+  {
+    "name": "block",
+    "file": "icons/block.png",
+    "sha256": "648f2e93eeb916922acc1de00811798cd6f09e60efa98fddb7af90a515c643cc",
+    "source": "https://github.com/twitter/twemoji/blob/v14.0.2/assets/72x72/1f6ab.png",
+    "author": "Twitter, Inc. and other contributors",
+    "license": "CC BY 4.0",
+    "licenseURL": "https://creativecommons.org/licenses/by/4.0/",
+    "description": "Unmodified Twemoji prohibited emoji (U+1F6AB)."
+  },
+  {
+    "name": "topics-banner",
+    "file": "backgrounds/topics-banner.png",
+    "original": "originals/journal/topics-banner.png",
+    "tool": "Built-in image_gen",
+    "prompt": "Original print illustration for the Topics page of Roro's everyday photography journal. A wide horizontal still life of three overlapping little deckle-edged photographic prints (a street window, a single flower, a tiny sailboat) hung at varied angles on a gently sagging cord with wooden pegs. One winding tail of the string at the left. A cohesive delicate linocut with confident bold shapes, hand-carved hatching and speckled ink, deep petrol teal, saffron, burnt persimmon and small warm ivory photo borders. Make all three pictures recognizable at 180pt wide. Straight-on view, shallow landscape silhouette about 2.5 to 1, entirely visible, isolated on genuine transparent alpha, no surrounding paper rectangle, no shadow or backdrop, no letters, words, numerals, symbols or watermark. This is the standalone illustration for the right side of a banner; fill the canvas with the illustration, the app supplies the left text separately.",
+    "generatedAt": "2026-11-24",
+    "sha256": "4e267174ed6b3e656e9bfed267d7412c7a7fa09fb03f8ef8a82e1ea7240ad2df",
+    "originalSha256": "5777ff51a6dd6d183d3924097d5f3c5ebbbc8c0392ef192e2daf6f26401af8b7"
   }
 ]

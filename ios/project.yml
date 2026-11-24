@@ -5,7 +5,7 @@ options:
   deploymentTarget:
     iOS: '16.0'
   createIntermediateGroups: true
-  schemePathPrefix: "../"
+  schemePathPrefix: "../../"
 settings:
   base:
     SWIFT_VERSION: '5.0'
@@ -16,7 +16,7 @@ settings:
     SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD: NO
     PRODUCT_BUNDLE_IDENTIFIER: com.roro.photography
     MARKETING_VERSION: 0.1.0
-    CURRENT_PROJECT_VERSION: '3'
+    CURRENT_PROJECT_VERSION: '4'
     COMPRESS_PNG_FILES: NO
     ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 packages:
@@ -31,7 +31,7 @@ targets:
       - package: SwiftASN1
     sources:
       - path: Roro
-      - path: ../Assets/icons/roro-logo.png
+      - path: Roro/Images.xcassets/JournalLaunchLogo.imageset/JournalLaunchLogo.png
         buildPhase: resources
       - path: ../Assets/artwork-manifest.json
         buildPhase: resources

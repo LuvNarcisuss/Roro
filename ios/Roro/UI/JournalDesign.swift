@@ -34,17 +34,34 @@ struct JournalImage: View {
     @EnvironmentObject private var app: JournalStore
     let path: String
     let mode: ContentMode
+    let tiled: Bool
+    @State private var resolvedPath = ""
+    @State private var resolvedURL: URL?
 
-    init(_ path: String, mode: ContentMode = .fit) {
+    init(_ path: String, mode: ContentMode = .fit, tiled: Bool = false) {
         self.path = path
         self.mode = mode
+        self.tiled = tiled
     }
 
     var body: some View {
-        if let url = app.imageURL(path), let image = JournalPictures.image(url) {
-            Image(uiImage: image).resizable().aspectRatio(contentMode: mode)
-        } else {
-            Color.clear
+        Group {
+            if let url = (resolvedPath == path ? resolvedURL : nil) ?? app.imageURL(path),
+               let image = JournalPictures.image(url) {
+                if tiled {
+                    Rectangle().fill(ImagePaint(image: Image(uiImage: image), scale: 290 / image.size.width))
+                } else {
+                    Image(uiImage: image).resizable().aspectRatio(contentMode: mode)
+                }
+            } else {
+                Color.clear
+            }
+        }
+        .task(id: path) {
+            let file = try? await app.assetFile(path)
+            guard !Task.isCancelled else { return }
+            resolvedURL = file
+            resolvedPath = path
         }
     }
 }
@@ -64,11 +81,9 @@ struct JournalIcon: View {
 
     var body: some View {
         Button(action: action) {
-            Group {
-                if name == "block" { Text("🚫") }
-                else { JournalImage("assets/icons/\(name).png").frame(width: 30, height: 30) }
-            }
-            .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
+            JournalImage("assets/icons/\(name).png")
+                .frame(width: 30, height: 30)
+                .frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
         }
         .buttonStyle(.plain)
         .accessibilityLabel(Text(label))
@@ -119,10 +134,7 @@ struct JournalPaper: View {
     var body: some View {
         ZStack {
             JournalColor.paper
-            if let url = JournalAssets.url("assets/backgrounds/journal-paper.png"),
-               let tile = JournalPictures.image(url) {
-                Rectangle().fill(ImagePaint(image: Image(uiImage: tile), scale: 290 / tile.size.width))
-            }
+            JournalImage("assets/backgrounds/journal-paper.png", tiled: true)
             Color(red: 1, green: 0.85, blue: 0.83).opacity(0.30)
         }.ignoresSafeArea().allowsHitTesting(false).accessibilityHidden(true)
     }

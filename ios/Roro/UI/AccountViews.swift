@@ -128,6 +128,7 @@ struct AccountPage: View {
         case .reports: AccountSafety(kind: .video)
         case .reportedPosts: AccountSafety(kind: .post)
         case .reportedComments: AccountSafety(kind: .comment)
+        case .reportedAuthors: AccountSafety(kind: .author)
         case .hidden: AccountHidden()
         default: EmptyView()
         }
@@ -248,23 +249,24 @@ private struct AccountSettings: View {
                 VStack(alignment: .leading, spacing: 0) {
                     row("Edit profile", "edit") { app.open(.editProfile) }
                     row("Hidden works · " + String(app.hiddenAccountWorks.count), "eye") { app.open(.hidden) }
-                    row("Blocked people · " + String(app.state.strings("blocked").count), "blocked") { app.open(.blocked) }
+                    row("Blocked people · " + String(app.state.strings("blocked").count), "block") { app.open(.blocked) }
                     row("Reported videos · " + String(app.state.strings("reports").count), "info") { app.open(.reports) }
                     row("Reported posts · " + String(app.state.strings("reportedPosts").count), "info") { app.open(.reportedPosts) }
                     row("Reported comments · " + String(app.state.strings("reportedComments").count), "info") { app.open(.reportedComments) }
+                    row("Reported authors · " + String(app.state.strings("reportedAuthors").count), "info") { app.open(.reportedAuthors) }
                     row("Terms of Service") { agreement("terms") }.accessibilityAddTraits(.isLink)
                     row("Privacy Policy") { agreement("privacy") }.accessibilityAddTraits(.isLink)
                     row("Artwork & credits", "info") { app.open(.credits) }
                     Text("Roro keeps your moments on this iPhone. Sharing opens your iPhone’s share sheet.")
                         .foregroundColor(.secondary).padding(.vertical)
                     row("Log out", "close") { app.logout() }
-                    row("Delete local account", "trash") { deleting = true }.foregroundColor(JournalColor.accent)
+                    row("Clear local journal", "trash") { deleting = true }.foregroundColor(JournalColor.accent)
                     Text("Roro " + (Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.1.0"))
                         .font(.caption).foregroundColor(.secondary).frame(maxWidth: .infinity).padding()
                 }.padding(.horizontal, 20)
             }.refreshable { await app.accountRefresh() }
         }
-        .alert("Delete local account?", isPresented: $deleting) {
+        .alert("Clear local journal?", isPresented: $deleting) {
             Button("Cancel", role: .cancel) {}
             Button("Delete", role: .destructive) { _ = app.change("clearLibrary") }
         } message: {
@@ -280,8 +282,7 @@ private struct AccountSettings: View {
                 HStack {
                     Text(label)
                     Spacer()
-                    if icon == "blocked" { Text("🚫").accessibilityHidden(true) }
-                    else if !icon.isEmpty { AccountGlyph(name: icon, size: 28).accessibilityHidden(true) }
+                    if !icon.isEmpty { AccountGlyph(name: icon, size: 28).accessibilityHidden(true) }
                 }.frame(minHeight: 53).contentShape(Rectangle())
             }.buttonStyle(.plain)
             Divider()

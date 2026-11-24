@@ -38,11 +38,11 @@ project_file = root / 'ios/Roro.xcodeproj'
 scheme = ET.parse(root / 'ios/Roro.xcodeproj/xcshareddata/xcschemes/Roro.xcscheme')
 reference = scheme.find('./LaunchAction/StoreKitConfigurationFileReference')
 check(reference is not None, 'Debug Run selects a StoreKit configuration')
-fixture = (project_file / reference.attrib['identifier']).resolve()
+fixture = (project_file / 'project.xcworkspace' / reference.attrib['identifier']).resolve()
 check(fixture == root / 'ios/Configuration/RoroCredits.storekit' and fixture.is_file(),
       'Project Run resolves the Roro fixture')
 generator = (root / 'ios/project.yml').read_text()
-check('schemePathPrefix: "../"' in generator and 'storeKitConfiguration: Configuration/RoroCredits.storekit' in generator,
+check('schemePathPrefix: "../../"' in generator and 'storeKitConfiguration: Configuration/RoroCredits.storekit' in generator,
       'Generator preserves the project-relative Run configuration')
 offers = json.loads(fixture.read_text())['products']
 check([(p['productID'], p['displayPrice'], p['type'], p['localizations'][0]['displayName']) for p in offers] ==
@@ -68,7 +68,11 @@ for directory in ['ios/Roro/UI','ios/Roro/Native']:
         if file.is_file():
             source=file.read_text()
             check(not re.search(r'[\u3400-\u9fff]',source), 'English source: ' + str(file.relative_to(root)))
-            check('supabase' not in source.lower(), 'No Supabase dependency: ' + str(file.relative_to(root)))
+            check('sb_secret_' not in source and 'service_role' not in source, 'No privileged Supabase credential: ' + str(file.relative_to(root)))
+auth = json.loads((root / 'Configuration/authentication.json').read_text())
+check(auth['projectURL'] == 'https://awpvqvtvqjkdddoidntx.supabase.co'
+      and set(auth) == {'projectURL', 'publishableKey'}
+      and auth['publishableKey'].startswith('sb_publishable_'), 'Roro public authentication configuration')
 check('SKPaymentQueue' in (root/'ios/Roro/Native/PurchaseService.swift').read_text(), 'StoreKit 1 queue')
 check('Transaction.updates' not in (root/'ios/Roro/Native/PurchaseService.swift').read_text(), 'No StoreKit 2 transaction API')
 store = (root/'ios/Roro/Native/JournalStore.swift').read_text()

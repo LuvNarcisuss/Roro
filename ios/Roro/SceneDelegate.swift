@@ -16,6 +16,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidBecomeActive(_ scene: UIScene) {
         PurchaseService.shared.retry()
+        store.checkSessionExpiry()
         store.refreshWallet()
     }
 }

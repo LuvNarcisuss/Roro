@@ -11,21 +11,11 @@ extension Dictionary where Key == String, Value == Any {
     func int(_ key: String) -> Int { self[key] as? Int ?? 0 }
 }
 
-enum JournalAssets {
-    static func url(_ path: String) -> URL? {
-        let components = path.split(separator: "/", omittingEmptySubsequences: false)
-        guard components.count >= 3, components.first == "assets",
-              !components.contains(where: { $0.isEmpty || $0 == "." || $0 == ".." }),
-              let root = Bundle.main.resourceURL else { return nil }
-        return root.appendingPathComponent(components.dropFirst().joined(separator: "/"))
-    }
-}
-
 enum JournalRoute: Hashable {
     case home, topics, shorts(String?, String?), chats, me
     case topic(String, access: String = "All"), photo(String, Bool), collection, member(String)
     case compose(String?, String?), createShort, chat(String), friends
-    case wallet, settings, editProfile, credits, blocked, reports, hidden, reportedPosts, reportedComments
+    case wallet, settings, editProfile, credits, blocked, reports, hidden, reportedPosts, reportedComments, reportedAuthors
 }
 
 enum JournalTab: String, CaseIterable {
@@ -52,7 +42,13 @@ enum JournalTab: String, CaseIterable {
 
 @MainActor
 final class JournalStore: ObservableObject {
-    private let library = PhotoLibrary()
+    private var library = PhotoLibrary()
+    private let authentication = JournalAuthentication()
+    private var session: JournalAuthentication.Session?
+    private var renewal: Task<Void, Never>?
+    private var expiresAt = Date.distantPast
+    @Published private(set) var authenticating = false
+    @Published private(set) var catalogReady = false
     private var photoPicker: MediaPicker?
     private var videoPicker: VideoPicker?
 
@@ -64,6 +60,7 @@ final class JournalStore: ObservableObject {
     @Published var message: String?
     @Published var confirmation: String?
     private weak var noticeView: UIView?
+    private var confirmationWindow: UIWindow?
     @Published private(set) var tab = JournalTab.home
     @Published var path: [JournalRoute] = []
     @Published var discovery = PhotographySessionState()
@@ -104,6 +101,8 @@ final class JournalStore: ObservableObject {
 
     func comments(_ workID: String) -> [Record] {
         let work = (catalog.rows("photos") + catalog.rows("shorts")).first { $0.str("id") == workID }
+        let parent = work ?? (state.rows("moments") + state.rows("shorts")).first { $0.str("id") == workID }
+        guard let parent, visible(parent) else { return [] }
         let community = (work?.rows("comments") ?? []).filter {
             !state.strings("blocked").contains($0.str("authorID"))
                 && !state.strings("reportedComments").contains($0.str("id"))
@@ -114,26 +113,80 @@ final class JournalStore: ObservableObject {
         return community + local
     }
 
-    func prepare() {
+    func prepare() async {
+        if !catalogReady, let initial = try? CommunityCatalog.load() { catalog = initial; catalogReady = true }
+
         do {
+            _ = try await JournalAssets.fetch("assets/community/catalog.json")
             catalog = try CommunityCatalog.load()
-            _ = try library.snapshot(reload: true)
-            try library.finishPendingCleanup()
-            try library.cleanRemovedMedia()
-            try? library.removeLegacyMediaCache()
-            state = try library.visibleSnapshot()
+            catalogReady = true
             loadingError = nil
         } catch { loadingError = error.localizedDescription }
     }
 
-    func login() {
-        if state["consent"] as? Bool != true && !change("consent") { return }
-        entered = true
-        refreshWallet()
+    func login(email: String, password: String, consent: Bool) async throws {
+        guard consent, !authenticating, !entered else { return }
+        authenticating = true
+        defer { authenticating = false }
+        let verified = try await authentication.signIn(email: email, password: password)
+        do {
+            let directory = try PhotoLibrary.directory(for: verified.user.id)
+            library = PhotoLibrary(directory: directory)
+            _ = try library.snapshot(reload: true)
+            try library.finishPendingCleanup()
+            try library.cleanRemovedMedia()
+            try? library.removeLegacyMediaCache()
+            if try library.snapshot()["consent"] as? Bool != true { _ = try library.change("consent", [:]) }
+            state = try library.visibleSnapshot()
+            PurchaseService.shared.signedInUser = verified.user.id
+            startSession(verified)
+            entered = true
+            refreshWallet()
+        } catch {
+            state = [:]
+            Task { try? await authentication.signOut(verified) }
+            throw error
+        }
+    }
+
+    private func startSession(_ verified: JournalAuthentication.Session) {
+        session = verified
+        expiresAt = Date().addingTimeInterval(verified.expires_in)
+        renewal = Task {
+            do {
+                let delay = max(1, verified.expires_in - min(60, verified.expires_in / 2))
+                try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+                let renewed = try await authentication.refresh(verified)
+                guard !Task.isCancelled, session?.access_token == verified.access_token else { return }
+                startSession(renewed)
+            } catch {
+                guard !Task.isCancelled, session?.access_token == verified.access_token else { return }
+                let remaining = max(0, expiresAt.timeIntervalSinceNow)
+                try? await Task.sleep(nanoseconds: UInt64(min(remaining, verified.expires_in) * 1_000_000_000))
+                guard !Task.isCancelled, session?.access_token == verified.access_token else { return }
+                logout()
+            }
+        }
+    }
+
+    func checkSessionExpiry() {
+        if entered && Date() >= expiresAt { logout() }
     }
 
     func logout() {
+        renewal?.cancel()
+        renewal = nil
+        if let session { Task { try? await authentication.signOut(session) } }
+        session = nil
         entered = false
+        PurchaseService.shared.signedInUser = nil
+        state = [:]
+        wallet = [:]
+        message = nil
+        confirmation = nil
+        confirmationWindow?.isHidden = true
+        confirmationWindow = nil
+        library = PhotoLibrary()
         root(.home)
         meCollection = "Moments"
         discovery = PhotographySessionState()
@@ -159,15 +212,16 @@ final class JournalStore: ObservableObject {
     @discardableResult
     func change(_ command: String, _ payload: Record = [:]) -> Bool {
         do {
-            guard entered || command == "consent" else { throw roroError("Please log in to continue.") }
+            guard entered else { throw roroError("Please log in to continue.") }
             guard photoPicker == nil, videoPicker == nil else { throw roroError("Please finish the current selection.") }
+            let wasBlocked = state.strings("blocked").contains(payload.str("id"))
             _ = try library.change(command, payload)
             if command == "clearLibrary" {
                 do { try library.finishPendingCleanup() }
                 catch { message = "Your library was cleared. Reopen Roro to finish removing its media files." }
             }
             state = try library.visibleSnapshot()
-            if command == "setBlock", payload["enabled"] as? Bool == true {
+            if ["setBlock", "toggleBlock"].contains(command), !wasBlocked, state.strings("blocked").contains(payload.str("id")) {
                 root(tab)
                 confirmation = "User blocked."
             }
@@ -179,8 +233,19 @@ final class JournalStore: ObservableObject {
         }
     }
 
+    func assetFile(_ path: String) async throws -> URL {
+        if path.hasPrefix("media/") {
+            guard entered else { throw roroError("Please log in to view this media.") }
+            return try library.mediaURL(path)
+        }
+        let identity = session?.user.id
+        let file = try await JournalAssets.fetch(path, token: session?.access_token)
+        guard identity == session?.user.id else { throw CancellationError() }
+        return file
+    }
+
     func imageURL(_ path: String) -> URL? {
-        if path.hasPrefix("media/") { return try? library.mediaURL(path) }
+        if path.hasPrefix("media/") { return entered ? try? library.mediaURL(path) : nil }
         return JournalAssets.url(path)
     }
 
@@ -226,8 +291,8 @@ final class JournalStore: ObservableObject {
         if message == text { message = nil }
     }
 
-    // A report can finish inside a confirmation nested in the comments sheet.
-    // Present its result from the visible controller once dismissal has settled.
+    // Removing reported content can tear down the sheet that initiated the action.
+    // Keep the acknowledgement alive until the user dismisses it.
     func presentConfirmation(_ text: String) async {
         while !Task.isCancelled && confirmation == text {
             do { try await Task.sleep(nanoseconds: 150_000_000) } catch { return }
@@ -235,18 +300,32 @@ final class JournalStore: ObservableObject {
                   controller.transitionCoordinator == nil, !controller.isBeingDismissed,
                   !controller.isBeingPresented, !(controller is UIAlertController) else { continue }
             guard confirmation == text, !Task.isCancelled else { return }
+            if text == "User blocked.", !isRoot || controller.presentingViewController != nil { continue }
+            guard confirmationWindow == nil, let previous = controller.view.window,
+                  let scene = previous.windowScene else { return }
+            let window = UIWindow(windowScene: scene)
+            let host = UIViewController()
+            host.view.backgroundColor = .clear
+            window.backgroundColor = .clear
+            window.rootViewController = host
+            window.windowLevel = .alert + 1
+            confirmationWindow = window
+            window.makeKeyAndVisible()
             let alert = UIAlertController(title: "Roro", message: text, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self, weak previous] _ in
+                self?.confirmationWindow?.isHidden = true
+                self?.confirmationWindow = nil
+                previous?.makeKey()
                 if self?.confirmation == text { self?.confirmation = nil }
             })
-            controller.present(alert, animated: true)
+            host.present(alert, animated: true)
             return
         }
     }
 
     @discardableResult
     func perform(_ command: String, _ payload: Record = [:]) async throws -> Any {
-        guard entered || command == "openAgreement" || command == "snapshot" else {
+        guard entered || command == "openAgreement" else {
             throw roroError("Please log in to continue.")
         }
         let id = payload.str("id")
@@ -257,9 +336,12 @@ final class JournalStore: ObservableObject {
         case "wallet", "walletSnapshot", "retryPurchases", "purchase", "unlockTopicWork":
             let service = PurchaseService.shared
             if command == "wallet" {
-                wallet = try await withCheckedThrowingContinuation { continuation in
+                let requester = session?.user.id
+                let result: Record = try await withCheckedThrowingContinuation { continuation in
                     service.load { continuation.resume(with: $0) }
                 }
+                guard entered, session?.user.id == requester else { throw CancellationError() }
+                wallet = result
             } else if command == "unlockTopicWork" {
                 guard let work = catalog.rows("photos").first(where: { $0.str("id") == id }), visible(work) else {
                     throw roroError("This work is hidden.")
@@ -295,8 +377,11 @@ final class JournalStore: ObservableObject {
             try library.discardVideo(payload.str("video"))
         case "videoSource":
             guard let clip = shorts.first(where: { $0.str("id") == id }) else { throw roroError("This short is unavailable.") }
-            if let path = try CommunityCatalog.video(id), let url = JournalAssets.url(path),
-               FileManager.default.fileExists(atPath: url.path) { return url }
+            if let path = try CommunityCatalog.video(id) {
+                let file = try await assetFile(path)
+                guard shorts.contains(where: { $0.str("id") == id }) else { throw roroError("This short is unavailable.") }
+                return file
+            }
             return try library.mediaURL(clip.str("video"))
         case "playVideo":
             let controller = try presenter()
@@ -311,12 +396,17 @@ final class JournalStore: ObservableObject {
             let controller = try presenter()
             guard ["voice", "video"].contains(mode), !(controller is CallPreviewController),
                   PhotoLibrary.messagingPeers(try library.snapshot()).contains(peer),
-                  let member = members.first(where: { $0.str("id") == peer }),
-                  let portrait = JournalAssets.url(member.str("avatar")) else { throw roroError("Call preview unavailable.") }
+                  let member = members.first(where: { $0.str("id") == peer }) else { throw roroError("Call preview unavailable.") }
+            let portrait = try await assetFile(member.str("avatar"))
+            for icon in ["sound", "call-hangup", "call-speaker-off", "call-microphone", "call-microphone-off"] {
+                _ = try await assetFile("assets/icons/" + icon + ".png")
+            }
+            guard entered, PhotoLibrary.messagingPeers(try library.snapshot()).contains(peer) else {
+                throw roroError("Call preview unavailable.")
+            }
             controller.present(CallPreviewController(video: mode == "video", name: member.str("name"), portrait: portrait), animated: true)
         case "openSource":
-            guard let clip = catalog.rows("shorts").first(where: { $0.str("id") == id }),
-                  !state.strings("blocked").contains(clip.str("authorID")), !state.strings("reports").contains(id),
+            guard let clip = shorts.first(where: { $0.str("id") == id }),
                   let url = URL(string: clip.str("sourceURL")),
                   url.scheme == "https", url.host == "www.pexels.com" else { throw roroError("This source could not be opened.") }
             try presenter().present(SFSafariViewController(url: url), animated: true)
@@ -331,9 +421,14 @@ final class JournalStore: ObservableObject {
             try presenter().present(SFSafariViewController(url: url), animated: true)
         case "sharePhoto":
             let path = payload.str("image")
-            guard let url = imageURL(path), (photos + shorts).contains(where: {
-                !locked($0) && ($0.strings("images").contains(path) || $0["video"] as? String == path)
-            }) else { throw roroError("This media file could not be shared.") }
+            func canShare() -> Bool {
+                (photos + shorts).contains {
+                    !locked($0) && ($0.strings("images").contains(path) || $0["video"] as? String == path)
+                }
+            }
+            guard canShare() else { throw roroError("This media file could not be shared.") }
+            let url = try await assetFile(path)
+            guard canShare() else { throw roroError("This media file could not be shared.") }
             let controller = try presenter()
             let share = UIActivityViewController(activityItems: [url], applicationActivities: nil)
             share.popoverPresentationController?.sourceView = controller.view

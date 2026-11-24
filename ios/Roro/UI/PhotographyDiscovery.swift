@@ -111,6 +111,20 @@ struct PhotographyTopics: View {
                 JournalIcon("plus", "Create topic work") { app.open(.compose(nil, selection.category)) }
             }
             ScrollView {
+                HStack(spacing: 8) {
+                    Text("What catches\nyour eye?")
+                        .font(.custom("Courgette-Regular", size: 20, relativeTo: .headline))
+                        .foregroundStyle(JournalColor.petrol)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .layoutPriority(1)
+                    Spacer(minLength: 0)
+                    JournalImage("assets/backgrounds/topics-banner.png")
+                        .aspectRatio(2.5, contentMode: .fit)
+                        .frame(maxHeight: 96)
+                        .accessibilityHidden(true)
+                }
+                .padding(.horizontal, 12)
+                .frame(maxWidth: .infinity, minHeight: 96)
                 if topics.isEmpty { Text("No matching topics.").padding() }
                 LazyVGrid(columns: PhotographyCatalog.columns, spacing: 14) {
                     ForEach(topics, id: \.self) { topic in

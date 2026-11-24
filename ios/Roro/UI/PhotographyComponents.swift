@@ -163,25 +163,37 @@ struct PhotographyLabeledAction: View {
             .accessibilityAddTraits(selected ? .isSelected : [])
     }
 
-    @ViewBuilder private var artwork: some View {
-        if icon == "block" { Text("🚫").font(.system(size: 24)).accessibilityHidden(true) }
-        else { PhotographyArt(icon: icon) }
+    private var artwork: some View {
+        PhotographyArt(icon: icon, size: icon == "block" ? 24 : 28)
+            .frame(width: 28, height: 28)
     }
 }
 
 struct PhotographyCountAction: View {
     let icon: String
     let label: String
-    let count: Int
+    var count: Int? = nil
     var selected = false
     let action: () -> Void
+    // Match the visible ink height across artwork with different transparent margins.
+    private var artworkSize: CGFloat {
+        switch icon {
+        case "heart", "heart-outline": return 27.5
+        case "share": return 29.5
+        default: return 25
+        }
+    }
+
     var body: some View {
         Button(action: action) {
             VStack(spacing: 0) {
-                PhotographyArt(icon: icon, size: 25)
-                Text("\(count)").font(.custom("Kalam-Regular", size: 13, relativeTo: .caption))
-            }.frame(minWidth: 44, minHeight: 44).contentShape(Rectangle())
-        }.accessibilityLabel(label).accessibilityValue("\(count)")
+                PhotographyArt(icon: icon, size: artworkSize)
+                    .frame(height: 25)
+                if let count {
+                    Text("\(count)").font(.custom("Kalam-Regular", size: 13, relativeTo: .caption))
+                }
+            }.frame(minWidth: 44, minHeight: 44, alignment: .top).contentShape(Rectangle())
+        }.accessibilityLabel(label).accessibilityValue(count.map { String($0) } ?? "")
             .accessibilityAddTraits(selected ? .isSelected : [])
     }
 }

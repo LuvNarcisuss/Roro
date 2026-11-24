@@ -15,11 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667" />
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" />
             <subviews>
-              <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="roro-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="roro-launch-mark">
-                <rect key="frame" x="127.5" y="273.5" width="120" height="120" />
+              <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="JournalLaunchLogo.png" translatesAutoresizingMaskIntoConstraints="NO" id="roro-launch-mark">
+                <rect key="frame" x="139.5" y="285.5" width="96" height="96" />
                 <constraints>
-                  <constraint firstAttribute="width" constant="120" id="roro-mark-width" />
-                  <constraint firstAttribute="height" constant="120" id="roro-mark-height" />
+                  <constraint firstAttribute="width" constant="96" id="roro-mark-width" />
+                  <constraint firstAttribute="height" constant="96" id="roro-mark-height" />
                 </constraints>
               </imageView>
             </subviews>
@@ -37,6 +37,6 @@
     </scene>
   </scenes>
   <resources>
-    <image name="roro-logo.png" width="256" height="256" />
+    <image name="JournalLaunchLogo.png" width="256" height="256" />
   </resources>
 </document>

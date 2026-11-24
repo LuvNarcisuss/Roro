@@ -3,7 +3,11 @@ import SwiftUI
 struct PhotographyMember: View {
     @EnvironmentObject private var app: JournalStore
     let id: String
-    @State private var confirmBlock = false
+    private enum SafetyAction: String, Identifiable {
+        case block = "Block", unblock = "Unblock", report = "Report"
+        var id: String { rawValue }
+    }
+    @State private var pending: SafetyAction?
 
     var body: some View {
         let member = app.photographyMember(id)
@@ -35,8 +39,10 @@ struct PhotographyMember: View {
                             app.open(.chat(id))
                         }.disabled(blocked)
                         JournalIcon("block", blocked ? "Unblock \(name)" : "Block \(name)", selected: blocked) {
-                            if blocked { _ = app.change("setBlock", ["id": id, "enabled": false]) }
-                            else { confirmBlock = true }
+                            pending = blocked ? .unblock : .block
+                        }
+                        if !blocked {
+                            JournalIcon("info", "Report author " + name) { pending = .report }
                         }
                     }
                     if blocked { Text("You’ve blocked \(name).") }
@@ -54,10 +60,19 @@ struct PhotographyMember: View {
                 }.frame(maxWidth: .infinity, alignment: .leading).padding(14)
             }.refreshable { _ = await app.photographyRefresh() }
         }.buttonStyle(.plain)
-            .alert("Block \(name)?", isPresented: $confirmBlock) {
-                Button("Cancel", role: .cancel) {}
-                Button("Block", role: .destructive) { _ = app.change("setBlock", ["id": id, "enabled": true]) }
-            } message: { Text("If you block \(name), you’ll no longer see their posts or comments.") }
+            .alert(item: $pending) { action in
+                Alert(title: Text(action.rawValue + " " + name + "?"),
+                      message: action == .block ? Text("If you block \(name), you’ll no longer see their posts or comments.") : nil,
+                      primaryButton: .destructive(Text(action.rawValue)) {
+                    if action == .report {
+                        if app.change("setReport", ["id": id, "kind": "author", "enabled": true]) {
+                            app.confirmation = "Report saved for this account."
+                        }
+                    } else {
+                        _ = app.change("setBlock", ["id": id, "enabled": action == .block])
+                    }
+                }, secondaryButton: .cancel())
+            }
     }
 
     private func stat(_ label: String, _ value: Int) -> some View {

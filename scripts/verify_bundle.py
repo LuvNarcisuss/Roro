@@ -14,12 +14,12 @@ info = plistlib.loads((app / "Info.plist").read_bytes())
 assert info["UIDeviceFamily"] == [1] and info["CFBundleIdentifier"] == "com.roro.photography"
 assert info["UISupportedInterfaceOrientations"] == ["UIInterfaceOrientationPortrait"]
 assert info["MinimumOSVersion"] == "16.0"
-assert info["UILaunchStoryboardName"] == "JournalLaunchScreen"
-assert any(b"roro-logo.png" in path.read_bytes() for path in (app / "JournalLaunchScreen.storyboardc").glob("*.nib"))
+assert info["UILaunchStoryboardName"] == "RoroBrandLaunch"
+assert any(b"JournalLaunchLogo.png" in path.read_bytes() for path in (app / "RoroBrandLaunch.storyboardc").glob("*.nib"))
 # Xcode may re-encode the standalone launch PNG. Reproduce its copy phase and
 # compare the result. The main icons folder is still checked byte for byte.
 logo = root / "Assets/icons/roro-logo.png"
-built_logo = app / "roro-logo.png"
+built_logo = app / "JournalLaunchLogo.png"
 if not filecmp.cmp(logo, built_logo, shallow=False):
     with tempfile.TemporaryDirectory() as temporary:
         converted = Path(temporary) / "launch.png"

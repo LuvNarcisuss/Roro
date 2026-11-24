@@ -8,7 +8,7 @@ func roroError(_ message: String) -> NSError {
 // Views and storage validate against the same immutable community records.
 enum CommunityCatalog {
     static func load() throws -> [String: Any] {
-        guard let url = Bundle.main.url(forResource: "catalog", withExtension: "json", subdirectory: "community"),
+        guard let url = JournalAssets.url("assets/community/catalog.json"),
               let data = try JSONSerialization.jsonObject(with: Data(contentsOf: url)) as? [String: Any],
               data["authors"] is [[String: Any]], data["photos"] is [[String: Any]], data["shorts"] is [[String: Any]] else {
             throw roroError("The inspiration library could not be opened.")
@@ -50,8 +50,22 @@ final class PhotoLibrary {
     private var cached: [String: Any]?
     private let fileManager = FileManager.default
 
-    init() {
-        directory = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Roro", isDirectory: true)
+    static let legacyDirectory = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+        .appendingPathComponent("Roro", isDirectory: true)
+
+    private static var ownerFile: URL { legacyDirectory.appendingPathComponent("journal-owner.json") }
+
+    static func directory(for user: UUID) throws -> URL {
+        if FileManager.default.fileExists(atPath: ownerFile.path) {
+            let owner = try JSONDecoder().decode(UUID.self, from: Data(contentsOf: ownerFile))
+            if owner == user { return legacyDirectory }
+        }
+        return legacyDirectory.appendingPathComponent("Accounts", isDirectory: true)
+            .appendingPathComponent(user.uuidString.lowercased(), isDirectory: true)
+    }
+
+    init(directory: URL = PhotoLibrary.legacyDirectory) {
+        self.directory = directory
         media = directory.appendingPathComponent("Media", isDirectory: true)
     }
 
@@ -114,6 +128,10 @@ final class PhotoLibrary {
     func visibleSnapshot(reload: Bool = false) throws -> [String: Any] {
         var result = try snapshot(reload: reload)
         result["messagingPeers"] = Self.messagingPeers(result).sorted()
+        let blocked = Set(result["blocked"] as? [String] ?? [])
+        if !blocked.isEmpty, let entries = result["chatEntries"] as? [[String: String]] {
+            result["chatEntries"] = entries.filter { !blocked.contains($0["peerID"] ?? "") }
+        }
         result.removeValue(forKey: "safetyHistory")
         return result
     }
@@ -150,6 +168,10 @@ final class PhotoLibrary {
                   entries.allSatisfy({ known.contains($0) }) else { throw invalid }
         }
         let authors = try CommunityCatalog.authorIDs()
+        if let raw = value["reportedAuthors"] {
+            guard let ids = raw as? [String], Set(ids).count == ids.count,
+                  Set(ids).isSubset(of: authors.subtracting(["roro"])) else { throw invalid }
+        }
         guard let follows = value["following"] as? [String], Set(follows).count == follows.count, follows.allSatisfy({ authors.contains($0) }) else { throw invalid }
         if let raw = value["blocked"], !(raw is [String]) { throw invalid }
         let blocked = value["blocked"] as? [String] ?? []
@@ -312,6 +334,19 @@ final class PhotoLibrary {
             value["consentRevision"] = "2026-11-17"
         case "setBlock", "toggleBlock", "setReport":
             let isReport = command == "setReport"
+            let kind = payload["kind"] as? String ?? "video"
+            guard !isReport || ((payload["kind"] == nil || payload["kind"] is String)
+                  && ["video", "post", "comment", "author"].contains(kind)) else {
+                throw roroError("Choose a valid report target.")
+            }
+            var details: [String: String] = [:]
+            for (field, limit) in [("reason", 80), ("details", 500)] where payload[field] != nil {
+                guard isReport, let text = payload[field] as? String, text.count <= limit else {
+                    throw roroError("Check the length of your report.")
+                }
+                details[field] = text.trimmingCharacters(in: .whitespacesAndNewlines)
+            }
+            let memberAction = !isReport || kind == "author"
             let key: String
             let record: [String: Any]
             let label: String
@@ -331,19 +366,51 @@ final class PhotoLibrary {
                 record = post
                 label = caption
             } else {
-                let records = try CommunityCatalog.records(isReport ? "shorts" : "authors")
+                let records = try CommunityCatalog.records(memberAction ? "authors" : "shorts")
                 guard let target = records.first(where: { $0["id"] as? String == id }), id != "roro" else {
                     throw roroError("This safety action is unavailable.")
                 }
-                key = isReport ? "reports" : "blocked"
+                key = !isReport ? "blocked" : (memberAction ? "reportedAuthors" : "reports")
                 record = target
-                label = target[isReport ? "caption" : "name"] as? String ?? (isReport ? "Community video" : "Community member")
+                label = target[memberAction ? "name" : "caption"] as? String ?? (memberAction ? "Community member" : "Community video")
             }
             var entries = value[key] as? [String] ?? []
             guard let enabled = command == "toggleBlock" ? !entries.contains(id) : payload["enabled"] as? Bool else {
                 throw roroError("This safety action is unavailable.")
             }
             if entries.contains(id) == enabled { return value }
+            let author = memberAction ? id : record["authorID"] as? String
+            let contextualWork = enabled ? payload["postID"] as? String : nil
+            let contextualComment = enabled ? payload["commentID"] as? String : nil
+            let workID = memberAction ? contextualWork :
+                (kind == "comment" ? record["postID"] as? String : id)
+            let commentID = kind == "comment" && isReport ? id : contextualComment
+            if enabled {
+                guard let author, !blocked.contains(author),
+                      payload["authorID"] == nil || payload["authorID"] as? String == author,
+                      payload["postID"] == nil || (workID != nil && payload["postID"] as? String == workID),
+                      payload["commentID"] == nil || (commentID != nil && payload["commentID"] as? String == commentID) else {
+                    throw roroError("This safety action is unavailable.")
+                }
+                if let workID {
+                    let works = try CommunityCatalog.records("photos") + CommunityCatalog.records("shorts")
+                    guard let work = works.first(where: { $0["id"] as? String == workID }),
+                          !blocked.contains(work["authorID"] as? String ?? ""),
+                          !["reports", "reportedPosts", "hidden"].contains(where: { (value[$0] as? [String] ?? []).contains(workID) }) else {
+                        throw roroError("This work is unavailable.")
+                    }
+                    if let commentID {
+                        guard memberAction || kind == "comment",
+                              let comment = (work["comments"] as? [[String: String]])?.first(where: { $0["id"] == commentID }),
+                              comment["authorID"] == author,
+                              !(value["reportedComments"] as? [String] ?? []).contains(commentID) else {
+                            throw roroError("This comment is unavailable.")
+                        }
+                    } else if work["authorID"] as? String != author {
+                        throw roroError("The author does not match this work.")
+                    }
+                } else if commentID != nil { throw roroError("This comment is unavailable.") }
+            }
             if enabled { entries.append(id) } else { entries.removeAll { $0 == id } }
             value[key] = entries
             if !isReport && enabled {
@@ -354,16 +421,11 @@ final class PhotoLibrary {
             }
             var event = ["targetID": id, "label": label, "date": ISO8601DateFormatter().string(from: Date()),
                          "action": isReport ? (enabled ? "report" : "withdraw") : (enabled ? "block" : "unblock")]
-            event["authorID"] = isReport ? record["authorID"] as? String : id
-            if key == "reportedPosts" {
-                event["postID"] = id
-            } else if key == "reportedComments" {
-                event["postID"] = record["postID"] as? String
-                event["commentID"] = id
-            } else if let post = payload["postID"] as? String, known.contains(post) {
-                event["postID"] = post
-                event["commentID"] = payload["commentID"] as? String
-            }
+            event["authorID"] = author
+            event["kind"] = memberAction ? "author" : kind
+            event["postID"] = workID
+            event["commentID"] = commentID
+            event.merge(details) { _, new in new }
             var history = value["safetyHistory"] as? [[String: String]] ?? []
             history.append(event)
             value["safetyHistory"] = history
@@ -555,6 +617,7 @@ final class PhotoLibrary {
     // Earlier releases made disposable display copies here. Keep those copies if
     // any referenced original is missing so a damaged library can be recovered.
     func removeLegacyMediaCache() throws {
+        guard directory == Self.legacyDirectory else { return }
         let caches = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)[0]
         let legacy = caches.appendingPathComponent("RoroPages", isDirectory: true)
         guard fileManager.fileExists(atPath: legacy.path) else { return }

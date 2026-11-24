@@ -21,10 +21,16 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
     private var processing = Set<String>()
     private var pendingProducts = Set<String>()
     private var status = "unavailable"
-    private let ledgerURL: URL
+    var signedInUser: UUID? {
+        didSet { transactionNotice = "" }
+    }
+
+    private func ledgerURL(for user: UUID?, local: Bool = false) throws -> URL {
+        let directory = try user.map(PhotoLibrary.directory(for:)) ?? PhotoLibrary.legacyDirectory
+        return directory.appendingPathComponent(local ? "xcode-purchases.json" : "purchases.json")
+    }
 
     override private init() {
-        ledgerURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Roro/purchases.json")
         super.init()
         if let url = Bundle.main.url(forResource: "products", withExtension: "json", subdirectory: "Configuration"),
            let data = try? Data(contentsOf: url), let items = try? JSONDecoder().decode([CreditProduct].self, from: data) {
@@ -37,7 +43,6 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
     }
 
     #if DEBUG && targetEnvironment(simulator)
-    private var localLedgerURL: URL { ledgerURL.deletingLastPathComponent().appendingPathComponent("xcode-purchases.json") }
     private var cachedLocalReceipt: (data: Data, response: [String: Any]?)?
 
     private func localResponse(_ data: Data) -> [String: Any]? {
@@ -48,17 +53,18 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
     }
     #endif
 
-    private var displayedLedgerURL: URL {
+    private func displayedLedgerURL() throws -> URL {
+        guard let signedInUser else { throw roroError("Please log in to view your wallet.") }
         #if DEBUG && targetEnvironment(simulator)
         if let url = Bundle.main.appStoreReceiptURL, let data = try? Data(contentsOf: url), localResponse(data) != nil {
-            return localLedgerURL
+            return try ledgerURL(for: signedInUser, local: true)
         }
         #endif
-        return ledgerURL
+        return try ledgerURL(for: signedInUser)
     }
 
     private func ledger(at url: URL) throws -> [String: Any] {
-        let environments = url == ledgerURL ? ["Production", "Sandbox"] : ["Xcode"]
+        let environments = url.lastPathComponent == "purchases.json" ? ["Production", "Sandbox"] : ["Xcode"]
         guard FileManager.default.fileExists(atPath: url.path) else {
             var empty: [String: Any] = ["environment": environments[0]]
             for environment in environments {
@@ -78,7 +84,7 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
     }
 
     func snapshot() throws -> [String: Any] {
-        let value = try ledger(at: displayedLedgerURL)
+        let value = try ledger(at: displayedLedgerURL())
         let account = value[value["environment"] as! String] as! [String: Any]
         let offers: [[String: Any]] = catalog.map { item in
             let price = products[item.id].flatMap { localizedPrice($0) }
@@ -101,7 +107,7 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
               let prices = try CommunityCatalog.load()["categoryPrices"] as? [String: Int],
               let passPrice = prices[category], (1...9999).contains(passPrice),
               ["work", "category"].contains(scope) else { throw roroError("This work is unavailable.") }
-        let url = displayedLedgerURL
+        let url = try displayedLedgerURL()
         var value = try ledger(at: url)
         let environment = value["environment"] as! String
         var account = value[environment] as! [String: Any]
@@ -208,10 +214,12 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
         guard SKPaymentQueue.canMakePayments() else { throw roroError("Purchases are not allowed on this iPhone.") }
         guard status == "ready" || status == "partial", let product = products[id] else { throw roroError("This offer is not available. Pull down to check prices.") }
         guard !checkoutBlocked else { throw roroError("A purchase is already being processed.") }
-        _ = try ledger(at: displayedLedgerURL)
+        _ = try ledger(at: displayedLedgerURL())
         pendingProducts.insert(id)
         transactionNotice = "Your purchase is being processed."
-        SKPaymentQueue.default().add(SKPayment(product: product))
+        let payment = SKMutablePayment(product: product)
+        payment.applicationUsername = signedInUser?.uuidString.lowercased()
+        SKPaymentQueue.default().add(payment)
     }
 
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
@@ -284,16 +292,21 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
             if refreshIfMissing { refreshReceipt() }
             return
         }
+        // Untagged purchases from older versions belong to the original device journal.
+        let tag = transaction.payment.applicationUsername
+        let user = tag.flatMap(UUID.init(uuidString:))
+        guard tag == nil || user != nil,
+              let appleLedger = try? ledgerURL(for: user) else { return }
         processing.insert(transactionID)
         #if DEBUG && targetEnvironment(simulator)
         if let response = localResponse(receipt) {
-            deliver(.success(response), transaction: transaction, id: transactionID, ledgerURL: localLedgerURL)
+            deliver(.success(response), transaction: transaction, id: transactionID, ledgerURL: appleLedger.deletingLastPathComponent().appendingPathComponent("xcode-purchases.json"))
             return
         }
         #endif
         verifyReceipt(receipt, sandbox: false) { result in
             DispatchQueue.main.async {
-                self.deliver(result, transaction: transaction, id: transactionID, ledgerURL: self.ledgerURL)
+                self.deliver(result, transaction: transaction, id: transactionID, ledgerURL: appleLedger)
             }
         }
     }
@@ -310,7 +323,7 @@ final class PurchaseService: NSObject, SKProductsRequestDelegate, SKPaymentTrans
                   let quantityString = record["quantity"] as? String,
                   let quantity = Int(quantityString), quantity == transaction.payment.quantity, quantity > 0,
                   let credits = self.configured[transaction.payment.productIdentifier],
-                  let environment = response["environment"] as? String, (ledgerURL == self.ledgerURL ? ["Production", "Sandbox"] : ["Xcode"]).contains(environment) else {
+                  let environment = response["environment"] as? String, (ledgerURL.lastPathComponent == "purchases.json" ? ["Production", "Sandbox"] : ["Xcode"]).contains(environment) else {
                 throw roroError("Your purchase is waiting for confirmation.")
             }
             var ledger = try self.ledger(at: ledgerURL)

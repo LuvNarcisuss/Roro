@@ -1,0 +1,1391 @@
+{
+  "release": "76a3f9ca5b18ccc3bb13",
+  "files": {
+    "AppIcon.png": {
+      "bucket": "roro-sources",
+      "key": "6c16629cbc7824ea803626673718619c0ba54c7d5dc5102d81cdbb4cee7d4732--AppIcon.png",
+      "size": 801247,
+      "sha256": "6c16629cbc7824ea803626673718619c0ba54c7d5dc5102d81cdbb4cee7d4732"
+    },
+    "artwork-manifest.json": {
+      "bucket": "roro-sources",
+      "key": "bc2ab6cdd6e99fc1f37143a4d79f85ec57747755c9155c8242cfd1287f3757d5--artwork-manifest.json",
+      "size": 46612,
+      "sha256": "bc2ab6cdd6e99fc1f37143a4d79f85ec57747755c9155c8242cfd1287f3757d5"
+    },
+    "backgrounds/chats-dusk.webp": {
+      "bucket": "roro-interface",
+      "key": "21e2b783ed498a1e5951c973b0ece52537cd8810f3723f338793bb368b59f738--backgrounds__chats-dusk.webp",
+      "size": 51952,
+      "sha256": "21e2b783ed498a1e5951c973b0ece52537cd8810f3723f338793bb368b59f738"
+    },
+    "backgrounds/home-dawn.webp": {
+      "bucket": "roro-interface",
+      "key": "2cd00159b2fe3df4749ed7ea226f1b62788caff5b38a317d64056ce60b541c57--backgrounds__home-dawn.webp",
+      "size": 14550,
+      "sha256": "2cd00159b2fe3df4749ed7ea226f1b62788caff5b38a317d64056ce60b541c57"
+    },
+    "backgrounds/journal-banner.png": {
+      "bucket": "roro-interface",
+      "key": "1b6ffddd49edeb29b1ace388c82250d8dca5893a2fe5843eba0936a2f7b7f809--backgrounds__journal-banner.png",
+      "size": 276678,
+      "sha256": "1b6ffddd49edeb29b1ace388c82250d8dca5893a2fe5843eba0936a2f7b7f809"
+    },
+    "backgrounds/journal-paper.png": {
+      "bucket": "roro-interface",
+      "key": "cf20e6ea15c6adf3a110c8b3dd1827f192741e9d056c80793d3563c82d5be34a--backgrounds__journal-paper.png",
+      "size": 590769,
+      "sha256": "cf20e6ea15c6adf3a110c8b3dd1827f192741e9d056c80793d3563c82d5be34a"
+    },
+    "backgrounds/me-sunroom.webp": {
+      "bucket": "roro-interface",
+      "key": "9c763cae7d66f9f94d8eac1f8cd4832fb69154cb5f7f91eea0f487745786cce1--backgrounds__me-sunroom.webp",
+      "size": 21050,
+      "sha256": "9c763cae7d66f9f94d8eac1f8cd4832fb69154cb5f7f91eea0f487745786cce1"
+    },
+    "backgrounds/topics-banner.png": {
+      "bucket": "roro-interface",
+      "key": "4e267174ed6b3e656e9bfed267d7412c7a7fa09fb03f8ef8a82e1ea7240ad2df--backgrounds__topics-banner.png",
+      "size": 588405,
+      "sha256": "4e267174ed6b3e656e9bfed267d7412c7a7fa09fb03f8ef8a82e1ea7240ad2df"
+    },
+    "backgrounds/topics-garden.webp": {
+      "bucket": "roro-interface",
+      "key": "bf3184d8793c3021b7ce4718e27f6f3f763f5dc213ac7a76348475f34914e7ba--backgrounds__topics-garden.webp",
+      "size": 39662,
+      "sha256": "bf3184d8793c3021b7ce4718e27f6f3f763f5dc213ac7a76348475f34914e7ba"
+    },
+    "community/catalog.json": {
+      "bucket": "roro-interface",
+      "key": "e0904d9bc7c20516a6c9ff58a6f0fc1243e4b68edcb56ef2d3a70541ca0077f9--community__catalog.json",
+      "size": 39765,
+      "sha256": "e0904d9bc7c20516a6c9ff58a6f0fc1243e4b68edcb56ef2d3a70541ca0077f9"
+    },
+    "fonts/Courgette-OFL.txt": {
+      "bucket": "roro-sources",
+      "key": "0836fd874230b17f840efcf7d3bb529f5a7b5befbfeef94478519cfe2d8551c2--fonts__Courgette-OFL.txt",
+      "size": 4399,
+      "sha256": "0836fd874230b17f840efcf7d3bb529f5a7b5befbfeef94478519cfe2d8551c2"
+    },
+    "fonts/Courgette-Regular.ttf": {
+      "bucket": "roro-sources",
+      "key": "099739d22e66ee2b80656bba63847f9ed419ad7e3969ba2c1d3c437c0d08f3e3--fonts__Courgette-Regular.ttf",
+      "size": 122072,
+      "sha256": "099739d22e66ee2b80656bba63847f9ed419ad7e3969ba2c1d3c437c0d08f3e3"
+    },
+    "fonts/Kalam-Bold.ttf": {
+      "bucket": "roro-sources",
+      "key": "2f6576601db015d4f6c08678120277fc8510b98c06e932ce7a6a9cbff4cbdded--fonts__Kalam-Bold.ttf",
+      "size": 460896,
+      "sha256": "2f6576601db015d4f6c08678120277fc8510b98c06e932ce7a6a9cbff4cbdded"
+    },
+    "fonts/Kalam-OFL.txt": {
+      "bucket": "roro-sources",
+      "key": "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f--fonts__Kalam-OFL.txt",
+      "size": 4373,
+      "sha256": "f62ef357d3a1c3d27edd35a6e1ba350e8a8d13499797964eeadefbf0b3b15d1f"
+    },
+    "fonts/Kalam-Regular.ttf": {
+      "bucket": "roro-sources",
+      "key": "57cecb63d4608019371954274ae1d8c397764debd5b19d4a33c1efa4dc923c0b--fonts__Kalam-Regular.ttf",
+      "size": 427360,
+      "sha256": "57cecb63d4608019371954274ae1d8c397764debd5b19d4a33c1efa4dc923c0b"
+    },
+    "fonts/Nunito.ttf": {
+      "bucket": "roro-sources",
+      "key": "bb55a5ca5c2042335b3991af27c4d0705d0ef41cac6164ac737fd8f2a1e85207--fonts__Nunito.ttf",
+      "size": 276932,
+      "sha256": "bb55a5ca5c2042335b3991af27c4d0705d0ef41cac6164ac737fd8f2a1e85207"
+    },
+    "fonts/OFL.txt": {
+      "bucket": "roro-sources",
+      "key": "580df76c95a1ec5ab878ceb25bb3d85c6a076804e9c970c8c6972aea775fdf65--fonts__OFL.txt",
+      "size": 4385,
+      "sha256": "580df76c95a1ec5ab878ceb25bb3d85c6a076804e9c970c8c6972aea775fdf65"
+    },
+    "fonts/source.json": {
+      "bucket": "roro-sources",
+      "key": "34b1d973808aa4edf31d1af075ff65ac75bb3d9160d19753048bad9b9ab16738--fonts__source.json",
+      "size": 521,
+      "sha256": "34b1d973808aa4edf31d1af075ff65ac75bb3d9160d19753048bad9b9ab16738"
+    },
+    "icons/add-friend.png": {
+      "bucket": "roro-interface",
+      "key": "f71bf9307ce538f7b4440078b7110f03a5ea8bb5ed9516c31946f66e982a5ddc--icons__add-friend.png",
+      "size": 15993,
+      "sha256": "f71bf9307ce538f7b4440078b7110f03a5ea8bb5ed9516c31946f66e982a5ddc"
+    },
+    "icons/back.png": {
+      "bucket": "roro-interface",
+      "key": "52d2eec312463e16a5abd612d0f32d74eadf21474429db9e91d656be93f32b1a--icons__back.png",
+      "size": 12301,
+      "sha256": "52d2eec312463e16a5abd612d0f32d74eadf21474429db9e91d656be93f32b1a"
+    },
+    "icons/block.png": {
+      "bucket": "roro-interface",
+      "key": "648f2e93eeb916922acc1de00811798cd6f09e60efa98fddb7af90a515c643cc--icons__block.png",
+      "size": 617,
+      "sha256": "648f2e93eeb916922acc1de00811798cd6f09e60efa98fddb7af90a515c643cc"
+    },
+    "icons/bookmark-outline.png": {
+      "bucket": "roro-interface",
+      "key": "c4a2a218ece64a4849d60c30aef1a92c24347b9e417afed725040d62aef71aa8--icons__bookmark-outline.png",
+      "size": 18751,
+      "sha256": "c4a2a218ece64a4849d60c30aef1a92c24347b9e417afed725040d62aef71aa8"
+    },
+    "icons/bookmark.png": {
+      "bucket": "roro-interface",
+      "key": "43355dbc0da052401422fa930eaa0ee765c1bdcae2538bf29a6b14f658f26a12--icons__bookmark.png",
+      "size": 18786,
+      "sha256": "43355dbc0da052401422fa930eaa0ee765c1bdcae2538bf29a6b14f658f26a12"
+    },
+    "icons/call-hangup.png": {
+      "bucket": "roro-interface",
+      "key": "adb4f396dd9408ae4f9d41e42d8a9bd9d8b30491058c9c203bd4a48885faa34a--icons__call-hangup.png",
+      "size": 10369,
+      "sha256": "adb4f396dd9408ae4f9d41e42d8a9bd9d8b30491058c9c203bd4a48885faa34a"
+    },
+    "icons/call-microphone-off.png": {
+      "bucket": "roro-interface",
+      "key": "e9bcc31c5b97ad761b9985e0f61f277796fb4d0becdd66d7c001b29294feb299--icons__call-microphone-off.png",
+      "size": 19328,
+      "sha256": "e9bcc31c5b97ad761b9985e0f61f277796fb4d0becdd66d7c001b29294feb299"
+    },
+    "icons/call-microphone.png": {
+      "bucket": "roro-interface",
+      "key": "1f9d17365f5e45e9f03bc7934841bc3b495d181c9d654a5094a12248fae9b12b--icons__call-microphone.png",
+      "size": 16462,
+      "sha256": "1f9d17365f5e45e9f03bc7934841bc3b495d181c9d654a5094a12248fae9b12b"
+    },
+    "icons/call-speaker-off.png": {
+      "bucket": "roro-interface",
+      "key": "3c19f549a0f4de4db87d615b2ca7eaf6ffc8a58d2d6eaa4b9447636f59ac70fe--icons__call-speaker-off.png",
+      "size": 23153,
+      "sha256": "3c19f549a0f4de4db87d615b2ca7eaf6ffc8a58d2d6eaa4b9447636f59ac70fe"
+    },
+    "icons/camera.png": {
+      "bucket": "roro-interface",
+      "key": "f7922d9e3b96ef7b09ca9777e3eafbe6f84040206de0076d1a5ea480835efe14--icons__camera.png",
+      "size": 25950,
+      "sha256": "f7922d9e3b96ef7b09ca9777e3eafbe6f84040206de0076d1a5ea480835efe14"
+    },
+    "icons/chat-pin.png": {
+      "bucket": "roro-interface",
+      "key": "50a16e882ab1728ea61faffb4e35b4ae857378a86334aa415ff7ca9f46255dec--icons__chat-pin.png",
+      "size": 16611,
+      "sha256": "50a16e882ab1728ea61faffb4e35b4ae857378a86334aa415ff7ca9f46255dec"
+    },
+    "icons/chat.png": {
+      "bucket": "roro-interface",
+      "key": "a411c77b7548222b9ea34db1c1944a82756ebd705b020624d26a012a4cb6f70b--icons__chat.png",
+      "size": 35451,
+      "sha256": "a411c77b7548222b9ea34db1c1944a82756ebd705b020624d26a012a4cb6f70b"
+    },
+    "icons/check.png": {
+      "bucket": "roro-interface",
+      "key": "cc026bb8673fb433146149067a8745255c82990df52097ac77381500b25db909--icons__check.png",
+      "size": 18538,
+      "sha256": "cc026bb8673fb433146149067a8745255c82990df52097ac77381500b25db909"
+    },
+    "icons/close.png": {
+      "bucket": "roro-interface",
+      "key": "d38a0b92762f985395990adf602ed8b0f63f69377f8d29d849da3c7a7a7e0b6f--icons__close.png",
+      "size": 27662,
+      "sha256": "d38a0b92762f985395990adf602ed8b0f63f69377f8d29d849da3c7a7a7e0b6f"
+    },
+    "icons/comment.png": {
+      "bucket": "roro-interface",
+      "key": "b8cbbe495e4f68ad5157af30a346c9a14c4943b878d2760244c421ab9f09e9d9--icons__comment.png",
+      "size": 9803,
+      "sha256": "b8cbbe495e4f68ad5157af30a346c9a14c4943b878d2760244c421ab9f09e9d9"
+    },
+    "icons/credit-coin.png": {
+      "bucket": "roro-interface",
+      "key": "65cc1c0261362357f30c8a4e604e06a69747acabce3293034306486f9d1c5aa4--icons__credit-coin.png",
+      "size": 38307,
+      "sha256": "65cc1c0261362357f30c8a4e604e06a69747acabce3293034306486f9d1c5aa4"
+    },
+    "icons/edit.png": {
+      "bucket": "roro-interface",
+      "key": "ead0be64d586e45be24fcc55db41fde4947ec72784032fb3de78b5c85c1e0ab2--icons__edit.png",
+      "size": 22851,
+      "sha256": "ead0be64d586e45be24fcc55db41fde4947ec72784032fb3de78b5c85c1e0ab2"
+    },
+    "icons/eye.png": {
+      "bucket": "roro-interface",
+      "key": "e6dffc52b2c68523790fd55973d24b834014004cb06fba0aec7ade4766ac22dc--icons__eye.png",
+      "size": 22111,
+      "sha256": "e6dffc52b2c68523790fd55973d24b834014004cb06fba0aec7ade4766ac22dc"
+    },
+    "icons/heart-outline.png": {
+      "bucket": "roro-interface",
+      "key": "ae47ae5e2cbbca26230a4c685df7104da1f80c4e1cf018cdc3392d4778127aab--icons__heart-outline.png",
+      "size": 27736,
+      "sha256": "ae47ae5e2cbbca26230a4c685df7104da1f80c4e1cf018cdc3392d4778127aab"
+    },
+    "icons/heart.png": {
+      "bucket": "roro-interface",
+      "key": "519ee3cbabcf1f38ea01fc2c1e6ce3888242fd0a39e3f97f59287bb2b3a828e5--icons__heart.png",
+      "size": 25623,
+      "sha256": "519ee3cbabcf1f38ea01fc2c1e6ce3888242fd0a39e3f97f59287bb2b3a828e5"
+    },
+    "icons/home.png": {
+      "bucket": "roro-interface",
+      "key": "583626757caef44b305533bfb78083e6c27d237a791265eb68c52fe832dc78c1--icons__home.png",
+      "size": 32494,
+      "sha256": "583626757caef44b305533bfb78083e6c27d237a791265eb68c52fe832dc78c1"
+    },
+    "icons/info.png": {
+      "bucket": "roro-interface",
+      "key": "6986e4347218d80f59b0139a1e7ec4e134b216d80555384f2f81360d6c0aefaf--icons__info.png",
+      "size": 29443,
+      "sha256": "6986e4347218d80f59b0139a1e7ec4e134b216d80555384f2f81360d6c0aefaf"
+    },
+    "icons/more.png": {
+      "bucket": "roro-interface",
+      "key": "0e2539ee9e813b4652c34be4583fa4a53ddae6bb1e37d2fa188953e55fe90f40--icons__more.png",
+      "size": 9895,
+      "sha256": "0e2539ee9e813b4652c34be4583fa4a53ddae6bb1e37d2fa188953e55fe90f40"
+    },
+    "icons/mute.png": {
+      "bucket": "roro-interface",
+      "key": "ee00e5d0def07e2bb667444fcb8172886579b114f187c01521a624e2037baf47--icons__mute.png",
+      "size": 23642,
+      "sha256": "ee00e5d0def07e2bb667444fcb8172886579b114f187c01521a624e2037baf47"
+    },
+    "icons/plus.png": {
+      "bucket": "roro-interface",
+      "key": "1378b8ace281a216b5b41a4a1f2ac927c07f23a3c43f47138993f39abc3d5301--icons__plus.png",
+      "size": 18310,
+      "sha256": "1378b8ace281a216b5b41a4a1f2ac927c07f23a3c43f47138993f39abc3d5301"
+    },
+    "icons/profile.png": {
+      "bucket": "roro-interface",
+      "key": "d68336c68250b53700d1458479bbd85407ad897787277d68a2e6096db688e14e--icons__profile.png",
+      "size": 43500,
+      "sha256": "d68336c68250b53700d1458479bbd85407ad897787277d68a2e6096db688e14e"
+    },
+    "icons/roro-logo.png": {
+      "bucket": "roro-interface",
+      "key": "ba206de2580cdfa00269578450e9ad61267db321f99d1af81d3a6e5779a68c2b--icons__roro-logo.png",
+      "size": 81743,
+      "sha256": "ba206de2580cdfa00269578450e9ad61267db321f99d1af81d3a6e5779a68c2b"
+    },
+    "icons/search.png": {
+      "bucket": "roro-interface",
+      "key": "b1e2553ffb9d64b8a600d0e66ad82cd4c182b3654dda3fe95535745f7870a336--icons__search.png",
+      "size": 13265,
+      "sha256": "b1e2553ffb9d64b8a600d0e66ad82cd4c182b3654dda3fe95535745f7870a336"
+    },
+    "icons/send.png": {
+      "bucket": "roro-interface",
+      "key": "2bb9627bbc316051ad07bf4f96210092fdc78ae0f4e619ff09d7ae368fb0a1bc--icons__send.png",
+      "size": 22691,
+      "sha256": "2bb9627bbc316051ad07bf4f96210092fdc78ae0f4e619ff09d7ae368fb0a1bc"
+    },
+    "icons/settings.png": {
+      "bucket": "roro-interface",
+      "key": "5455b6770ca208eb3a9b3bfef0fe1a0cae6615ddd5bab5a824fb17e072e745c3--icons__settings.png",
+      "size": 34065,
+      "sha256": "5455b6770ca208eb3a9b3bfef0fe1a0cae6615ddd5bab5a824fb17e072e745c3"
+    },
+    "icons/share.png": {
+      "bucket": "roro-interface",
+      "key": "7f055a9af660e830be098dc5d9de4e44951e5394ae754e42bf440f6e724798d5--icons__share.png",
+      "size": 22179,
+      "sha256": "7f055a9af660e830be098dc5d9de4e44951e5394ae754e42bf440f6e724798d5"
+    },
+    "icons/shorts.png": {
+      "bucket": "roro-interface",
+      "key": "7ea8b108d88d9f54ca29d9566a06bf687564164fb48e1bc20223b8a1c377cbf1--icons__shorts.png",
+      "size": 38428,
+      "sha256": "7ea8b108d88d9f54ca29d9566a06bf687564164fb48e1bc20223b8a1c377cbf1"
+    },
+    "icons/sound.png": {
+      "bucket": "roro-interface",
+      "key": "0b07207c830e4401baf64a5da952f44d38e956a158b3a2bd16541f9aefe7aac7--icons__sound.png",
+      "size": 25642,
+      "sha256": "0b07207c830e4401baf64a5da952f44d38e956a158b3a2bd16541f9aefe7aac7"
+    },
+    "icons/topics.png": {
+      "bucket": "roro-interface",
+      "key": "21fbce49760df9cc32c2f20958c1c108a297174a3fcdec38f2ee305760959b13--icons__topics.png",
+      "size": 39319,
+      "sha256": "21fbce49760df9cc32c2f20958c1c108a297174a3fcdec38f2ee305760959b13"
+    },
+    "icons/trash.png": {
+      "bucket": "roro-interface",
+      "key": "41cb8ef5fd157385674d88a3c114996217443ae1fffb805d031be105e7500719--icons__trash.png",
+      "size": 29618,
+      "sha256": "41cb8ef5fd157385674d88a3c114996217443ae1fffb805d031be105e7500719"
+    },
+    "icons/video-call.png": {
+      "bucket": "roro-interface",
+      "key": "c122f50f233d9a583702f6cee4b7fff7dd23202bcbc966391543bdc002d2c55b--icons__video-call.png",
+      "size": 24316,
+      "sha256": "c122f50f233d9a583702f6cee4b7fff7dd23202bcbc966391543bdc002d2c55b"
+    },
+    "icons/voice-call.png": {
+      "bucket": "roro-interface",
+      "key": "a1280e845d7a2142dea9d623388bcf2e8c05e664f06526702a395cb73401c806--icons__voice-call.png",
+      "size": 16862,
+      "sha256": "a1280e845d7a2142dea9d623388bcf2e8c05e664f06526702a395cb73401c806"
+    },
+    "icons/wallet.png": {
+      "bucket": "roro-interface",
+      "key": "cccaa60c02a86b1d423587533caf733b5f3b966dbcec9497d61742573a651120--icons__wallet.png",
+      "size": 31319,
+      "sha256": "cccaa60c02a86b1d423587533caf733b5f3b966dbcec9497d61742573a651120"
+    },
+    "originals/AppIcon.png": {
+      "bucket": "roro-sources",
+      "key": "56d0672cc91a5a18beab28dc2863529c385335502eeaf96dd9474e1f7c2768bb--originals__AppIcon.png",
+      "size": 1129492,
+      "sha256": "56d0672cc91a5a18beab28dc2863529c385335502eeaf96dd9474e1f7c2768bb"
+    },
+    "originals/bookmark.png": {
+      "bucket": "roro-sources",
+      "key": "47660251aa75e4946e60dbbc47a13ae49037dc710248ab34da9624471e9f4384--originals__bookmark.png",
+      "size": 1324072,
+      "sha256": "47660251aa75e4946e60dbbc47a13ae49037dc710248ab34da9624471e9f4384"
+    },
+    "originals/brand/roro-cutout.png": {
+      "bucket": "roro-sources",
+      "key": "5acab7798b5beb702b67eeb198f0d7f5088151a4f52b6d6d2c15b9819e569b23--originals__brand__roro-cutout.png",
+      "size": 1218963,
+      "sha256": "5acab7798b5beb702b67eeb198f0d7f5088151a4f52b6d6d2c15b9819e569b23"
+    },
+    "originals/brand/roro-logo.png": {
+      "bucket": "roro-sources",
+      "key": "e9bea5c666a486abff161638370bebddf72654afd42fce595876d9b23a0618e4--originals__brand__roro-logo.png",
+      "size": 971178,
+      "sha256": "e9bea5c666a486abff161638370bebddf72654afd42fce595876d9b23a0618e4"
+    },
+    "originals/camera.png": {
+      "bucket": "roro-sources",
+      "key": "9cf99c4331d88ae25da8f47f60ea9770bfd4a18f6341df4aace07aefb8b742b9--originals__camera.png",
+      "size": 757563,
+      "sha256": "9cf99c4331d88ae25da8f47f60ea9770bfd4a18f6341df4aace07aefb8b742b9"
+    },
+    "originals/chat.png": {
+      "bucket": "roro-sources",
+      "key": "c36b2e60e2ba981895e229e8dd3e78838b7e379242b71ffab3f53a5059ef8ebb--originals__chat.png",
+      "size": 1340181,
+      "sha256": "c36b2e60e2ba981895e229e8dd3e78838b7e379242b71ffab3f53a5059ef8ebb"
+    },
+    "originals/check.png": {
+      "bucket": "roro-sources",
+      "key": "23da4d7ea27d34229b9cc8ac2ff62d7e4528030210df29155bf9d5c7ef3731d7--originals__check.png",
+      "size": 359667,
+      "sha256": "23da4d7ea27d34229b9cc8ac2ff62d7e4528030210df29155bf9d5c7ef3731d7"
+    },
+    "originals/close.png": {
+      "bucket": "roro-sources",
+      "key": "3d65f1a6110c37a633a2616d31be9589e966de5070c94e363c6fa6f151552b7d--originals__close.png",
+      "size": 533465,
+      "sha256": "3d65f1a6110c37a633a2616d31be9589e966de5070c94e363c6fa6f151552b7d"
+    },
+    "originals/edit.png": {
+      "bucket": "roro-sources",
+      "key": "824d64268eaa9c03aaa67912cd8e59211440469aa95545a9950aaca8d460f0a1--originals__edit.png",
+      "size": 402687,
+      "sha256": "824d64268eaa9c03aaa67912cd8e59211440469aa95545a9950aaca8d460f0a1"
+    },
+    "originals/eye.png": {
+      "bucket": "roro-sources",
+      "key": "1e1adb847fc5758f21225a5c9a87a6eb2d72d721f95fa08b102f9a9495e05803--originals__eye.png",
+      "size": 494121,
+      "sha256": "1e1adb847fc5758f21225a5c9a87a6eb2d72d721f95fa08b102f9a9495e05803"
+    },
+    "originals/film/back.png": {
+      "bucket": "roro-sources",
+      "key": "895070763d53d1cd7197693d708e4816b25008787ba8562524193103ef52d5d3--originals__film__back.png",
+      "size": 426569,
+      "sha256": "895070763d53d1cd7197693d708e4816b25008787ba8562524193103ef52d5d3"
+    },
+    "originals/film/bookmark-narrow-reference.png": {
+      "bucket": "roro-sources",
+      "key": "a3a27a4f4a101d32a93e88d30d30fb429d9b15618ae0b8ce109afb6d239235e3--originals__film__bookmark-narrow-reference.png",
+      "size": 6017,
+      "sha256": "a3a27a4f4a101d32a93e88d30d30fb429d9b15618ae0b8ce109afb6d239235e3"
+    },
+    "originals/film/bookmark-outline-wide.png": {
+      "bucket": "roro-sources",
+      "key": "230b1b11f6d380c72f9285d53f64bc06a0ea958c32ae026020e0051121dc2442--originals__film__bookmark-outline-wide.png",
+      "size": 352807,
+      "sha256": "230b1b11f6d380c72f9285d53f64bc06a0ea958c32ae026020e0051121dc2442"
+    },
+    "originals/film/bookmark-outline.png": {
+      "bucket": "roro-sources",
+      "key": "3d0a80d474ce9b6ec2739e9e9a60efaca277acaedc1c56ddf9b8ef98369beffa--originals__film__bookmark-outline.png",
+      "size": 212969,
+      "sha256": "3d0a80d474ce9b6ec2739e9e9a60efaca277acaedc1c56ddf9b8ef98369beffa"
+    },
+    "originals/film/bookmark-wide.png": {
+      "bucket": "roro-sources",
+      "key": "5fdc1a2d60c72b6713431b933be357beeda264b3ffe139327cdd539b188130f4--originals__film__bookmark-wide.png",
+      "size": 1018747,
+      "sha256": "5fdc1a2d60c72b6713431b933be357beeda264b3ffe139327cdd539b188130f4"
+    },
+    "originals/film/bookmark.png": {
+      "bucket": "roro-sources",
+      "key": "25da620826a926b4a703c7be3ea606267dffd4e029fac3a6f3fc84dda52e750a--originals__film__bookmark.png",
+      "size": 848067,
+      "sha256": "25da620826a926b4a703c7be3ea606267dffd4e029fac3a6f3fc84dda52e750a"
+    },
+    "originals/film/camera.png": {
+      "bucket": "roro-sources",
+      "key": "e46ee23cac527ade4cbcceb2f818d85deb40fe4c2c4680805f533791d0368844--originals__film__camera.png",
+      "size": 1384925,
+      "sha256": "e46ee23cac527ade4cbcceb2f818d85deb40fe4c2c4680805f533791d0368844"
+    },
+    "originals/film/chat.png": {
+      "bucket": "roro-sources",
+      "key": "33acb9a6d7301bd49f0230a758a105e740fd87348eaa216c9b0fddd2d85de543--originals__film__chat.png",
+      "size": 1707673,
+      "sha256": "33acb9a6d7301bd49f0230a758a105e740fd87348eaa216c9b0fddd2d85de543"
+    },
+    "originals/film/chats-dusk.png": {
+      "bucket": "roro-sources",
+      "key": "7bfad0ab738f05fc11b28b8cb128c6edce1f7a15978669e535c707591b75e8f4--originals__film__chats-dusk.png",
+      "size": 2593743,
+      "sha256": "7bfad0ab738f05fc11b28b8cb128c6edce1f7a15978669e535c707591b75e8f4"
+    },
+    "originals/film/check.png": {
+      "bucket": "roro-sources",
+      "key": "73361e4f6a81e28f7c24d4b39ba5b49aeed5ee01c341b092b9a8d3460cf08926--originals__film__check.png",
+      "size": 969939,
+      "sha256": "73361e4f6a81e28f7c24d4b39ba5b49aeed5ee01c341b092b9a8d3460cf08926"
+    },
+    "originals/film/close.png": {
+      "bucket": "roro-sources",
+      "key": "f1deae55d9a2fa4a93255bec583616ac7cc99f3887e5b0b515c4e5c0fa15b6e2--originals__film__close.png",
+      "size": 1627935,
+      "sha256": "f1deae55d9a2fa4a93255bec583616ac7cc99f3887e5b0b515c4e5c0fa15b6e2"
+    },
+    "originals/film/credit-coin.png": {
+      "bucket": "roro-sources",
+      "key": "3edf224fc65a8df6043e207180ddab0aab1ec154a4af10dc66b6270ed078c724--originals__film__credit-coin.png",
+      "size": 1943729,
+      "sha256": "3edf224fc65a8df6043e207180ddab0aab1ec154a4af10dc66b6270ed078c724"
+    },
+    "originals/film/edit.png": {
+      "bucket": "roro-sources",
+      "key": "3544973f73d1a7e6acd71872e68d9a496a28aa8e37d1e22b39f9441b59a8ab1b--originals__film__edit.png",
+      "size": 1498094,
+      "sha256": "3544973f73d1a7e6acd71872e68d9a496a28aa8e37d1e22b39f9441b59a8ab1b"
+    },
+    "originals/film/eye.png": {
+      "bucket": "roro-sources",
+      "key": "8335b2d3d63552ec1303560068b41ddce3f559382ac4b8ac7b95531027e99f98--originals__film__eye.png",
+      "size": 755215,
+      "sha256": "8335b2d3d63552ec1303560068b41ddce3f559382ac4b8ac7b95531027e99f98"
+    },
+    "originals/film/heart-outline.png": {
+      "bucket": "roro-sources",
+      "key": "29b4c31f21b9bb9a281959b0b47af0c76007ff17174f951eea25136e44059af6--originals__film__heart-outline.png",
+      "size": 544140,
+      "sha256": "29b4c31f21b9bb9a281959b0b47af0c76007ff17174f951eea25136e44059af6"
+    },
+    "originals/film/heart.png": {
+      "bucket": "roro-sources",
+      "key": "48dcfc51b2b42dd2a25e74d5f06418a9b27e08f361bd28eed249e369ed60687a--originals__film__heart.png",
+      "size": 2202652,
+      "sha256": "48dcfc51b2b42dd2a25e74d5f06418a9b27e08f361bd28eed249e369ed60687a"
+    },
+    "originals/film/home-dawn.png": {
+      "bucket": "roro-sources",
+      "key": "2fbaa15211e5f3d35ee0790edd669d1d89dd0c42c612e2b27062745202f43b36--originals__film__home-dawn.png",
+      "size": 2133346,
+      "sha256": "2fbaa15211e5f3d35ee0790edd669d1d89dd0c42c612e2b27062745202f43b36"
+    },
+    "originals/film/home.png": {
+      "bucket": "roro-sources",
+      "key": "5b929f0c4c97ff772dbbe2b8c64cd519927e075de7067864f072d36964aff98e--originals__film__home.png",
+      "size": 1661983,
+      "sha256": "5b929f0c4c97ff772dbbe2b8c64cd519927e075de7067864f072d36964aff98e"
+    },
+    "originals/film/info.png": {
+      "bucket": "roro-sources",
+      "key": "13fc49dbd7129694334d8b08f257734c35194e5c1437e56357c70859cf4b66fb--originals__film__info.png",
+      "size": 1528152,
+      "sha256": "13fc49dbd7129694334d8b08f257734c35194e5c1437e56357c70859cf4b66fb"
+    },
+    "originals/film/me-sunroom.png": {
+      "bucket": "roro-sources",
+      "key": "6af38e30e5b282220c27a5f504af7d180a31be87cfcdefe7a022e660848c44b8--originals__film__me-sunroom.png",
+      "size": 2141867,
+      "sha256": "6af38e30e5b282220c27a5f504af7d180a31be87cfcdefe7a022e660848c44b8"
+    },
+    "originals/film/more.png": {
+      "bucket": "roro-sources",
+      "key": "30fc1a5121d36d6264c8e40d8814dd478a9a9c76706b62b48e7d28d6d7f36b26--originals__film__more.png",
+      "size": 526186,
+      "sha256": "30fc1a5121d36d6264c8e40d8814dd478a9a9c76706b62b48e7d28d6d7f36b26"
+    },
+    "originals/film/mute.png": {
+      "bucket": "roro-sources",
+      "key": "34baf6689d0ca730875ca72803fa8ed47c2c4333473a88667b2e22d9b09b7c23--originals__film__mute.png",
+      "size": 1015735,
+      "sha256": "34baf6689d0ca730875ca72803fa8ed47c2c4333473a88667b2e22d9b09b7c23"
+    },
+    "originals/film/plus.png": {
+      "bucket": "roro-sources",
+      "key": "b1f2d4cf7e534bf6e49f317d076655a859f1332e13ac2f442f36fc9e1c47653d--originals__film__plus.png",
+      "size": 1596829,
+      "sha256": "b1f2d4cf7e534bf6e49f317d076655a859f1332e13ac2f442f36fc9e1c47653d"
+    },
+    "originals/film/profile.png": {
+      "bucket": "roro-sources",
+      "key": "3a1793a634a90b6c131c391ed83738109b1d0443e3d1e895adb491cf91e1527e--originals__film__profile.png",
+      "size": 1478655,
+      "sha256": "3a1793a634a90b6c131c391ed83738109b1d0443e3d1e895adb491cf91e1527e"
+    },
+    "originals/film/roro-sunset-wordmark.png": {
+      "bucket": "roro-sources",
+      "key": "42753d768225d98b2ed1eeefaf840431ac0b4f535726078dd2db43808a5731cf--originals__film__roro-sunset-wordmark.png",
+      "size": 2439708,
+      "sha256": "42753d768225d98b2ed1eeefaf840431ac0b4f535726078dd2db43808a5731cf"
+    },
+    "originals/film/search.png": {
+      "bucket": "roro-sources",
+      "key": "0f308b87aa0209c7da5ef49a32849224a841dbabf367c3efba9112c86ee65f3c--originals__film__search.png",
+      "size": 1334809,
+      "sha256": "0f308b87aa0209c7da5ef49a32849224a841dbabf367c3efba9112c86ee65f3c"
+    },
+    "originals/film/send.png": {
+      "bucket": "roro-sources",
+      "key": "ee5620b0bc5da02033162e413f7e6efac9cea09f91e76f94998efc1f4fa7b10a--originals__film__send.png",
+      "size": 1168654,
+      "sha256": "ee5620b0bc5da02033162e413f7e6efac9cea09f91e76f94998efc1f4fa7b10a"
+    },
+    "originals/film/settings.png": {
+      "bucket": "roro-sources",
+      "key": "9bdba7120ea5ec8d6039890e67da8125cfc4b097ad69f92f727cd3f1e9b6f753--originals__film__settings.png",
+      "size": 1246688,
+      "sha256": "9bdba7120ea5ec8d6039890e67da8125cfc4b097ad69f92f727cd3f1e9b6f753"
+    },
+    "originals/film/share.png": {
+      "bucket": "roro-sources",
+      "key": "00bdedf0820867ba898b2ae9d0bea857c1ad3cbdf1ff344f4f0ab7f1be21276b--originals__film__share.png",
+      "size": 1108782,
+      "sha256": "00bdedf0820867ba898b2ae9d0bea857c1ad3cbdf1ff344f4f0ab7f1be21276b"
+    },
+    "originals/film/shorts.png": {
+      "bucket": "roro-sources",
+      "key": "0f2acd6bbeaff6bdea4bfce529e4df3e41d0893af330514281149bf45d5d9da5--originals__film__shorts.png",
+      "size": 1054097,
+      "sha256": "0f2acd6bbeaff6bdea4bfce529e4df3e41d0893af330514281149bf45d5d9da5"
+    },
+    "originals/film/sound.png": {
+      "bucket": "roro-sources",
+      "key": "d828df025508961c43c3560e26b71a622cda4d7c982c3d010881a8a7f1fb71db--originals__film__sound.png",
+      "size": 1080303,
+      "sha256": "d828df025508961c43c3560e26b71a622cda4d7c982c3d010881a8a7f1fb71db"
+    },
+    "originals/film/topics-garden.png": {
+      "bucket": "roro-sources",
+      "key": "5c2477c074f3852b949b2b175aad2383e2e4d9ff7a448a2af4eed41a1436196f--originals__film__topics-garden.png",
+      "size": 2328151,
+      "sha256": "5c2477c074f3852b949b2b175aad2383e2e4d9ff7a448a2af4eed41a1436196f"
+    },
+    "originals/film/topics.png": {
+      "bucket": "roro-sources",
+      "key": "b10826f8cbd4b774a436fb0aa8b45afdaf0063a6ab917b11d8090c31572b27d9--originals__film__topics.png",
+      "size": 1478847,
+      "sha256": "b10826f8cbd4b774a436fb0aa8b45afdaf0063a6ab917b11d8090c31572b27d9"
+    },
+    "originals/film/trash.png": {
+      "bucket": "roro-sources",
+      "key": "46d57b838149fb52ce245d9d2069ff6b6aafc5f72fdc1781ca61bb2860cfb2ab--originals__film__trash.png",
+      "size": 1165896,
+      "sha256": "46d57b838149fb52ce245d9d2069ff6b6aafc5f72fdc1781ca61bb2860cfb2ab"
+    },
+    "originals/film/wallet.png": {
+      "bucket": "roro-sources",
+      "key": "bf00962d60c8224ae7d3aa6605fbc9a1ea81959d1efe68889ccccd72d43cd26c--originals__film__wallet.png",
+      "size": 2215731,
+      "sha256": "bf00962d60c8224ae7d3aa6605fbc9a1ea81959d1efe68889ccccd72d43cd26c"
+    },
+    "originals/heart.png": {
+      "bucket": "roro-sources",
+      "key": "6e0d4fc7a70bbd020ef82c576237db5ccc00e10168487a21ee995a99a350bc56--originals__heart.png",
+      "size": 1143346,
+      "sha256": "6e0d4fc7a70bbd020ef82c576237db5ccc00e10168487a21ee995a99a350bc56"
+    },
+    "originals/home.png": {
+      "bucket": "roro-sources",
+      "key": "4cf721888989586866ed8ceba943aea0d8496609bd6305207ae50498965168da--originals__home.png",
+      "size": 1312167,
+      "sha256": "4cf721888989586866ed8ceba943aea0d8496609bd6305207ae50498965168da"
+    },
+    "originals/info.png": {
+      "bucket": "roro-sources",
+      "key": "d6f720c46c509507700022583156580e5004677e9a50ad29a623e690d12f3d0c--originals__info.png",
+      "size": 404321,
+      "sha256": "d6f720c46c509507700022583156580e5004677e9a50ad29a623e690d12f3d0c"
+    },
+    "originals/journal/add-friend.png": {
+      "bucket": "roro-sources",
+      "key": "df881650bb0a5df614418963b73023b4ee18cc1a38d0d04e8b0d72e25a890488--originals__journal__add-friend.png",
+      "size": 1028753,
+      "sha256": "df881650bb0a5df614418963b73023b4ee18cc1a38d0d04e8b0d72e25a890488"
+    },
+    "originals/journal/back.png": {
+      "bucket": "roro-sources",
+      "key": "799f767bb3219c6e7f2a6110c3c2ed2fd74d0ebab407fdc27f593f0900481b1d--originals__journal__back.png",
+      "size": 418654,
+      "sha256": "799f767bb3219c6e7f2a6110c3c2ed2fd74d0ebab407fdc27f593f0900481b1d"
+    },
+    "originals/journal/bookmark-outline.png": {
+      "bucket": "roro-sources",
+      "key": "a0079a1cdbcf92339777ca56cd732376bd766dab491edf4c4c765739b75907ce--originals__journal__bookmark-outline.png",
+      "size": 652904,
+      "sha256": "a0079a1cdbcf92339777ca56cd732376bd766dab491edf4c4c765739b75907ce"
+    },
+    "originals/journal/bookmark.png": {
+      "bucket": "roro-sources",
+      "key": "a18f795ee256bdfb6d642dddcfc7b722fa567231c4914874bd016d31d6f3c628--originals__journal__bookmark.png",
+      "size": 1949545,
+      "sha256": "a18f795ee256bdfb6d642dddcfc7b722fa567231c4914874bd016d31d6f3c628"
+    },
+    "originals/journal/call-hangup.png": {
+      "bucket": "roro-sources",
+      "key": "6dd9fb275df86741be22e021daa506cda585da31fbd299bab8c7b2adf6e298ca--originals__journal__call-hangup.png",
+      "size": 887234,
+      "sha256": "6dd9fb275df86741be22e021daa506cda585da31fbd299bab8c7b2adf6e298ca"
+    },
+    "originals/journal/call-microphone-off.png": {
+      "bucket": "roro-sources",
+      "key": "e94d97b09447e5b6593ecf85a8faf9633deca42e19f5b6f8d5e4c423249bd2c8--originals__journal__call-microphone-off.png",
+      "size": 914204,
+      "sha256": "e94d97b09447e5b6593ecf85a8faf9633deca42e19f5b6f8d5e4c423249bd2c8"
+    },
+    "originals/journal/call-microphone.png": {
+      "bucket": "roro-sources",
+      "key": "d519edb7d0504e7ee7f2cc1871c334b1207701aad45e9716cefb3c95da1ea7f2--originals__journal__call-microphone.png",
+      "size": 825406,
+      "sha256": "d519edb7d0504e7ee7f2cc1871c334b1207701aad45e9716cefb3c95da1ea7f2"
+    },
+    "originals/journal/call-speaker-off.png": {
+      "bucket": "roro-sources",
+      "key": "652facfbb2f46df71cb79478e2afd6cf6c687e9ae4cb5417a8da6db925f7fb21--originals__journal__call-speaker-off.png",
+      "size": 1166772,
+      "sha256": "652facfbb2f46df71cb79478e2afd6cf6c687e9ae4cb5417a8da6db925f7fb21"
+    },
+    "originals/journal/camera.png": {
+      "bucket": "roro-sources",
+      "key": "ed830da02f51f1f3c8de932b95983b87b36d1ef55dceee8aea3e64e520f93de7--originals__journal__camera.png",
+      "size": 1450620,
+      "sha256": "ed830da02f51f1f3c8de932b95983b87b36d1ef55dceee8aea3e64e520f93de7"
+    },
+    "originals/journal/chat-pin.png": {
+      "bucket": "roro-sources",
+      "key": "da4d733eff730d74b065c2c942df4cb634e27b49508c2f139bbaca030d0c540b--originals__journal__chat-pin.png",
+      "size": 968515,
+      "sha256": "da4d733eff730d74b065c2c942df4cb634e27b49508c2f139bbaca030d0c540b"
+    },
+    "originals/journal/chat.png": {
+      "bucket": "roro-sources",
+      "key": "9ef6cccd1da6587e428bd5cf23bea54182b7424ad5c948d3c4b64fa4eac13226--originals__journal__chat.png",
+      "size": 1728399,
+      "sha256": "9ef6cccd1da6587e428bd5cf23bea54182b7424ad5c948d3c4b64fa4eac13226"
+    },
+    "originals/journal/check.png": {
+      "bucket": "roro-sources",
+      "key": "0b4626d442f82511a5b3e6ef2a0ae506f01afeb49aa50e7aeefb5fee62a290ae--originals__journal__check.png",
+      "size": 1206480,
+      "sha256": "0b4626d442f82511a5b3e6ef2a0ae506f01afeb49aa50e7aeefb5fee62a290ae"
+    },
+    "originals/journal/close.png": {
+      "bucket": "roro-sources",
+      "key": "44289b37eda44cfa5a41b94e2f97341f5b44d6ee35a105ff90b0aebbdca03471--originals__journal__close.png",
+      "size": 1010876,
+      "sha256": "44289b37eda44cfa5a41b94e2f97341f5b44d6ee35a105ff90b0aebbdca03471"
+    },
+    "originals/journal/comment.png": {
+      "bucket": "roro-sources",
+      "key": "7d68658974cf4bffe529900a7131f5098ceab0f24c27c1371dce5744287a3125--originals__journal__comment.png",
+      "size": 302154,
+      "sha256": "7d68658974cf4bffe529900a7131f5098ceab0f24c27c1371dce5744287a3125"
+    },
+    "originals/journal/credit-coin.png": {
+      "bucket": "roro-sources",
+      "key": "c4bfbcc7e9a195205577bf48f455e447b2998f96b5aeee0fb554dcc302c2cf8d--originals__journal__credit-coin.png",
+      "size": 1682199,
+      "sha256": "c4bfbcc7e9a195205577bf48f455e447b2998f96b5aeee0fb554dcc302c2cf8d"
+    },
+    "originals/journal/edit.png": {
+      "bucket": "roro-sources",
+      "key": "62173c63eac6cccfc0c473a374bfe7e6116e2eae5eee0dc5d89180987e20c7b5--originals__journal__edit.png",
+      "size": 1218522,
+      "sha256": "62173c63eac6cccfc0c473a374bfe7e6116e2eae5eee0dc5d89180987e20c7b5"
+    },
+    "originals/journal/eye.png": {
+      "bucket": "roro-sources",
+      "key": "8b7faf3123709b8e8fd7d610b6e523ce9f8d1e6141c58b50b0b5e240bcb8df94--originals__journal__eye.png",
+      "size": 1381933,
+      "sha256": "8b7faf3123709b8e8fd7d610b6e523ce9f8d1e6141c58b50b0b5e240bcb8df94"
+    },
+    "originals/journal/heart-outline.png": {
+      "bucket": "roro-sources",
+      "key": "8a53aa2e2f6646d4de9065f07fdf32041d81686374fa18f17450a0cf78b48bb5--originals__journal__heart-outline.png",
+      "size": 2047818,
+      "sha256": "8a53aa2e2f6646d4de9065f07fdf32041d81686374fa18f17450a0cf78b48bb5"
+    },
+    "originals/journal/heart.png": {
+      "bucket": "roro-sources",
+      "key": "dad7e22e3dec13ff0e7ac561ba6299027b51298ed1d4317a61ede64c8c9ee727--originals__journal__heart.png",
+      "size": 1260625,
+      "sha256": "dad7e22e3dec13ff0e7ac561ba6299027b51298ed1d4317a61ede64c8c9ee727"
+    },
+    "originals/journal/home.png": {
+      "bucket": "roro-sources",
+      "key": "d15acd2c01b68be73495d36ab7a7b6d1d1765c4759ad74f0d6e2bbc7894b4b29--originals__journal__home.png",
+      "size": 2181251,
+      "sha256": "d15acd2c01b68be73495d36ab7a7b6d1d1765c4759ad74f0d6e2bbc7894b4b29"
+    },
+    "originals/journal/info.png": {
+      "bucket": "roro-sources",
+      "key": "33354e83c410a72c5796e7a101c8c6b047b3d84451c8959bc871248c29076d72--originals__journal__info.png",
+      "size": 1396753,
+      "sha256": "33354e83c410a72c5796e7a101c8c6b047b3d84451c8959bc871248c29076d72"
+    },
+    "originals/journal/journal-banner.png": {
+      "bucket": "roro-sources",
+      "key": "a7bd44287872ae39263a1f84f3890d3b34fe5413234c0ee1c6e0d8039db9ff77--originals__journal__journal-banner.png",
+      "size": 1029260,
+      "sha256": "a7bd44287872ae39263a1f84f3890d3b34fe5413234c0ee1c6e0d8039db9ff77"
+    },
+    "originals/journal/journal-paper.png": {
+      "bucket": "roro-sources",
+      "key": "8d1f56514da96adc5281d0af80b8f9357792694fd4543bb549f676de3fab371e--originals__journal__journal-paper.png",
+      "size": 2200696,
+      "sha256": "8d1f56514da96adc5281d0af80b8f9357792694fd4543bb549f676de3fab371e"
+    },
+    "originals/journal/more.png": {
+      "bucket": "roro-sources",
+      "key": "820a00a28af85a5be205dde974e6f909a3e0dda819e737fb7b4bf44ddc32dab6--originals__journal__more.png",
+      "size": 740260,
+      "sha256": "820a00a28af85a5be205dde974e6f909a3e0dda819e737fb7b4bf44ddc32dab6"
+    },
+    "originals/journal/mute.png": {
+      "bucket": "roro-sources",
+      "key": "52f18567a92c3b7bd3c607fef0deab0ab773bcbf1989cfd952bea4333780ea20--originals__journal__mute.png",
+      "size": 1370038,
+      "sha256": "52f18567a92c3b7bd3c607fef0deab0ab773bcbf1989cfd952bea4333780ea20"
+    },
+    "originals/journal/plus.png": {
+      "bucket": "roro-sources",
+      "key": "3867dbbdd9c09b5d99902c0d7072500a3faa77f2aaf89fecfe6c696e34681353--originals__journal__plus.png",
+      "size": 741849,
+      "sha256": "3867dbbdd9c09b5d99902c0d7072500a3faa77f2aaf89fecfe6c696e34681353"
+    },
+    "originals/journal/profile.png": {
+      "bucket": "roro-sources",
+      "key": "3dc9d611ef5b7b243c31e98b28a24d67ec47baf849385383a1f1ef6ca0c6f328--originals__journal__profile.png",
+      "size": 1488290,
+      "sha256": "3dc9d611ef5b7b243c31e98b28a24d67ec47baf849385383a1f1ef6ca0c6f328"
+    },
+    "originals/journal/roro-logo.png": {
+      "bucket": "roro-sources",
+      "key": "8578263104be8ae497320c7ac57bd5ce2056b2a6ebce7d807364ddecdc629638--originals__journal__roro-logo.png",
+      "size": 2090953,
+      "sha256": "8578263104be8ae497320c7ac57bd5ce2056b2a6ebce7d807364ddecdc629638"
+    },
+    "originals/journal/search-clean.png": {
+      "bucket": "roro-sources",
+      "key": "7a2394ea5321ba53d8c0ce48306304968a6906d773637b6b66cf150c8b1d79e1--originals__journal__search-clean.png",
+      "size": 707456,
+      "sha256": "7a2394ea5321ba53d8c0ce48306304968a6906d773637b6b66cf150c8b1d79e1"
+    },
+    "originals/journal/search.png": {
+      "bucket": "roro-sources",
+      "key": "f3e0732ab853a647d257d13321b73fd4f5f550bfdf5f89bfcecf70c6c1df73e8--originals__journal__search.png",
+      "size": 1745635,
+      "sha256": "f3e0732ab853a647d257d13321b73fd4f5f550bfdf5f89bfcecf70c6c1df73e8"
+    },
+    "originals/journal/send.png": {
+      "bucket": "roro-sources",
+      "key": "5f0894715608f0eedcf7596a0e2f0f4a49251db8986c6ef71e6d7f4a89fe004a--originals__journal__send.png",
+      "size": 1338592,
+      "sha256": "5f0894715608f0eedcf7596a0e2f0f4a49251db8986c6ef71e6d7f4a89fe004a"
+    },
+    "originals/journal/settings.png": {
+      "bucket": "roro-sources",
+      "key": "1d100bd4354cb26fa77bb3c8e51123bb9b3870c25ee32353606fc09b55d231c8--originals__journal__settings.png",
+      "size": 1854998,
+      "sha256": "1d100bd4354cb26fa77bb3c8e51123bb9b3870c25ee32353606fc09b55d231c8"
+    },
+    "originals/journal/share.png": {
+      "bucket": "roro-sources",
+      "key": "ee309cf7d89ac03918e0e2ddff1b7fe1a53571ba954d6c1e4b044dfd4931d16f--originals__journal__share.png",
+      "size": 1402945,
+      "sha256": "ee309cf7d89ac03918e0e2ddff1b7fe1a53571ba954d6c1e4b044dfd4931d16f"
+    },
+    "originals/journal/shorts.png": {
+      "bucket": "roro-sources",
+      "key": "bd8d3fc1eed5f6895f1b907b7bab49b3be0520666d3b81c6c047e924671b4bc6--originals__journal__shorts.png",
+      "size": 1499957,
+      "sha256": "bd8d3fc1eed5f6895f1b907b7bab49b3be0520666d3b81c6c047e924671b4bc6"
+    },
+    "originals/journal/sound.png": {
+      "bucket": "roro-sources",
+      "key": "03a2e12347b4b031633e1eeed15056f633ef22198dcd2f96275894968d2df088--originals__journal__sound.png",
+      "size": 1268015,
+      "sha256": "03a2e12347b4b031633e1eeed15056f633ef22198dcd2f96275894968d2df088"
+    },
+    "originals/journal/topics-banner.png": {
+      "bucket": "roro-sources",
+      "key": "5777ff51a6dd6d183d3924097d5f3c5ebbbc8c0392ef192e2daf6f26401af8b7--originals__journal__topics-banner.png",
+      "size": 2528338,
+      "sha256": "5777ff51a6dd6d183d3924097d5f3c5ebbbc8c0392ef192e2daf6f26401af8b7"
+    },
+    "originals/journal/topics.png": {
+      "bucket": "roro-sources",
+      "key": "386130ce55cfb21ea1d090dfe4210ccc7101b2f48c73b2f16498fc7ebd54fbaf--originals__journal__topics.png",
+      "size": 1429912,
+      "sha256": "386130ce55cfb21ea1d090dfe4210ccc7101b2f48c73b2f16498fc7ebd54fbaf"
+    },
+    "originals/journal/trash.png": {
+      "bucket": "roro-sources",
+      "key": "b64ce5ea4d706c0218b37e06a2e43d493c18e0b1076d784af8efff879c406205--originals__journal__trash.png",
+      "size": 1400480,
+      "sha256": "b64ce5ea4d706c0218b37e06a2e43d493c18e0b1076d784af8efff879c406205"
+    },
+    "originals/journal/video-call.png": {
+      "bucket": "roro-sources",
+      "key": "2e1d67487fde395a4754a4fd346c19c63d83f79c1af186c907f818e507a3cbdc--originals__journal__video-call.png",
+      "size": 1756953,
+      "sha256": "2e1d67487fde395a4754a4fd346c19c63d83f79c1af186c907f818e507a3cbdc"
+    },
+    "originals/journal/voice-call.png": {
+      "bucket": "roro-sources",
+      "key": "8a3fae3783bbe8c2b03dd01080dab5528b3c7a5aa5648c7efd50daca1399f9c6--originals__journal__voice-call.png",
+      "size": 1056163,
+      "sha256": "8a3fae3783bbe8c2b03dd01080dab5528b3c7a5aa5648c7efd50daca1399f9c6"
+    },
+    "originals/journal/wallet.png": {
+      "bucket": "roro-sources",
+      "key": "ca351ccca959b7277037e3d2f4e7f39a38cf6263714ec195306f49db79c91ded--originals__journal__wallet.png",
+      "size": 1488981,
+      "sha256": "ca351ccca959b7277037e3d2f4e7f39a38cf6263714ec195306f49db79c91ded"
+    },
+    "originals/more.png": {
+      "bucket": "roro-sources",
+      "key": "84c6449b5bda8d7865b3e38270dc289c6e397c3da8b0cce7de4a15330da9a3b8--originals__more.png",
+      "size": 191116,
+      "sha256": "84c6449b5bda8d7865b3e38270dc289c6e397c3da8b0cce7de4a15330da9a3b8"
+    },
+    "originals/mute.png": {
+      "bucket": "roro-sources",
+      "key": "d1e1021691820b2dba694fe837730072422cf96c869159eae27c9d05c68fe9b0--originals__mute.png",
+      "size": 493409,
+      "sha256": "d1e1021691820b2dba694fe837730072422cf96c869159eae27c9d05c68fe9b0"
+    },
+    "originals/plus.png": {
+      "bucket": "roro-sources",
+      "key": "e5e84d0d248dc3053c4dfbe62eb07b3da2ed92cc6a4d3d69b9488ad538055183--originals__plus.png",
+      "size": 777842,
+      "sha256": "e5e84d0d248dc3053c4dfbe62eb07b3da2ed92cc6a4d3d69b9488ad538055183"
+    },
+    "originals/profile.png": {
+      "bucket": "roro-sources",
+      "key": "70f7d60b704acbd43993e3c3d011238d3614a1369087731581205090bf8a0c58--originals__profile.png",
+      "size": 1303293,
+      "sha256": "70f7d60b704acbd43993e3c3d011238d3614a1369087731581205090bf8a0c58"
+    },
+    "originals/search.png": {
+      "bucket": "roro-sources",
+      "key": "7f4f129349eb5626de31802656e0d99c124e45be98172252a1a2b83eaa917491--originals__search.png",
+      "size": 932790,
+      "sha256": "7f4f129349eb5626de31802656e0d99c124e45be98172252a1a2b83eaa917491"
+    },
+    "originals/send.png": {
+      "bucket": "roro-sources",
+      "key": "1ba4cedf807de0719f31cae7a4353310cd2ef5c4198c6328e93fe5ab40d36168--originals__send.png",
+      "size": 539282,
+      "sha256": "1ba4cedf807de0719f31cae7a4353310cd2ef5c4198c6328e93fe5ab40d36168"
+    },
+    "originals/settings.png": {
+      "bucket": "roro-sources",
+      "key": "d35b4fb31bf3cb38269f6e8cc7a2065c0dc1faaabb2d9c67a69ac3aa588ff94f--originals__settings.png",
+      "size": 1266124,
+      "sha256": "d35b4fb31bf3cb38269f6e8cc7a2065c0dc1faaabb2d9c67a69ac3aa588ff94f"
+    },
+    "originals/share.png": {
+      "bucket": "roro-sources",
+      "key": "5a806a91435a0f7f05c26e37d0054d94cf8ad6c78794a90bf6e12b210e867422--originals__share.png",
+      "size": 722589,
+      "sha256": "5a806a91435a0f7f05c26e37d0054d94cf8ad6c78794a90bf6e12b210e867422"
+    },
+    "originals/shorts-framed-v1.png": {
+      "bucket": "roro-sources",
+      "key": "e2f35d4ee5b678d06ece01ab5841538a5f177caa780ca1b93ad31df5dc4f9207--originals__shorts-framed-v1.png",
+      "size": 1481508,
+      "sha256": "e2f35d4ee5b678d06ece01ab5841538a5f177caa780ca1b93ad31df5dc4f9207"
+    },
+    "originals/shorts.png": {
+      "bucket": "roro-sources",
+      "key": "f37d41bd4ee2bab71ab2f5145c1eeb982b4ef0b6790cb40d64bd40fea1a52b60--originals__shorts.png",
+      "size": 747209,
+      "sha256": "f37d41bd4ee2bab71ab2f5145c1eeb982b4ef0b6790cb40d64bd40fea1a52b60"
+    },
+    "originals/sound.png": {
+      "bucket": "roro-sources",
+      "key": "7193230c2b85b6e48a35c3d7a878e07acd271a09acfc113e92d18baff2f4d940--originals__sound.png",
+      "size": 666309,
+      "sha256": "7193230c2b85b6e48a35c3d7a878e07acd271a09acfc113e92d18baff2f4d940"
+    },
+    "originals/topics.png": {
+      "bucket": "roro-sources",
+      "key": "008ad58a062c15096061fd6e9f82f2a5c071e446a5318dd81437fd786948cc75--originals__topics.png",
+      "size": 1247724,
+      "sha256": "008ad58a062c15096061fd6e9f82f2a5c071e446a5318dd81437fd786948cc75"
+    },
+    "originals/trash-v1.png": {
+      "bucket": "roro-sources",
+      "key": "4ea37fcf995691245f348f41e968af723ed0e1acc38060d82613565fbc9c0892--originals__trash-v1.png",
+      "size": 1011419,
+      "sha256": "4ea37fcf995691245f348f41e968af723ed0e1acc38060d82613565fbc9c0892"
+    },
+    "originals/trash.png": {
+      "bucket": "roro-sources",
+      "key": "396e969e12d2d70dfca0a3243ded3e0708258d92ae803d1a2391057d4f8017bc--originals__trash.png",
+      "size": 400987,
+      "sha256": "396e969e12d2d70dfca0a3243ded3e0708258d92ae803d1a2391057d4f8017bc"
+    },
+    "originals/wallet.png": {
+      "bucket": "roro-sources",
+      "key": "8e21bd2bfe4e6739e270a9083dd6e9dbce0cfbba9557d4f19459a16eea8da30a--originals__wallet.png",
+      "size": 731959,
+      "sha256": "8e21bd2bfe4e6739e270a9083dd6e9dbce0cfbba9557d4f19459a16eea8da30a"
+    },
+    "photos/avatars/camera-and-compass.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/9cf2bca395de5f499439cb128d4428af710f7b6729ec74fc62dc43bfed3213c2--photos__avatars__camera-and-compass.jpg",
+      "size": 34792,
+      "sha256": "9cf2bca395de5f499439cb128d4428af710f7b6729ec74fc62dc43bfed3213c2"
+    },
+    "photos/avatars/one-daisy.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/a75b462959c91ead950dd8f4edfb4a09882299f3553296e7ebd82bc25ea81991--photos__avatars__one-daisy.jpg",
+      "size": 16678,
+      "sha256": "a75b462959c91ead950dd8f4edfb4a09882299f3553296e7ebd82bc25ea81991"
+    },
+    "photos/avatars/red-tea-kettle.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/924027ab8143447a4d6ffd73112ec565dd598926a58f4a57ffb08ac054721370--photos__avatars__red-tea-kettle.jpg",
+      "size": 20735,
+      "sha256": "924027ab8143447a4d6ffd73112ec565dd598926a58f4a57ffb08ac054721370"
+    },
+    "photos/avatars/seashell-lines.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/439830285559901fa504083b04c561494b41250ae62aef168a2415452bc69d51--photos__avatars__seashell-lines.jpg",
+      "size": 17519,
+      "sha256": "439830285559901fa504083b04c561494b41250ae62aef168a2415452bc69d51"
+    },
+    "photos/avatars/vinyl-afternoon.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/622c4a69af785d83c64f18e8ce45b04419184faac723e114e662826215333f05--photos__avatars__vinyl-afternoon.jpg",
+      "size": 21423,
+      "sha256": "622c4a69af785d83c64f18e8ce45b04419184faac723e114e662826215333f05"
+    },
+    "photos/avatars/yellow-rain-boots.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/bbb705ca8bb0d314eaec77046da4940d2c5aac9794cb0297865359e90ebb4fbc--photos__avatars__yellow-rain-boots.jpg",
+      "size": 33772,
+      "sha256": "bbb705ca8bb0d314eaec77046da4940d2c5aac9794cb0297865359e90ebb4fbc"
+    },
+    "photos/breakfast.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/1c75fe4ad3e003ec7c5488793336b938099221e532cbf41d597c95145d4c0a31--photos__breakfast.jpg",
+      "size": 339532,
+      "sha256": "1c75fe4ad3e003ec7c5488793336b938099221e532cbf41d597c95145d4c0a31"
+    },
+    "photos/cat.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/45dace97747b53b39264d5b36bd6fe298cf0e5de8a30859a6d0c93ffb6b4b292--photos__cat.jpg",
+      "size": 104556,
+      "sha256": "45dace97747b53b39264d5b36bd6fe298cf0e5de8a30859a6d0c93ffb6b4b292"
+    },
+    "photos/categories/cobblestone-lane.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/d62fe3fc00c9b89d4553654aefefb23c586f1063d28767411e708a2f48b8ce15--photos__categories__cobblestone-lane.jpg",
+      "size": 242662,
+      "sha256": "d62fe3fc00c9b89d4553654aefefb23c586f1063d28767411e708a2f48b8ce15"
+    },
+    "photos/categories/lifeguard-tower-friends.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/2d72e262651201ec10bc6fda9bf51277dc22d02a05ee9c386d77ae64340681c4--photos__categories__lifeguard-tower-friends.jpg",
+      "size": 333731,
+      "sha256": "2d72e262651201ec10bc6fda9bf51277dc22d02a05ee9c386d77ae64340681c4"
+    },
+    "photos/categories/pancake-stack.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/b74f2f7807c951ecac2016d620891cd800ab1c229809923bef826dfbe4107345--photos__categories__pancake-stack.jpg",
+      "size": 67401,
+      "sha256": "b74f2f7807c951ecac2016d620891cd800ab1c229809923bef826dfbe4107345"
+    },
+    "photos/categories/paper-crane.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/2b20be45f44b96c13755801be653e22e9d50a9d33a84f1e951a3642eb68e5974--photos__categories__paper-crane.jpg",
+      "size": 38384,
+      "sha256": "2b20be45f44b96c13755801be653e22e9d50a9d33a84f1e951a3642eb68e5974"
+    },
+    "photos/categories/pastel-cloudscape.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/f3872730ef1a657c7f9709cbb7d4f19066351fcd5ff55cfdb174ed84918f69fd--photos__categories__pastel-cloudscape.jpg",
+      "size": 37737,
+      "sha256": "f3872730ef1a657c7f9709cbb7d4f19066351fcd5ff55cfdb174ed84918f69fd"
+    },
+    "photos/categories/street-dance-circle.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/214d89e80b6da46d99b06f9f5e6ab2a17bc923833ee849ed05677c7e20761d25--photos__categories__street-dance-circle.jpg",
+      "size": 124591,
+      "sha256": "214d89e80b6da46d99b06f9f5e6ab2a17bc923833ee849ed05677c7e20761d25"
+    },
+    "photos/categories/sunlit-armchair.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/dbdffff8907060000d1edc961ba1173ec635e705cd7551749ab2e11c0a37b3d9--photos__categories__sunlit-armchair.jpg",
+      "size": 160548,
+      "sha256": "dbdffff8907060000d1edc961ba1173ec635e705cd7551749ab2e11c0a37b3d9"
+    },
+    "photos/coast.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/a5bf7cce7a20f8be892b766e0c0d3f02598448c5f46c8ed894b10d1ab0b0aa57--photos__coast.jpg",
+      "size": 147676,
+      "sha256": "a5bf7cce7a20f8be892b766e0c0d3f02598448c5f46c8ed894b10d1ab0b0aa57"
+    },
+    "photos/coffee.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/a282e970924eb63c69e4e98ab8cc700598e59b310bc0bfa780fccea7eb00af3a--photos__coffee.jpg",
+      "size": 140440,
+      "sha256": "a282e970924eb63c69e4e98ab8cc700598e59b310bc0bfa780fccea7eb00af3a"
+    },
+    "photos/editorial/coffee-for-two.jpg": {
+      "bucket": "roro-interface",
+      "key": "e25935be1160bd7a23a0b6a8909205717cc75f30884211e09e0a5f172b73414d--photos__editorial__coffee-for-two.jpg",
+      "size": 27430,
+      "sha256": "e25935be1160bd7a23a0b6a8909205717cc75f30884211e09e0a5f172b73414d"
+    },
+    "photos/editorial/fern-in-sunlight.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/c3e43d5abe5e8d52122dc95728f6eeddb65e4b9b187b727dbd45d1fc4f7ab1b2--photos__editorial__fern-in-sunlight.jpg",
+      "size": 322146,
+      "sha256": "c3e43d5abe5e8d52122dc95728f6eeddb65e4b9b187b727dbd45d1fc4f7ab1b2"
+    },
+    "photos/manifest.json": {
+      "bucket": "roro-interface",
+      "key": "4e530e7d6ec40a1fa4aa85471262148575ab87a2d5762c839bacfc772661f9e6--photos__manifest.json",
+      "size": 22040,
+      "sha256": "4e530e7d6ec40a1fa4aa85471262148575ab87a2d5762c839bacfc772661f9e6"
+    },
+    "photos/portraits/headphones-in-paris.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/197ecb6e8f5a557b0bc0770ad29ea5a0de7a11a81e1ce0423eed09f0167e0a0e--photos__portraits__headphones-in-paris.jpg",
+      "size": 148594,
+      "sha256": "197ecb6e8f5a557b0bc0770ad29ea5a0de7a11a81e1ce0423eed09f0167e0a0e"
+    },
+    "photos/portraits/london-viewfinder.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/5077688c55281566f09304277dfad9496080a0003b44bd1328c641d7e933803a--photos__portraits__london-viewfinder.jpg",
+      "size": 91891,
+      "sha256": "5077688c55281566f09304277dfad9496080a0003b44bd1328c641d7e933803a"
+    },
+    "photos/portraits/padova-paper.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/666fd9bd93dc78e1e7c30dcff6e5abf93f8881675f54382b436b1cbb0ab94bd7--photos__portraits__padova-paper.jpg",
+      "size": 251734,
+      "sha256": "666fd9bd93dc78e1e7c30dcff6e5abf93f8881675f54382b436b1cbb0ab94bd7"
+    },
+    "photos/portraits/paris-evening-camera.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/a02d6c7a47ce4601587ed592d3b758137883cd5169853f3a9aebe1004e9edf8a--photos__portraits__paris-evening-camera.jpg",
+      "size": 245575,
+      "sha256": "a02d6c7a47ce4601587ed592d3b758137883cd5169853f3a9aebe1004e9edf8a"
+    },
+    "photos/portraits/pasta-counter.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/5ba921fc67302d21ab9978c5bf176952f9710d90dfb4166411a169685684271e--photos__portraits__pasta-counter.jpg",
+      "size": 112297,
+      "sha256": "5ba921fc67302d21ab9978c5bf176952f9710d90dfb4166411a169685684271e"
+    },
+    "photos/portraits/station-selfie.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/1766333c38bd47968cdef51db3a6dc4e98bdb00cac8b2705e678b80b4bbc75f9--photos__portraits__station-selfie.jpg",
+      "size": 139556,
+      "sha256": "1766333c38bd47968cdef51db3a6dc4e98bdb00cac8b2705e678b80b4bbc75f9"
+    },
+    "photos/portraits/surf-group-photo.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/ff9824a841a9917974deb481206c57d3b073f03d4d053be6f00945dcef409321--photos__portraits__surf-group-photo.jpg",
+      "size": 118300,
+      "sha256": "ff9824a841a9917974deb481206c57d3b073f03d4d053be6f00945dcef409321"
+    },
+    "photos/portraits/surfside-walk.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/dde754347949056e8d47e131e7482dcbaa1fef9fb336b02a057946e6bb5cb7b0--photos__portraits__surfside-walk.jpg",
+      "size": 61444,
+      "sha256": "dde754347949056e8d47e131e7482dcbaa1fef9fb336b02a057946e6bb5cb7b0"
+    },
+    "photos/sky.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/fd6daace463a2dab5069e0c5fe098b7cdb9db1a9ee7067ae6b50d5b65c7d93ce--photos__sky.jpg",
+      "size": 181617,
+      "sha256": "fd6daace463a2dab5069e0c5fe098b7cdb9db1a9ee7067ae6b50d5b65c7d93ce"
+    },
+    "photos/sunlight.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/098d5de3dd662b155fe22d4829872eb97ea93e533e44812505cade9efc5af97b--photos__sunlight.jpg",
+      "size": 335325,
+      "sha256": "098d5de3dd662b155fe22d4829872eb97ea93e533e44812505cade9efc5af97b"
+    },
+    "photos/topics/avatar-ella.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/47b64ceb503dcc9d99eab2d429baa1a329a5a095feadfb14a1cfc2279903f880--photos__topics__avatar-ella.jpg",
+      "size": 50390,
+      "sha256": "47b64ceb503dcc9d99eab2d429baa1a329a5a095feadfb14a1cfc2279903f880"
+    },
+    "photos/topics/avatar-kit.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/438ed4e39f67d120373877c6e8ee5149f91b950767655fa412ad99c032db388c--photos__topics__avatar-kit.jpg",
+      "size": 41447,
+      "sha256": "438ed4e39f67d120373877c6e8ee5149f91b950767655fa412ad99c032db388c"
+    },
+    "photos/topics/avatar-nora.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/610919bf0d1d28de06970b647690b0f8d9e0d74b24b79a4cb38cd1e33673552e--photos__topics__avatar-nora.jpg",
+      "size": 24704,
+      "sha256": "610919bf0d1d28de06970b647690b0f8d9e0d74b24b79a4cb38cd1e33673552e"
+    },
+    "photos/topics/bridge-dance.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/375f5df0824ded3cdc8cab55f4d544c6b8006e6295aeb7ef33b091a321d239a1--photos__topics__bridge-dance.jpg",
+      "size": 143427,
+      "sha256": "375f5df0824ded3cdc8cab55f4d544c6b8006e6295aeb7ef33b091a321d239a1"
+    },
+    "photos/topics/croissant-tray.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/b34abf4bcc14925841a99ad13904a289402b91f24371bda3bb1a316484f51018--photos__topics__croissant-tray.jpg",
+      "size": 136167,
+      "sha256": "b34abf4bcc14925841a99ad13904a289402b91f24371bda3bb1a316484f51018"
+    },
+    "photos/topics/london-group-frame.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/f4c7c6374d05989761fe6d7061fe2793733ce449879e7fb025c0264d42e4fe7b--photos__topics__london-group-frame.jpg",
+      "size": 151216,
+      "sha256": "f4c7c6374d05989761fe6d7061fe2793733ce449879e7fb025c0264d42e4fe7b"
+    },
+    "photos/topics/new-york-camera-walk.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/ab7d654bba57d8da3493ecd094ea441df780c1b13d4c6d9b263a8920652c5e95--photos__topics__new-york-camera-walk.jpg",
+      "size": 66671,
+      "sha256": "ab7d654bba57d8da3493ecd094ea441df780c1b13d4c6d9b263a8920652c5e95"
+    },
+    "photos/topics/new-york-portrait.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/b395f1b6e8cc93650b416873fdc916aa565f44f0e50f2358ba76020787b41587--photos__topics__new-york-portrait.jpg",
+      "size": 129463,
+      "sha256": "b395f1b6e8cc93650b416873fdc916aa565f44f0e50f2358ba76020787b41587"
+    },
+    "photos/topics/paris-window-seat.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/a1b8ccbe8bdfe9bd910c8f7cc6a285b19f25d4fbf24ade0ec46144799735b5eb--photos__topics__paris-window-seat.jpg",
+      "size": 160282,
+      "sha256": "a1b8ccbe8bdfe9bd910c8f7cc6a285b19f25d4fbf24ade0ec46144799735b5eb"
+    },
+    "photos/topics/parked-bicycle-preview.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/e99c28712bb486175a2c7bbe4dfca25564760668222078df251cf7e6a1d01173--photos__topics__parked-bicycle-preview.jpg",
+      "size": 4526,
+      "sha256": "e99c28712bb486175a2c7bbe4dfca25564760668222078df251cf7e6a1d01173"
+    },
+    "photos/topics/parked-bicycle.jpg": {
+      "bucket": "roro-sources",
+      "key": "0a89ece6ce67c34932e74750bc28400e83252a8ec57e857986a706718f9e9daa--photos__topics__parked-bicycle.jpg",
+      "size": 340456,
+      "sha256": "0a89ece6ce67c34932e74750bc28400e83252a8ec57e857986a706718f9e9daa"
+    },
+    "photos/topics/reading-break.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/b7ecb8fccbb7f6d495a3641cde1f8b588886a8f312a531db1a3589298443a808--photos__topics__reading-break.jpg",
+      "size": 287799,
+      "sha256": "b7ecb8fccbb7f6d495a3641cde1f8b588886a8f312a531db1a3589298443a808"
+    },
+    "photos/topics/riverside-picnic.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/0c8e2ef619de4a5eb1f01d74ea623e4bc4a0074e8763ee51bcd9af336f7d8eef--photos__topics__riverside-picnic.jpg",
+      "size": 174323,
+      "sha256": "0c8e2ef619de4a5eb1f01d74ea623e4bc4a0074e8763ee51bcd9af336f7d8eef"
+    },
+    "photos/topics/rooftop-dusk-preview.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/5ff9f261ef370bb4eb81ff694afdf8b7363e8315402026cf020af5e6f0e171cd--photos__topics__rooftop-dusk-preview.jpg",
+      "size": 2949,
+      "sha256": "5ff9f261ef370bb4eb81ff694afdf8b7363e8315402026cf020af5e6f0e171cd"
+    },
+    "photos/topics/rooftop-dusk.jpg": {
+      "bucket": "roro-sources",
+      "key": "38ce5c09a92ddbe70e6bbc72682b21429863bfbc410c506fb496706c4a458509--photos__topics__rooftop-dusk.jpg",
+      "size": 126977,
+      "sha256": "38ce5c09a92ddbe70e6bbc72682b21429863bfbc410c506fb496706c4a458509"
+    },
+    "photos/topics/tulip-table.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/1e977aba2b5d3cc2d2363fd560584cebcd536e83d699de06315a991b50939070--photos__topics__tulip-table.jpg",
+      "size": 113578,
+      "sha256": "1e977aba2b5d3cc2d2363fd560584cebcd536e83d699de06315a991b50939070"
+    },
+    "videos/bridge-walk.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/5cb97ad090adcc93a88c4070fe1ef11f3dda686325bb0be186f507d5b7eb2fd5--videos__bridge-walk.jpg",
+      "size": 55814,
+      "sha256": "5cb97ad090adcc93a88c4070fe1ef11f3dda686325bb0be186f507d5b7eb2fd5"
+    },
+    "videos/bridge-walk.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/1f2b4bb977b89ffc470acb3c930550ab1a605fe6395979cfa62ca560f38dc97f--videos__bridge-walk.mp4",
+      "size": 2365766,
+      "sha256": "1f2b4bb977b89ffc470acb3c930550ab1a605fe6395979cfa62ca560f38dc97f"
+    },
+    "videos/camera-day.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/986c380d0b94956e61c0a6d46c32ca6353ae305a11a1817d67dada8f0bd806c9--videos__camera-day.jpg",
+      "size": 66796,
+      "sha256": "986c380d0b94956e61c0a6d46c32ca6353ae305a11a1817d67dada8f0bd806c9"
+    },
+    "videos/camera-day.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/b2e593f6cecfbed9a4d627b1d7190cd9c0d61a835b5ca4a7d6aceba0ad767898--videos__camera-day.mp4",
+      "size": 3844960,
+      "sha256": "b2e593f6cecfbed9a4d627b1d7190cd9c0d61a835b5ca4a7d6aceba0ad767898"
+    },
+    "videos/cat-pause.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/682f665eb4027772542ccb4f6af259dd47f12171accb59472b2e105006cb66c8--videos__cat-pause.jpg",
+      "size": 87574,
+      "sha256": "682f665eb4027772542ccb4f6af259dd47f12171accb59472b2e105006cb66c8"
+    },
+    "videos/cat-pause.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/2485c65794dadc9913a41d137d420964938cf8e2a1620e16dc606325743b09e5--videos__cat-pause.mp4",
+      "size": 3668049,
+      "sha256": "2485c65794dadc9913a41d137d420964938cf8e2a1620e16dc606325743b09e5"
+    },
+    "videos/coffee-light.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/d28c44b98527f43bcc7dc4252066cb70d54d750787b8d662e41c13b6b6b99e41--videos__coffee-light.jpg",
+      "size": 25346,
+      "sha256": "d28c44b98527f43bcc7dc4252066cb70d54d750787b8d662e41c13b6b6b99e41"
+    },
+    "videos/coffee-light.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/665478b6ff5e10aa052406ba58495dcdb6d6dde405a70b10df6b205821891f72--videos__coffee-light.mp4",
+      "size": 2939718,
+      "sha256": "665478b6ff5e10aa052406ba58495dcdb6d6dde405a70b10df6b205821891f72"
+    },
+    "videos/embroidered-runway.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/68e75e7161e8ac0104a7ad0e67e65209e728b08a7b6df153f426997b86674f95--videos__embroidered-runway.jpg",
+      "size": 79818,
+      "sha256": "68e75e7161e8ac0104a7ad0e67e65209e728b08a7b6df153f426997b86674f95"
+    },
+    "videos/embroidered-runway.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/5b0650620680f5c3fc2aee7216e7c7ec31f39851e3a157a8ff183267a10e7cce--videos__embroidered-runway.mp4",
+      "size": 2678614,
+      "sha256": "5b0650620680f5c3fc2aee7216e7c7ec31f39851e3a157a8ff183267a10e7cce"
+    },
+    "videos/evening-sky.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/8c53fafb083c5129fca6bf8de8b5652ba773c785bce5e1be4f816c3b72940f7b--videos__evening-sky.jpg",
+      "size": 85321,
+      "sha256": "8c53fafb083c5129fca6bf8de8b5652ba773c785bce5e1be4f816c3b72940f7b"
+    },
+    "videos/evening-sky.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/cfc604eeb7dc0c5d62806de99f60cb2e30cc6eb66913666f1320fcba6127c50c--videos__evening-sky.mp4",
+      "size": 3187755,
+      "sha256": "cfc604eeb7dc0c5d62806de99f60cb2e30cc6eb66913666f1320fcba6127c50c"
+    },
+    "videos/london-market.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/2c0359ec1cbf813b5e3b67215753d2794a206f2cf506039c2a262806f449c1b0--videos__london-market.jpg",
+      "size": 369889,
+      "sha256": "2c0359ec1cbf813b5e3b67215753d2794a206f2cf506039c2a262806f449c1b0"
+    },
+    "videos/london-market.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/644e6524ab32453dc5e30d6b4e3b6121c4659e72941bf1e32bf2090fd4f399e3--videos__london-market.mp4",
+      "size": 8502330,
+      "sha256": "644e6524ab32453dc5e30d6b4e3b6121c4659e72941bf1e32bf2090fd4f399e3"
+    },
+    "videos/manhattan-crossing.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/5fe0930a4d8726d16460b677bca3bdf4e89dbf749a78f85004985b6f788750d7--videos__manhattan-crossing.jpg",
+      "size": 119913,
+      "sha256": "5fe0930a4d8726d16460b677bca3bdf4e89dbf749a78f85004985b6f788750d7"
+    },
+    "videos/manhattan-crossing.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/494a2ffee51c59aa6b73af4dcd25af1b71799f43fba974e2a725bec86e34ae62--videos__manhattan-crossing.mp4",
+      "size": 4578301,
+      "sha256": "494a2ffee51c59aa6b73af4dcd25af1b71799f43fba974e2a725bec86e34ae62"
+    },
+    "videos/manifest.json": {
+      "bucket": "roro-sources",
+      "key": "19fd466b55cc22ab3396dbef8f5f4e32f436024380731fd1899ce6288ee22ee0--videos__manifest.json",
+      "size": 12720,
+      "sha256": "19fd466b55cc22ab3396dbef8f5f4e32f436024380731fd1899ce6288ee22ee0"
+    },
+    "videos/montmartre-portrait.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/eeaf0c8954d4118cd82db80262de85613a875e03757ffa2d6280b1aa2ca4a51e--videos__montmartre-portrait.jpg",
+      "size": 73521,
+      "sha256": "eeaf0c8954d4118cd82db80262de85613a875e03757ffa2d6280b1aa2ca4a51e"
+    },
+    "videos/montmartre-portrait.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/225e412cf96f001a2107452a4ce1f963eaa99bc999b2df966f3850acde3ae237--videos__montmartre-portrait.mp4",
+      "size": 1410588,
+      "sha256": "225e412cf96f001a2107452a4ce1f963eaa99bc999b2df966f3850acde3ae237"
+    },
+    "videos/scarlet-studio.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/38eb77e64cba4f037bc1e45effb0848aac35eb1e2906732d9a392a11c0e6385c--videos__scarlet-studio.jpg",
+      "size": 60371,
+      "sha256": "38eb77e64cba4f037bc1e45effb0848aac35eb1e2906732d9a392a11c0e6385c"
+    },
+    "videos/scarlet-studio.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/1eae21773b699d62a646396a34506df898b0a5240f5c801ac49b60d66dc57611--videos__scarlet-studio.mp4",
+      "size": 857213,
+      "sha256": "1eae21773b699d62a646396a34506df898b0a5240f5c801ac49b60d66dc57611"
+    },
+    "videos/sea-breeze-portrait.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/294939082b7f0571b573d69087b778caec63d1fe2c15151100d5c7fbb7cf15ec--videos__sea-breeze-portrait.jpg",
+      "size": 63674,
+      "sha256": "294939082b7f0571b573d69087b778caec63d1fe2c15151100d5c7fbb7cf15ec"
+    },
+    "videos/sea-breeze-portrait.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/18898a8e47051a88a1e60e0f7f01c5589d58583420d5e1bf9b6de1c3f8a7a6d7--videos__sea-breeze-portrait.mp4",
+      "size": 2107037,
+      "sha256": "18898a8e47051a88a1e60e0f7f01c5589d58583420d5e1bf9b6de1c3f8a7a6d7"
+    },
+    "videos/seine-summer-style.jpg": {
+      "bucket": "roro-media",
+      "key": "releases/16c711dbf53584ea7f67f9f4cde802cd5e2ee6d5d79ed53d16d091d092f313a1--videos__seine-summer-style.jpg",
+      "size": 121313,
+      "sha256": "16c711dbf53584ea7f67f9f4cde802cd5e2ee6d5d79ed53d16d091d092f313a1"
+    },
+    "videos/seine-summer-style.mp4": {
+      "bucket": "roro-media",
+      "key": "releases/329d9fc792207b186ae007909b281c5e3d23e8c0e5c81cdb56797a0199c20ada--videos__seine-summer-style.mp4",
+      "size": 1351798,
+      "sha256": "329d9fc792207b186ae007909b281c5e3d23e8c0e5c81cdb56797a0199c20ada"
+    }
+  }
+}

@@ -27,8 +27,16 @@ final class SafetyTests: XCTestCase {
         app.launch()
         let login = app.buttons["Log in"]
         XCTAssertTrue(login.waitForExistence(timeout: 16))
-        if !login.isEnabled { app.buttons["I agree to the"].tap() }
-        login.tap()
+        guard let email = ProcessInfo.processInfo.environment["RORO_QA_EMAIL"],
+              let password = ProcessInfo.processInfo.environment["RORO_QA_PASSWORD"] else {
+            XCTFail("Configure the QA email and password in the test runner.")
+            return
+        }
+        app.buttons["I agree to the"].tap()
+        let address = app.textFields["Email address"]
+        address.tap()
+        address.typeText(email + "\n")
+        app.secureTextFields["Password"].typeText(password + "\n")
         XCTAssertTrue(app.buttons["Discover"].waitForExistence(timeout: 10))
         app.buttons["Shorts"].firstMatch.tap()
     }
@@ -141,8 +149,9 @@ final class SafetyTests: XCTestCase {
     private func openCoffeePost() {
         app.buttons["Home"].firstMatch.tap()
         search("Search photos or people", for: coffeeCaption)
-        XCTAssertTrue(app.staticTexts[coffeeCaption].firstMatch.waitForExistence(timeout: 6))
         let discussion = app.buttons.matching(identifier: "Open photo and comments")
+        XCTAssertTrue(discussion.firstMatch.waitForExistence(timeout: 6))
+        XCTAssertFalse(app.staticTexts[coffeeCaption].firstMatch.exists)
         XCTAssertEqual(discussion.count, 1)
         discussion.firstMatch.tap()
         XCTAssertTrue(moreControl("More post options").waitForExistence(timeout: 8))
@@ -270,23 +279,30 @@ final class SafetyTests: XCTestCase {
         app.descendants(matching: .any).matching(NSPredicate(format: "label == %@", label)).firstMatch
     }
 
+    private var topicCover: XCUIElement { app.buttons["photo-cover-reading-break-0"] }
+
     private func openTopicPost() {
-        let expected = app.staticTexts[topicCaption].firstMatch
-        XCTAssertTrue(expected.waitForExistence(timeout: 8))
-        let entries = app.buttons.matching(identifier: "Open photo and comments")
-        XCTAssertEqual(entries.count, 1, "Expected the isolated At home topic fixture")
-        entries.firstMatch.tap()
+        XCTAssertTrue(topicCover.waitForExistence(timeout: 8))
+        XCTAssertFalse(app.staticTexts[topicCaption].firstMatch.exists)
+        topicCover.tap()
         XCTAssertTrue(moreControl("More post options").waitForExistence(timeout: 8))
     }
 
     private func openSafetyMenu(_ name: String, report: String, author: String) {
         let more = moreControl(name)
+        if name.hasPrefix("More options for comment") {
+            for _ in 0..<5 {
+                if more.exists && more.isHittable { break }
+                app.swipeUp()
+            }
+        }
         XCTAssertTrue(more.waitForExistence(timeout: 8))
         XCTAssertFalse(app.buttons[report].firstMatch.exists)
         XCTAssertFalse(app.buttons["Block " + author].firstMatch.exists)
         if !more.isHittable { app.swipeUp() }
         more.tap()
         XCTAssertTrue(app.buttons[report].firstMatch.waitForExistence(timeout: 8))
+        XCTAssertTrue(app.buttons["Report author " + author].firstMatch.exists)
         XCTAssertTrue(app.buttons["Block " + author].firstMatch.exists)
         let attachment = XCTAttachment(screenshot: app.screenshot())
         attachment.name = name
@@ -317,11 +333,11 @@ final class SafetyTests: XCTestCase {
         app.buttons["Report post"].firstMatch.tap()
         confirm("Report")
         dismissSavedReport("Topic post report saved")
-        XCTAssertFalse(app.staticTexts[topicCaption].firstMatch.exists)
+        XCTAssertFalse(topicCover.exists)
         app.terminate()
         launchShorts()
         openTopicCategory()
-        XCTAssertFalse(app.staticTexts[topicCaption].firstMatch.exists)
+        XCTAssertFalse(topicCover.exists)
         app.buttons["Back"].firstMatch.tap()
         openSettingsList("Reported posts")
         undoRecord("Withdraw report for " + topicCaption)
@@ -387,5 +403,167 @@ final class SafetyTests: XCTestCase {
         undo.press(forDuration: 0.9)
         confirm("Withdraw")
         XCTAssertTrue(app.staticTexts["No reported videos"].firstMatch.waitForExistence(timeout: 8))
+    }
+
+    func testShortOptionsReportAndBlockThePublisher() throws {
+        try selectCameraShort()
+        app.buttons["More video options"].tap()
+        app.buttons["Report author Milo Brooks"].tap()
+        confirm("Report")
+        dismissSavedReport("Short publisher report saved")
+        XCTAssertEqual(try clip(), "short-camera-day")
+        app.terminate()
+        launchShorts()
+        openSettingsList("Reported authors")
+        undoRecord("Withdraw report for Milo Brooks")
+        returnToRoot()
+        app.buttons["Shorts"].firstMatch.tap()
+        try selectCameraShort()
+        app.buttons["More video options"].tap()
+        app.buttons["Block Milo Brooks"].tap()
+        confirmBlockAndDismissSuccess()
+        XCTAssertFalse(app.buttons["Back"].exists)
+        XCTAssertFalse(app.staticTexts[try XCTUnwrap(captions["short-camera-day"])].exists)
+        openSettingsList("Blocked people")
+        undoRecord("Unblock Milo Brooks")
+    }
+
+    func testCancelEachShortSafetyActionKeepsTheCurrentVideo() throws {
+        let initial = try clip()
+        let profile = app.buttons.matching(NSPredicate(format: "label BEGINSWITH 'Open ' AND label ENDSWITH %@", "'s profile")).firstMatch
+        let name = String(profile.label.dropFirst("Open ".count).dropLast("'s profile".count))
+        app.buttons["More video options"].tap()
+        XCTAssertTrue(app.buttons["Block " + name].waitForExistence(timeout: 6))
+        let menu = XCTAttachment(screenshot: app.screenshot())
+        menu.name = "Short publisher safety options"
+        menu.lifetime = .keepAlways
+        add(menu)
+        for label in ["Report video", "Report author " + name, "Block " + name] {
+            let action = app.buttons[label]
+            XCTAssertTrue(action.waitForExistence(timeout: 6))
+            action.tap()
+            confirm("Cancel")
+            XCTAssertTrue(action.waitForExistence(timeout: 6))
+            XCTAssertFalse(app.alerts.staticTexts[successMessage].exists)
+            XCTAssertFalse(app.alerts.staticTexts["User blocked."].exists)
+        }
+        app.buttons["Close"].firstMatch.tap()
+        XCTAssertEqual(try clip(), initial)
+        XCTContext.runActivity(named: "Home photo card safety options") { _ in
+            app.buttons["Home"].firstMatch.tap()
+            search("Search photos or people", for: coffeeCaption)
+            let options = moreControl("Photo options")
+            XCTAssertTrue(options.waitForExistence(timeout: 6))
+            options.tap()
+            XCTAssertTrue(app.buttons["Report post"].waitForExistence(timeout: 6))
+            XCTAssertTrue(app.buttons["Report author Ava Reed"].exists)
+            XCTAssertTrue(app.buttons["Block Ava Reed"].exists)
+            app.buttons["Cancel"].firstMatch.tap()
+            XCTAssertTrue(options.exists)
+        }
+    }
+
+    func testTopicCommentAuthorReportUsesTheCommenter() {
+        openTopicCategory()
+        openTopicPost()
+        openSafetyMenu("More options for comment by Kit Lane", report: "Report comment", author: "Kit Lane")
+        app.buttons["Report author Kit Lane"].tap()
+        confirm("Report")
+        dismissSavedReport("Topic commenter report saved")
+        XCTAssertTrue(app.staticTexts[topicComment].exists)
+        returnToRoot()
+        openSettingsList("Reported authors")
+        XCTAssertFalse(app.buttons["Withdraw report for Nora Vale"].exists)
+        undoRecord("Withdraw report for Kit Lane")
+    }
+
+    private func returnToRoot() {
+        for _ in 0..<5 {
+            let back = app.buttons["Back"].firstMatch
+            if !back.exists { break }
+            back.tap()
+        }
+        XCTAssertFalse(app.buttons["Back"].exists)
+    }
+
+    func testAccountChatBlockHidesAnExistingConversation() throws {
+        let profile = app.buttons["View June Park's profile"]
+        app.buttons["Chats"].firstMatch.tap()
+        app.buttons["Find friends"].firstMatch.tap()
+        search("Search people", for: "June Park")
+        let accept = app.buttons["Accept request from June Park"]
+        if accept.exists { accept.tap() }
+        let conversation = app.buttons["Message June Park"]
+        try XCTSkipUnless(conversation.exists, "This test needs a QA journal with June's incoming request or existing messaging access.")
+        conversation.tap()
+        let field = app.textFields["Message"]
+        XCTAssertTrue(field.waitForExistence(timeout: 6))
+        field.tap()
+        field.typeText("Hello")
+        XCTAssertEqual(field.value as? String, "Hello")
+        app.buttons["Send message"].tap()
+        XCTAssertTrue(app.staticTexts["Hello"].firstMatch.waitForExistence(timeout: 6))
+        profile.tap()
+        app.buttons["Block June Park"].tap()
+        confirmBlockAndDismissSuccess()
+        XCTAssertTrue(app.buttons["Find friends"].firstMatch.waitForExistence(timeout: 6))
+        XCTAssertFalse(app.buttons["Back"].exists)
+        XCTAssertFalse(profile.exists)
+        openSettingsList("Blocked people")
+        undoRecord("Unblock June Park")
+        returnToRoot()
+        app.buttons["Chats"].firstMatch.tap()
+        XCTAssertTrue(profile.waitForExistence(timeout: 6))
+    }
+
+    func testReportAndBlockRestoreSavedVideoOnlyAfterBothAreUndone() throws {
+        let title = try XCTUnwrap(captions["short-camera-day"])
+        try selectCameraShort()
+        let save = app.buttons["Save short"]
+        let previouslySaved = save.isSelected
+        if !previouslySaved { save.tap() }
+        for unblockFirst in [true, false] {
+            app.buttons["More video options"].tap()
+            app.buttons["Report video"].tap()
+            confirm("Report")
+            dismissSavedReport("Reported saved video")
+            XCTAssertTrue(app.staticTexts["No matching shorts"].waitForExistence(timeout: 6))
+            swipe(up: false)
+            XCTAssertTrue(app.staticTexts["No matching shorts"].exists)
+            XCTAssertFalse(app.staticTexts[title].exists)
+
+            app.buttons["Chats"].firstMatch.tap()
+            app.buttons["Find friends"].firstMatch.tap()
+            search("Search people", for: "Milo Brooks")
+            app.buttons["View Milo Brooks's profile"].tap()
+            app.buttons["Block Milo Brooks"].tap()
+            confirmBlockAndDismissSuccess()
+            XCTAssertTrue(app.buttons["Find friends"].firstMatch.waitForExistence(timeout: 6))
+            XCTAssertFalse(app.buttons["Back"].exists)
+            XCTAssertFalse(app.buttons["View Milo Brooks's profile"].exists)
+
+            func undo(block: Bool) {
+                openSettingsList(block ? "Blocked people" : "Reported videos")
+                undoRecord(block ? "Unblock Milo Brooks" : "Withdraw report for " + title)
+                returnToRoot()
+            }
+            undo(block: unblockFirst)
+            app.buttons["Shorts"].firstMatch.tap()
+            search("Search shorts or people", for: title)
+            XCTAssertTrue(app.staticTexts["No matching shorts"].waitForExistence(timeout: 6))
+            app.buttons["Me"].firstMatch.tap()
+            app.buttons["Saved"].firstMatch.tap()
+            let savedVideo = app.buttons["Play " + title]
+            XCTAssertFalse(savedVideo.exists)
+
+            undo(block: !unblockFirst)
+            app.buttons["Saved"].firstMatch.tap()
+            XCTAssertTrue(savedVideo.waitForExistence(timeout: 6))
+            savedVideo.tap()
+            XCTAssertEqual(try clip(), "short-camera-day")
+            app.buttons["Shorts"].firstMatch.tap()
+            try selectCameraShort()
+        }
+        if !previouslySaved { app.buttons["Save short"].tap() }
     }
 }

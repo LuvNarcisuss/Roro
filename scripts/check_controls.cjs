@@ -12,8 +12,9 @@ const dialogActions = new Set(["Cancel", "Remove", "Delete", "Block", "Unlock", 
 let count = 0;
 for (const file of files) {
     const source = read(file);
+    assert(!source.includes("🚫"), file + " must use the bundled block artwork");
     for (const hit of source.matchAll(control)) {
-        assert(icons.has(hit[1]) || hit[1] === "block", file + " references missing icon " + hit[1]);
+        assert(icons.has(hit[1]), file + " references missing icon " + hit[1]);
         count++;
     }
     for (const hit of source.matchAll(/\bButton\("([^"]+)"/g)) {
@@ -37,5 +38,8 @@ assert(design.includes("minWidth: 44, minHeight: 44") && design.includes(".acces
 const routes = fs.readFileSync(path.join(root, "ios/Roro/Native/JournalStore.swift"), "utf8").split("enum JournalTab")[0];
 assert(!/case[^\n]*\bsearch\b/i.test(routes), "Search must expand inline");
 assert(read("AccountChats.swift").includes(".swipeActions("));
-assert(read("JournalRoot.swift").includes('Text("Log in")') && read("JournalRoot.swift").includes(".disabled(!checked)"));
+const welcome = read("JournalRoot.swift");
+assert(welcome.includes('TextField("name@example.com"') && welcome.includes('SecureField("Password"'));
+assert(welcome.includes('"Logging in…" : "Log in"') && welcome.includes(".disabled(!canSubmit)"));
+assert(welcome.includes("checked && !invalidEmail && !password.isEmpty && !app.authenticating"));
 console.log(`Inspected ${files.length} SwiftUI files and ${count} literal icon references. Native control source checks passed.`);

@@ -212,7 +212,7 @@ struct PhotographyDetail: View {
                 HStack(alignment: .top, spacing: 14) {
                     PhotographyReaction(work: photo, like: true)
                     PhotographyReaction(work: photo, like: false)
-                    JournalIcon("share", "Share photo") { if let first = photo.strings("images").first { app.sharePhotographyMedia(first) } }
+                    PhotographyCountAction(icon: "share", label: "Share photo") { if let first = photo.strings("images").first { app.sharePhotographyMedia(first) } }
                 }
             }.padding(.horizontal, 14)
         }

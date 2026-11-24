@@ -48,7 +48,7 @@
 		</dict>
 	</dict>
 	<key>UILaunchStoryboardName</key>
-	<string>JournalLaunchScreen</string>
+	<string>RoroBrandLaunch</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>arm64</string>

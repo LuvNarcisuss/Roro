@@ -80,7 +80,7 @@ struct JournalShorts: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                surface(height: geometry.size.height)
+                surface
                 if let clip {
                     VStack(spacing: 0) {
                         Spacer(minLength: 0)
@@ -114,6 +114,7 @@ struct JournalShorts: View {
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
             .clipped()
+            .simultaneousGesture(pagingGesture(height: geometry.size.height))
         }
         .background {
             GeometryReader { canvas in
@@ -204,7 +205,7 @@ struct JournalShorts: View {
         .offset(y: offset).accessibilityHidden(true)
     }
 
-    private func surface(height: CGFloat) -> some View {
+    private var surface: some View {
         ZStack {
             Color.clear
             if let failure = playback.failure {
@@ -223,28 +224,6 @@ struct JournalShorts: View {
             }
         }
         .contentShape(Rectangle())
-        .gesture(DragGesture(minimumDistance: 10)
-            .onChanged { drag in
-                guard !settling, !refreshing, panel == nil, abs(drag.translation.height) > abs(drag.translation.width) else { return }
-                let distance = drag.translation.height
-                if distance > 0 {
-                    offset = 0
-                    refreshLabel = distance >= 64 ? "Release to refresh" : "Pull to refresh"
-                } else {
-                    refreshLabel = ""
-                    offset = max(-height, distance) * (items.count > 1 ? 1 : 0.18)
-                }
-            }
-            .onEnded { drag in
-                guard !settling, !refreshing else { return }
-                let distance = drag.translation.height
-                refreshLabel = ""
-                guard abs(distance) > abs(drag.translation.width) else { offset = 0; return }
-                if distance >= 64 { offset = 0; refresh() }
-                else if distance < -45, items.count > 1 { advance(height: height) }
-                else { withAnimation(reduceMotion ? nil : .easeOut(duration: 0.17)) { offset = 0 } }
-            }
-        )
         .simultaneousGesture(TapGesture(count: 2).onEnded {
             guard !clipID.isEmpty, !app.state.strings("likes").contains(clipID) else { return }
             _ = app.change("toggleLike", ["id": clipID])
@@ -257,6 +236,30 @@ struct JournalShorts: View {
         .accessibilityAction(named: Text("Next video")) { if let next = adjacent(1) { currentID = next.str("id") } }
         .accessibilityAction(named: Text("Previous video")) { if let previous = adjacent(-1) { currentID = previous.str("id") } }
         .accessibilityAction(named: Text("Refresh shorts")) { refresh() }
+    }
+
+    private func pagingGesture(height: CGFloat) -> some Gesture {
+        DragGesture(minimumDistance: 10)
+            .onChanged { drag in
+                guard !settling, !refreshing, panel == nil, !searchFocused, abs(drag.translation.height) > abs(drag.translation.width) else { return }
+                let distance = drag.translation.height
+                if distance > 0 {
+                    offset = 0
+                    refreshLabel = distance >= 64 ? "Release to refresh" : "Pull to refresh"
+                } else {
+                    refreshLabel = ""
+                    offset = max(-height, distance) * (items.count > 1 ? 1 : 0.18)
+                }
+            }
+            .onEnded { drag in
+                guard !settling, !refreshing, panel == nil, !searchFocused else { return }
+                let distance = drag.translation.height
+                refreshLabel = ""
+                guard abs(distance) > abs(drag.translation.width) else { offset = 0; return }
+                if distance >= 64 { offset = 0; refresh() }
+                else if distance < -45, items.count > 1 { advance(height: height) }
+                else { withAnimation(reduceMotion ? nil : .easeOut(duration: 0.17)) { offset = 0 } }
+            }
     }
 
     private var header: some View {

@@ -2,12 +2,12 @@
 
 - Roro is a lightweight everyday photography app. Use exactly Home, Topics, Shorts, Chats and Me, with Shorts in the center.
 - Show the Roro logo during launch, on the welcome/login page and in the upper-left corner of the five root tabs. Omit it from child pages. Center header titles independently of trailing controls. All non-playback pages use the shared warm cotton-paper artwork. Use the approved hand-printed photography journal style with Courgette headings, Kalam copy, a petrol film-strip dock and individually illustrated controls. The Shorts playback surface stays full-screen video.
-- Implement all product screens in SwiftUI, with UIKit system presenters, native AVPlayer Shorts playback, Swift local persistence and StoreKit 1. Bundle native artwork and media directly from Assets.
+- Implement all product screens in SwiftUI, with UIKit system presenters, native AVPlayer Shorts playback, Swift local persistence and StoreKit 1. Use the indexed Supabase release for project artwork and editorial media after its objects have been verified.
 - Support portrait iPhone only, iOS 16+. Disable iPad, Catalyst, Mac compatibility and Vision compatibility.
 - All project artifacts and app-owned copy are English. Converse with the owner in Chinese.
-- Keep all authored images, fonts and provenance under root Assets. Runtime assets are bundled locally with relative paths.
-- Use the exact Google Docs hyperlinks in Configuration/agreements.json. Do not provision Supabase or introduce asset credentials, payment API keys or shared secrets.
-- The owner authorized local functionality first. No backend, remote authentication, delivery, public publishing or moderation is configured. Preserve truthful local states.
+- Keep all authored images, fonts and provenance under root Assets. Keep stable logical paths for existing records. Store project source files privately, keep private journal imports on the device and retain the bundled fallback until the cloud release has been verified.
+- Use the exact Google Docs hyperlinks in Configuration/agreements.json. The app uses only the Roro Supabase project URL and publishable key for email/password authentication and asset downloads. Keep privileged credentials out of the app.
+- On November 23, 2026 the owner authorized Supabase Auth in the company organization Thingtill Org. Account credentials belong in Supabase Auth. Private journals, user-imported media, conversations, purchases and moderation actions remain local.
 - The owner confirmed com.roro.photography as the Bundle ID on November 18, 2026. Preserve it in the generator, Debug/Release settings and artifact checks. The signing team remains unconfigured. Use the owner-approved nine-tier consumable catalog in Configuration/products.json. US price points are for App Store Connect setup, while the wallet displays StoreKit's localized prices. Never import another app's configuration.
 - StoreKit 1 uses native products and queue callbacks. Credit only a matching verified receipt, persist transaction deduplication and balance together, then finish. No starting credit.
 - Preserve private data, stable IDs and atomic persistence. Do not overwrite corrupt state or delete Photos originals.
